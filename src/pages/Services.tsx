@@ -16,6 +16,14 @@ import {
 } from "@/components/ui/carousel";
 import { servicesData, type ServiceData } from "@/pages/services/servicesData";
 
+const getServiceSummary = (service: ServiceData) => {
+  if (service.slug === "support") {
+    return service.description;
+  }
+
+  return service.summary;
+};
+
 const Services = () => {
   const [activeSlug, setActiveSlug] = useState(servicesData[0].slug);
   const [briefService, setBriefService] = useState<ServiceData | null>(null);
@@ -33,9 +41,9 @@ const Services = () => {
               <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">Каталог услуг</p>
               <span className="h-px flex-1 bg-primary/20" aria-hidden="true" />
             </div>
-            <h1 className="mb-5 max-w-4xl text-4xl font-bold md:text-6xl">Услуги</h1>
+            <h1 className="mb-5 max-w-4xl text-4xl font-bold md:text-6xl">Разработка AI-систем для бизнеса</h1>
             <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-              Направления можно запускать отдельно или собирать в одну AI-систему под бизнес-процессы.
+              Направления запускаются отдельно или собираются в единую AI-систему под ваши процессы.
             </p>
           </div>
         </section>
@@ -102,7 +110,7 @@ const Services = () => {
                           <AbstractServiceMark mark={service.mark} className="h-8 w-8" />
                         </div>
                         <h3 className="mb-2 text-lg font-semibold">{service.shortTitle}</h3>
-                        <p className="text-sm leading-relaxed text-muted-foreground">{service.summary}</p>
+                        <p className="text-sm leading-relaxed text-muted-foreground">{getServiceSummary(service)}</p>
                       </button>
                     </CarouselItem>
                   );
@@ -131,7 +139,7 @@ const Services = () => {
             <div>
               <h2 className="mb-3 text-3xl font-bold">Не уверены, что выбрать?</h2>
               <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                Умный бриф подстроится под направление и поможет быстро собрать контекст.
+                Заполните умный бриф — подберу направление и формат под вашу задачу.
               </p>
             </div>
             <Button size="lg" className="rounded-md" asChild>

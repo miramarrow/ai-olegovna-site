@@ -23,10 +23,10 @@ const ServicesSection = () => {
           <div>
             <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">Услуги</p>
             <h2 className="mb-4 text-3xl font-bold md:text-5xl">
-              AI-системы, которые можно запускать по частям
+              От бота до нейроофиса — под ключ
             </h2>
             <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">
-              Нейроофисы, AI-агенты, контент-заводы, автоматизация, сайты, боты и автоматизации для Telegram и MAX.
+              Любой масштаб: один бот или полная AI-инфраструктура компании.
             </p>
           </div>
           <Button className="w-fit rounded-md" asChild>

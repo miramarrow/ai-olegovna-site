@@ -55,7 +55,7 @@ export const serviceOptions: ServiceOption[] = [
 ];
 
 export const startFormats = [
-  "Хочу понять объем",
+  "Хочу понять объём",
   "Нужна бесплатная консультация",
   "Нужен быстрый запуск",
   "Есть готовое ТЗ",
@@ -108,7 +108,7 @@ export const briefTemplates: Record<ServiceSlug, BriefTemplate> = {
   },
   "neuro-office": {
     title: "Мини-бриф на нейроофис",
-    description: "Найдем рутину, данные и отделы, где AI даст быстрый эффект.",
+    description: "Найдём, где AI закроет рутину быстрее всего.",
     questions: [
       { id: "departments", label: "Какие отделы или роли хотите усилить?", placeholder: "Продажи, маркетинг, поддержка, HR, руководитель, ассистент" },
       { id: "routine", label: "Какая рутина отнимает больше всего времени?", placeholder: "Документы, ответы, отчеты, заявки, контент, согласования" },

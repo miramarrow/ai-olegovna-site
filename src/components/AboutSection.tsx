@@ -1,5 +1,4 @@
 import AbstractServiceMark, { type AbstractMarkKey } from "@/components/AbstractServiceMark";
-import { siteConfig } from "@/config/site";
 
 const principleMatrix: Array<{
   title: string;
@@ -8,7 +7,7 @@ const principleMatrix: Array<{
 }> = [
   {
     title: "AI-сценарии вместо хаоса",
-    description: "Сначала описываем процесс и результат, потом подбираем инструменты и автоматизацию.",
+    description: "Сначала фиксируем процесс и результат — потом выбираем инструменты.",
     mark: "axis",
   },
   {
@@ -22,13 +21,13 @@ const principleMatrix: Array<{
     mark: "ripple",
   },
   {
-    title: "Контент-системы",
+    title: "Контент-заводы",
     description: "Собираем контент-заводы с голосом бренда, источниками фактуры и понятным согласованием.",
     mark: "mesh",
   },
   {
-    title: "Документация и передача",
-    description: "Оставляем структуру, инструкции и понятные правила развития после запуска.",
+    title: "Передача и рост",
+    description: "Структура, инструкции и правила развития — чтобы вы не зависели от нас.",
     mark: "stack",
   },
   {
@@ -46,11 +45,11 @@ const AboutSection = () => {
           <div>
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">О проекте</p>
           <h2 className="text-3xl font-bold md:text-5xl">
-            {siteConfig.name} собирает AI в рабочие продукты
+            AI-разработка, которая работает в бизнесе
           </h2>
           </div>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Это бренд про нейроофисы, AI-агентов, контент-заводы, сайты, автоматизацию, боты и автоматизации для Telegram и MAX.
+            Берём задачу бизнеса — строим AI-систему под неё. Без лишних инструментов, с документацией и поддержкой после запуска
           </p>
         </div>
 
@@ -63,7 +62,7 @@ const AboutSection = () => {
                 </span>
                 <AbstractServiceMark mark={advantage.mark} className="h-9 w-9" />
               </div>
-              <div className="mt-auto">
+              <div className="flex flex-1 flex-col">
                 <h3 className="mb-3 text-xl font-semibold">{advantage.title}</h3>
                 <p className="leading-relaxed text-muted-foreground">{advantage.description}</p>
               </div>

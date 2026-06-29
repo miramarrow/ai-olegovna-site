@@ -13,10 +13,10 @@ const Pricing = () => {
         <section className="pt-32 pb-12 px-4">
           <div className="max-w-7xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-5">
-              Оценка проекта
+              Оценка стоимости AI-разработки
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Короткая диагностика помогает понять, что запускать первым: нейроофис, AI-агента, контент-завод, сайт, бота или автоматизацию.
+              Короткая диагностика помогает понять, с чего начать: нейроофис, агент, контент-завод, сайт, бот или автоматизация.
             </p>
           </div>
         </section>

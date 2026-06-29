@@ -164,33 +164,19 @@ const ProjectDiscussForm = () => {
             Оценим задачу без жесткого прайса
           </h2>
           <p className="mx-auto max-w-2xl text-muted-foreground">
-            Выберите направление, ответьте на короткий бриф, и я получу заявку вместе с контекстом.
-            Если не уверены, выберите “Не знаю, что нужно”: консультация бесплатная.
+            Выберите направление, ответьте на короткий бриф — получу заявку с контекстом и
+            вернусь с форматом старта. Если не знаете что нужно — выберите консультацию, она бесплатная.
           </p>
         </div>
 
         <Card className="mx-auto max-w-5xl rounded-lg border border-border bg-card p-5 shadow-sm md:p-7">
           <div className="mb-6 border-b border-primary/15 pb-5">
-            <div className="grid gap-4 md:grid-cols-[0.78fr_1.22fr] md:items-start">
-              <div>
-                <p className="text-sm font-medium uppercase tracking-[0.16em] text-primary">
-                  После отправки
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  Заявка сразу придет в Telegram вместе с выбранным направлением и ответами.
-                </p>
-              </div>
-              <div className="grid gap-2 sm:grid-cols-3">
-                {["получу контекст", "вернусь с уточнениями", "предложу формат старта"].map((item, index) => (
-                  <div key={item} className="flex items-center gap-3 border-t border-border pt-3 text-sm">
-                    <span className="font-mono text-xs text-primary">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-foreground">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <p className="text-sm font-medium uppercase tracking-[0.16em] text-primary">
+              После отправки
+            </p>
+            <p className="mt-3 text-base leading-relaxed text-foreground">
+              01 читаю контекст → 02 уточняю детали → 03 предлагаю формат и стоимость
+            </p>
           </div>
 
           <div className="mb-6">

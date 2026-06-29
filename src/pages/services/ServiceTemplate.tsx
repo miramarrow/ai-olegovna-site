@@ -89,7 +89,7 @@ const ServiceTemplate = () => {
               Ключевые возможности
             </h2>
             <p className="leading-relaxed text-muted-foreground">
-              Собираем состав работ как последовательность решений: что нужно описать, подключить, проверить и передать.
+              {service.sectionCopy?.featuresIntro ?? "Собираем состав работ как последовательность решений: что нужно описать, подключить, проверить и передать."}
             </p>
           </div>
           <div className="feature-grid grid gap-4 md:grid-cols-2">
@@ -120,7 +120,7 @@ const ServiceTemplate = () => {
               Примеры использования
             </h2>
             <p className="leading-relaxed text-muted-foreground">
-              Ниже не обещания “магии”, а типовые рабочие сценарии, которые можно адаптировать под вашу систему.
+              {service.sectionCopy?.examplesIntro ?? "Ниже не обещания “магии”, а типовые рабочие сценарии, которые можно адаптировать под вашу систему."}
             </p>
           </div>
           <Carousel opts={{ align: "start" }} className="case-slider">
@@ -155,7 +155,7 @@ const ServiceTemplate = () => {
       </section>
 
       {/* FAQ Section */}
-      <FAQSection faqs={service.faqs} />
+      <FAQSection faqs={service.faqs} subtitle={service.sectionCopy?.faqIntro} />
 
       <QuickServiceBriefDialog
         service={service}

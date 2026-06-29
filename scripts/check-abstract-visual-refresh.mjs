@@ -38,21 +38,22 @@ for (const path of requiredFiles) {
 
 const hero = read("src/components/Hero.tsx");
 assertIncludes(hero, "<h1", "Hero");
-assertIncludes(hero, "aria-label=\"Разрабатываем под ключ нейроофисы, AI-агентов, контент-заводы, боты Telegram/MAX, автоматизации и сайты\"", "Hero headline");
-assertIncludes(hero, "Разрабатываем под ключ", "Hero headline");
+assertIncludes(hero, "aria-label=\"Автоматизация бизнеса на базе AI\"", "Hero headline");
+assertIncludes(hero, "<span className=\"block\">Автоматизация бизнеса на базе AI</span>", "Hero headline");
+assertIncludes(hero, "n8n · боты · агенты ·  сайты", "Hero badge");
+assertIncludes(hero, "Разрабатываем Telegram-ботов, сайты, n8n-автоматизации, AI-агентов и контент-заводы. От идеи до запуска.", "Hero description");
 assertIncludes(hero, "<RotatingText", "Hero headline");
+assertIncludes(hero, "import RotatingText", "Hero headline");
+for (const rotatingWord of ["Telegram-боты", "сайты", "n8n-автоматизации", "AI-агенты", "контент-заводы"]) {
+  assertIncludes(hero, `"${rotatingWord}"`, "Hero rotating text");
+}
+assertNotIncludes(hero, "\"на базе AI\"", "Hero rotating text");
 assertIncludes(hero, "<HeroAbstractVisual", "Hero");
 assertNotIncludes(hero, "const directions", "Hero");
 assertNotIncludes(hero, "BrainCircuit", "Hero");
 assertNotIncludes(hero, "Factory", "Hero");
 assertNotIncludes(hero, "Workflow", "Hero");
 assertNotIncludes(hero, "<span>Делаем</span>", "Hero");
-assertIncludes(hero, "initial={{ opacity: 0, y: 8 }}", "Hero rotating text");
-assertIncludes(hero, "exit={{ opacity: 0, y: -8 }}", "Hero rotating text");
-assertNotIncludes(hero, "mainClassName=\"max-w-full overflow-hidden", "Hero rotating text");
-assertNotIncludes(hero, "splitLevelClassName=\"overflow-hidden pb-1\"", "Hero rotating text");
-assertNotIncludes(hero, "initial={{ y: \"100%\" }}", "Hero rotating text");
-assertNotIncludes(hero, "exit={{ y: \"-120%\" }}", "Hero rotating text");
 
 const servicesData = read("src/pages/services/servicesData.ts");
 assertNotIncludes(servicesData, "lucide-react", "servicesData");
@@ -189,7 +190,7 @@ assertIncludes(aboutPage, "Tabs", "About page tabs");
 assertIncludes(aboutPage, "handoffOutcomes", "About page outcome blocks");
 assertIncludes(aboutPage, "Что делает проект", "About page");
 assertIncludes(aboutPage, "Как подходим к запуску", "About page");
-assertIncludes(aboutPage, "Принципы работы", "About page");
+assertIncludes(aboutPage, "Как мы работаем", "About page");
 assertIncludes(aboutPage, "После передачи", "About page");
 assertIncludes(aboutPage, "padStart(2, \"0\")", "About page numbering");
 assertNotIncludes(aboutPage, "Card", "About page");
@@ -249,11 +250,14 @@ for (const path of [
 ]) {
   const content = read(path);
   assertIncludes(content, "linear-abstract", path);
-  assertIncludes(content, "border-t", path);
   assertNotIncludes(content, "Card", path);
   assertNotIncludes(content, "<img", path);
   assertNotIncludes(content, "<video", path);
 }
+
+assertIncludes(read("src/components/PricingSection.tsx"), "border-t", "PricingSection dividers");
+assertIncludes(read("src/components/FAQSection.tsx"), "border-y", "FAQSection outer dividers");
+assertIncludes(read("src/components/FAQSection.tsx"), "border-b", "FAQSection item dividers");
 
 for (const path of listFiles("src").filter((path) => /\.(tsx|ts)$/.test(path))) {
   const content = read(path);

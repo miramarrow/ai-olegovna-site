@@ -3,12 +3,12 @@ import { Button } from "@/components/ui/button";
 import { startFormats } from "@/data/briefTemplates";
 
 const assessmentFactors = [
-  "цель и ожидаемый результат",
-  "количество сценариев и ролей",
-  "готовность контента и базы знаний",
-  "интеграции с CRM, таблицами, сайтом и мессенджерами",
-  "требования к AI-логике, админке и поддержке",
-  "срочность запуска и этапность работ",
+  "Цель и ожидаемый результат.",
+  "Количество сценариев и ролей.",
+  "Готовность контента и базы знаний.",
+  "Интеграции с CRM, таблицами и мессенджерами.",
+  "Требования к AI-логике и поддержке.",
+  "Срочность и этапность работ.",
 ];
 
 const PricingSection = () => {
@@ -18,10 +18,10 @@ const PricingSection = () => {
         <div className="mb-12 grid gap-5 md:grid-cols-[0.74fr_1fr] md:items-end">
           <div>
             <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">Оценка проекта</p>
-            <h2 className="text-3xl font-bold md:text-5xl">Сначала понимаем объем, потом считаем</h2>
+            <h2 className="text-3xl font-bold md:text-5xl">Сначала понимаем объём, потом считаем</h2>
           </div>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Не ставлю жесткий прайс до диагностики: нейроофис, бот, сайт или автоматизация могут быть маленьким запуском или системой под ключ.
+            Цена зависит от задачи, не от категории услуги. Сначала бриф — потом цифры.
           </p>
         </div>
 
@@ -63,7 +63,7 @@ const PricingSection = () => {
               ))}
             </div>
             <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-              Выберите формат в умном брифе, и я предложу следующий шаг: диагностику, быстрый запуск, разбор ТЗ или архитектуру системы.
+              Выберите формат в брифе — предложу следующий шаг под вашу задачу.
             </p>
           </div>
         </div>

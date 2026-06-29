@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Ai, Олеговна!",
   shortName: "AiO",
   description:
-    "AI-продуктовый бренд про нейроофисы, AI-агентов, контент-заводы, автоматизацию, сайты и боты для Telegram/MAX.",
+    "Разрабатываем AI-системы для бизнеса: нейроофисы, агенты, автоматизации, контент-заводы, сайты и боты для Telegram и MAX.",
   contacts: {
     telegramLabel: "@miramarrow",
     telegramUrl: "https://t.me/miramarrow",

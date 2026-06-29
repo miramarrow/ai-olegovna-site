@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { siteConfig } from "@/config/site";
 
 interface AboutItem {
   title: string;
@@ -20,22 +19,22 @@ interface PrincipleTab extends AboutItem {
 const projectFocus: AboutItem[] = [
   {
     title: "AI-сценарии",
-    description: "Разбираем задачу, роли, источники знаний и границы ответственности до выбора инструментов.",
+    description: "Разбираем задачу, роли и границы ответственности до выбора инструментов.",
     mark: "axis",
   },
   {
     title: "Рабочие продукты",
-    description: "Собираем сайты, агентов, боты, автоматизации и контент-системы вокруг реального процесса.",
+    description: "Сайты, агенты, боты, автоматизации и контент-системы под реальный процесс.",
     mark: "fold",
   },
   {
     title: "Управляемость",
-    description: "Фиксируем правила, ограничения, статусы и точки передачи человеку.",
+    description: "Фиксируем правила, ограничения и точки передачи человеку.",
     mark: "window",
   },
   {
     title: "Запуск",
-    description: "Проверяем сценарии, формы, интеграции и материалы до передачи команде.",
+    description: "Проверяем сценарии, формы и интеграции до передачи команде.",
     mark: "trace",
   },
 ];
@@ -72,9 +71,9 @@ const principles: PrincipleTab[] = [
   {
     value: "meaning",
     title: "Сначала смысл",
-    description: "Инструмент выбирается после сценария, а не вместо него.",
+    description: "Инструмент выбирается под сценарий. Не наоборот.",
     mark: "fold",
-    points: ["цель запуска", "роль AI", "границы ответа"],
+    points: ["Цель запуска", "Роль AI", "Границы ответа"],
   },
   {
     value: "proof",
@@ -102,17 +101,17 @@ const principles: PrincipleTab[] = [
 const handoffOutcomes: AboutItem[] = [
   {
     title: "Команда понимает систему",
-    description: "Есть структура, правила работы и короткие инструкции для ежедневного использования.",
+    description: "Структура, правила работы и короткие инструкции для ежедневного использования.",
     mark: "window",
   },
   {
-    title: "Изменения не превращаются в хаос",
-    description: "Новые сценарии, тексты и интеграции можно добавлять по понятному маршруту.",
+    title: "Изменения без хаоса",
+    description: "Новые сценарии, тексты и интеграции добавляются по понятному маршруту.",
     mark: "trace",
   },
   {
     title: "Есть следующий шаг",
-    description: "После запуска понятно, что оставить как есть, что улучшить и что проверить позже.",
+    description: "После запуска понятно — что оставить, что улучшить и что проверить позже.",
     mark: "zero",
   },
 ];
@@ -175,10 +174,10 @@ const About = () => {
               <span className="h-px flex-1 bg-primary/20" aria-hidden="true" />
             </div>
             <h1 className="mb-6 max-w-5xl text-4xl font-bold md:text-6xl">
-              {siteConfig.name} помогает запускать AI- и digital-инструменты без лишнего шума
+              Создаем системы для бизнеса под конкретную задачу
             </h1>
             <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-              Проект собирает сайты, AI-агентов, нейроофисы, боты Telegram/MAX, автоматизации и контент-системы вокруг конкретной рабочей задачи.
+              Сайты, агенты, нейроофисы, боты, автоматизации и контент-системы — от диагностики до передачи.
             </p>
           </div>
         </section>
@@ -190,7 +189,7 @@ const About = () => {
               <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">Что делает проект</p>
               <h2 className="mb-5 text-3xl font-bold md:text-4xl">Собирает AI вокруг понятной задачи</h2>
               <p className="mb-8 leading-relaxed text-muted-foreground">
-                Не обещаем универсальную платформу для всего. Смотрим на процесс, выбираем сильный маршрут и собираем систему, которую можно объяснить и проверить.
+                Смотрим на процесс, выбираем маршрут, собираем систему — которую можно объяснить команде и проверить в работе.
               </p>
               <div className="grid gap-3">
                 {projectFocus.map((item, index) => (
@@ -215,7 +214,7 @@ const About = () => {
               <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">Как подходим к запуску</p>
               <h2 className="mb-4 text-3xl font-bold md:text-4xl">От диагностики к передаче</h2>
               <p className="leading-relaxed text-muted-foreground">
-                Каждый этап оставляет конкретный артефакт: сценарий, рабочую сборку, проверку или инструкцию.
+                Каждый этап — конкретный артефакт: сценарий, сборка, проверка или инструкция.
               </p>
             </div>
             <LaunchStepper />
@@ -225,9 +224,9 @@ const About = () => {
         <section className="bg-white px-4 py-16">
           <div className="mx-auto max-w-7xl">
             <div className="mb-8 grid gap-4 md:grid-cols-[0.55fr_1fr] md:items-end">
-              <h2 className="text-3xl font-bold md:text-4xl">Принципы работы</h2>
+              <h2 className="text-3xl font-bold md:text-4xl">Как мы работаем</h2>
               <p className="leading-relaxed text-muted-foreground">
-                Важнее не выглядеть технологично, а оставить после запуска систему, которую команда понимает и может развивать.
+                Важнее оставить систему, которую команда понимает и может развивать — а не выглядеть технологично.
               </p>
             </div>
 
@@ -269,7 +268,7 @@ const About = () => {
             <div className="mb-10 grid gap-4 md:grid-cols-[0.55fr_1fr] md:items-end">
               <h2 className="text-3xl font-bold md:text-4xl">После передачи</h2>
               <p className="leading-relaxed text-muted-foreground">
-                Проект можно оставить команде, развивать вместе или вернуться точечно, когда появятся новые сценарии.
+                Проект можно оставить команде, развивать вместе или подключиться точечно под новые сценарии.
               </p>
             </div>
             <div className="grid gap-4 md:grid-cols-3">

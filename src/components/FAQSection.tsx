@@ -12,43 +12,42 @@ interface FAQItem {
 
 interface FAQSectionProps {
   faqs: FAQItem[];
+  subtitle?: string;
 }
 
-const FAQSection = ({ faqs }: FAQSectionProps) => {
+const FAQSection = ({ faqs, subtitle = "Короткие ответы о запуске, поддержке и формате работы до заполнения брифа." }: FAQSectionProps) => {
   return (
     <section className="bg-white px-4 py-20">
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-10 grid gap-5 md:grid-cols-[0.74fr_1fr] md:items-end">
-          <div>
-            <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">FAQ</p>
-            <h2 className="text-3xl font-bold md:text-4xl">
-              Часто задаваемые вопросы
-            </h2>
-          </div>
-          <p className="leading-relaxed text-muted-foreground">
-            Короткие ответы о запуске, поддержке и формате работы до заполнения брифа.
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 max-w-3xl">
+          <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">FAQ</p>
+          <h2 className="text-3xl font-bold md:text-5xl">
+            Вопросы перед стартом
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            {subtitle}
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="linear-abstract w-full border-b border-border">
+        <Accordion type="single" collapsible className="linear-abstract w-full border-y border-border">
           {faqs.map((faq, index) => (
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="border-t border-border px-0"
+              className="border-b border-border px-0 last:border-b-0"
             >
-              <AccordionTrigger className="gap-4 py-5 text-left hover:text-primary">
-                <span className="flex flex-1 items-start gap-4">
-                  <span className="mt-0.5 font-mono text-sm text-primary">
+              <AccordionTrigger className="group gap-5 px-0 py-6 text-left hover:text-foreground hover:no-underline">
+                <span className="grid flex-1 grid-cols-[2.75rem_1fr] items-start gap-4">
+                  <span className="mt-1 font-mono text-sm text-primary">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span>{faq.question}</span>
+                  <span className="text-base font-semibold leading-snug text-foreground transition-colors group-hover:text-primary md:text-lg">
+                    {faq.question}
+                  </span>
                 </span>
               </AccordionTrigger>
-              <AccordionContent className="pb-5 pl-12 leading-relaxed text-muted-foreground">
-                <div className="border-l border-primary/25 pl-4">
-                  {faq.answer}
-                </div>
+              <AccordionContent className="pb-6 pl-[4.25rem] pr-10 text-base leading-relaxed text-muted-foreground">
+                {faq.answer}
               </AccordionContent>
             </AccordionItem>
           ))}
