@@ -1,87 +1,78 @@
-import { Shield, FileCheck, CreditCard, Code, Zap, HeadphonesIcon } from "lucide-react";
+import AbstractServiceMark, { type AbstractMarkKey } from "@/components/AbstractServiceMark";
 import { siteConfig } from "@/config/site";
+
+const principleMatrix: Array<{
+  title: string;
+  description: string;
+  mark: AbstractMarkKey;
+}> = [
+  {
+    title: "AI-сценарии вместо хаоса",
+    description: "Сначала описываем процесс и результат, потом подбираем инструменты и автоматизацию.",
+    mark: "axis",
+  },
+  {
+    title: "Агенты с границами",
+    description: "Настраиваем роль, базу знаний, тон, ограничения и передачу сложных задач человеку.",
+    mark: "fold",
+  },
+  {
+    title: "Интеграции в работу",
+    description: "Связываем сайт, CRM, таблицы, Telegram/MAX, заявки и уведомления в один маршрут.",
+    mark: "ripple",
+  },
+  {
+    title: "Контент-системы",
+    description: "Собираем контент-заводы с голосом бренда, источниками фактуры и понятным согласованием.",
+    mark: "mesh",
+  },
+  {
+    title: "Документация и передача",
+    description: "Оставляем структуру, инструкции и понятные правила развития после запуска.",
+    mark: "stack",
+  },
+  {
+    title: "Поддержка",
+    description: "Помогаем сопровождать, дорабатывать и расширять запущенные решения.",
+    mark: "zero",
+  },
+];
+
 const AboutSection = () => {
-  const advantages = [{
-    icon: Code,
-    title: "Код сразу с дизайном",
-    description: "Не тратим время на макеты — сразу создаём живой результат, который можно редактировать"
-  }, {
-    icon: Shield,
-    title: "Гарантии и договор",
-    description: "Работаем официально по договору с полными гарантиями качества. Профессиональный подход к каждому проекту."
-  }, {
-    icon: CreditCard,
-    title: "Рассрочка от Тбанк",
-    description: "Удобная оплата в рассрочку от Тинькофф Банка. Начните проект сейчас, платите частями."
-  }, {
-    icon: Zap,
-    title: "Быстрый старт",
-    description: "Минимум времени от идеи до рабочего продукта. Используем современные AI-технологии для ускорения разработки."
-  }, {
-    icon: FileCheck,
-    title: "Чистый код",
-    description: "Пишем качественный, масштабируемый код на современном стеке: React, Next.js, Node.js. Никаких конструкторов."
-  }, {
-    icon: HeadphonesIcon,
-    title: "Техподдержка",
-    description: "Постоянная техническая поддержка после запуска. Помогаем развивать и масштабировать ваш проект."
-  }];
-  return <section id="about" className="py-20 px-4 relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background pointer-events-none" />
-      
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-            Почему <span className="text-primary">{siteConfig.name}</span>
+  return (
+    <section id="about" className="relative overflow-hidden bg-white px-4 py-20">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-14 grid gap-5 md:grid-cols-[0.72fr_1fr] md:items-end">
+          <div>
+          <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">О проекте</p>
+          <h2 className="text-3xl font-bold md:text-5xl">
+            {siteConfig.name} собирает AI в рабочие продукты
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
-            Это личный AI-бренд для понятных digital-решений: сайтов, Telegram-инструментов и
-            автоматизаций, которые помогают работать быстрее и спокойнее.
-          </p>
-          <p className="text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mt-4">
-            🌍 Работаем с клиентами по всему миру
-          </p>
-        </div>
-
-        {/* Advantages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {advantages.map((advantage, index) => {
-          const Icon = advantage.icon;
-          return <div key={index} className="group relative bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6 hover:bg-card transition-all duration-300 hover:scale-105 hover:shadow-xl animate-fade-in" style={{
-            animationDelay: `${index * 100}ms`
-          }}>
-                {/* Icon */}
-                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                  <Icon className="w-7 h-7 text-primary" />
-                </div>
-
-                {/* Content */}
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
-                  {advantage.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {advantage.description}
-                </p>
-
-                {/* Decorative element */}
-                <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors" />
-              </div>;
-        })}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-2 px-4 sm:px-6 py-3 bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-full">
-            <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-            <p className="text-xs sm:text-sm font-medium">
-              <span className="hidden sm:inline">Более 50+ успешных проектов • Безналичный расчет онлайн</span>
-              <span className="sm:hidden">50+ проектов • Онлайн оплата</span>
-            </p>
           </div>
+          <p className="text-lg leading-relaxed text-muted-foreground">
+            Это бренд про нейроофисы, AI-агентов, контент-заводы, сайты, автоматизацию, боты и автоматизации для Telegram и MAX.
+          </p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {principleMatrix.map((advantage, index) => (
+            <div key={advantage.title} className="linear-abstract flex min-h-[17rem] flex-col rounded-md border border-border bg-white p-5">
+              <div className="mb-6 flex items-center justify-between gap-4">
+                <span className="font-mono text-sm text-primary">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <AbstractServiceMark mark={advantage.mark} className="h-9 w-9" />
+              </div>
+              <div className="mt-auto">
+                <h3 className="mb-3 text-xl font-semibold">{advantage.title}</h3>
+                <p className="leading-relaxed text-muted-foreground">{advantage.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default AboutSection;

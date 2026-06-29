@@ -1,496 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Бриф на разработку сайта</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f5f5f5;
-        }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #2563eb;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        h2 {
-            color: #1e40af;
-            border-bottom: 2px solid #2563eb;
-            padding-bottom: 10px;
-            margin-top: 30px;
-        }
-        .question {
-            margin-bottom: 25px;
-            padding: 15px;
-            background: #f8fafc;
-            border-left: 4px solid #2563eb;
-            border-radius: 4px;
-        }
-        .question-title {
-            font-weight: bold;
-            color: #1e40af;
-            margin-bottom: 8px;
-        }
-        .question-hint {
-            font-size: 14px;
-            color: #666;
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="url"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            font-size: 14px;
-            font-family: inherit;
-            box-sizing: border-box;
-        }
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .checkbox-item input[type="checkbox"] {
-            width: auto;
-        }
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .radio-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .button-group {
-            text-align: center;
-            margin-top: 30px;
-        }
-        button {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 0 10px;
-        }
-        button:hover {
-            background: #1e40af;
-        }
-        .note {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-        @media print {
-            body {
-                background: white;
-            }
-            .container {
-                box-shadow: none;
-                padding: 0;
-            }
-            button {
-                display: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бриф на AI-систему и сайт</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; color: #172033; background: #f8fbff; }
+    main { max-width: 860px; margin: 0 auto; padding: 48px 20px; }
+    h1 { color: #0f172a; }
+    section { background: #fff; border: 1px solid #dbe7f5; border-radius: 8px; padding: 24px; margin: 18px 0; }
+    li { margin: 10px 0; }
+    .muted { color: #64748b; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Бриф на разработку сайта</h1>
-        <p class="subtitle">Заполните, пожалуйста, информацию о вашем проекте</p>
-
-        <div class="note">
-            <strong>Внимание!</strong> Чем подробнее вы заполните бриф, тем точнее мы сможем оценить стоимость и сроки разработки вашего проекта.
-        </div>
-
-        <form id="briefForm">
-            <h2>1. Общая информация</h2>
-            
-            <div class="question">
-                <div class="question-title">1.1. Контактное лицо</div>
-                <input type="text" name="contact_name" placeholder="Ваше имя" required>
-            </div>
-
-            <div class="question">
-                <div class="question-title">1.2. Компания / Организация</div>
-                <input type="text" name="company" placeholder="Название компании">
-            </div>
-
-            <div class="question">
-                <div class="question-title">1.3. Email</div>
-                <input type="email" name="email" placeholder="your@email.com" required>
-            </div>
-
-            <div class="question">
-                <div class="question-title">1.4. Телефон</div>
-                <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required>
-            </div>
-
-            <div class="question">
-                <div class="question-title">1.5. Сайт (если есть)</div>
-                <input type="url" name="current_site" placeholder="https://example.com">
-            </div>
-
-            <h2>2. О проекте</h2>
-
-            <div class="question">
-                <div class="question-title">2.1. Название проекта</div>
-                <input type="text" name="project_name" placeholder="Как будет называться сайт?">
-            </div>
-
-            <div class="question">
-                <div class="question-title">2.2. Тип сайта</div>
-                <div class="question-hint">Выберите наиболее подходящий вариант</div>
-                <div class="radio-group">
-                    <label class="radio-item">
-                        <input type="radio" name="site_type" value="landing">
-                        Лендинг (одностраничный сайт)
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="site_type" value="corporate">
-                        Корпоративный сайт
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="site_type" value="catalog">
-                        Сайт-каталог
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="site_type" value="ecommerce">
-                        Интернет-магазин
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="site_type" value="portal">
-                        Портал / Платформа
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="site_type" value="webapp">
-                        Веб-приложение
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="site_type" value="other">
-                        Другое: <input type="text" name="site_type_other" style="margin-left: 10px; width: 300px;">
-                    </label>
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-title">2.3. Краткое описание проекта</div>
-                <div class="question-hint">Опишите суть проекта, его цели и задачи</div>
-                <textarea name="project_description" placeholder="Например: Нужен сайт для продвижения услуг по ремонту квартир в Москве..."></textarea>
-            </div>
-
-            <div class="question">
-                <div class="question-title">2.4. Целевая аудитория</div>
-                <div class="question-hint">Кто будет посещать ваш сайт? (возраст, интересы, боли)</div>
-                <textarea name="target_audience" placeholder="Например: Владельцы квартир 30-50 лет, которые планируют ремонт..."></textarea>
-            </div>
-
-            <div class="question">
-                <div class="question-title">2.5. Основная цель сайта</div>
-                <div class="question-hint">Что должен делать посетитель на сайте?</div>
-                <div class="checkbox-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="goals" value="lead">
-                        Оставить заявку / контакты
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="goals" value="call">
-                        Позвонить
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="goals" value="buy">
-                        Купить товар / услугу
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="goals" value="info">
-                        Получить информацию
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="goals" value="register">
-                        Зарегистрироваться
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="goals" value="other">
-                        Другое: <input type="text" name="goals_other" style="margin-left: 10px; width: 300px;">
-                    </label>
-                </div>
-            </div>
-
-            <h2>3. Функциональность</h2>
-
-            <div class="question">
-                <div class="question-title">3.1. Необходимые разделы сайта</div>
-                <div class="question-hint">Перечислите основные страницы</div>
-                <textarea name="pages" placeholder="Например: Главная, О нас, Услуги, Портфолио, Контакты..."></textarea>
-            </div>
-
-            <div class="question">
-                <div class="question-title">3.2. Функционал сайта</div>
-                <div class="question-hint">Что должно быть на сайте?</div>
-                <div class="checkbox-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="forms">
-                        Формы обратной связи
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="blog">
-                        Раздел статей / Новости
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="gallery">
-                        Галерея / Портфолио
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="catalog">
-                        Каталог товаров/услуг
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="cart">
-                        Корзина и оплата
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="auth">
-                        Личный кабинет
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="search">
-                        Поиск по сайту
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="multilang">
-                        Мультиязычность
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="chat">
-                        Онлайн-чат
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="calculator">
-                        Калькулятор стоимости
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="booking">
-                        Система бронирования
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="features" value="other">
-                        Другое: <input type="text" name="features_other" style="margin-left: 10px; width: 300px;">
-                    </label>
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-title">3.3. Интеграции</div>
-                <div class="question-hint">Нужны ли интеграции с внешними сервисами?</div>
-                <div class="checkbox-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="integrations" value="crm">
-                        CRM-система (какая: ____________)
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="integrations" value="payment">
-                        Платежные системы (какие: ____________)
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="integrations" value="social">
-                        Социальные сети
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="integrations" value="analytics">
-                        Аналитика (Google Analytics, Яндекс.Метрика)
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="integrations" value="email">
-                        Email-маркетинг (какой: ____________)
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="integrations" value="other">
-                        Другое: <input type="text" name="integrations_other" style="margin-left: 10px; width: 300px;">
-                    </label>
-                </div>
-            </div>
-
-            <h2>4. Дизайн</h2>
-
-            <div class="question">
-                <div class="question-title">4.1. Фирменный стиль</div>
-                <div class="question-hint">Есть ли у вас брендбук, логотип, цвета компании?</div>
-                <div class="radio-group">
-                    <label class="radio-item">
-                        <input type="radio" name="branding" value="yes">
-                        Да, есть готовый фирменный стиль
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="branding" value="partial">
-                        Есть только логотип
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="branding" value="no">
-                        Нет, нужно разработать с нуля
-                    </label>
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-title">4.2. Примеры понравившихся сайтов</div>
-                <div class="question-hint">Укажите ссылки на сайты, дизайн которых вам нравится (можно указать, что именно понравилось)</div>
-                <textarea name="design_examples" placeholder="Например: https://example1.com - нравится стиль и анимации..."></textarea>
-            </div>
-
-            <div class="question">
-                <div class="question-title">4.3. Пожелания по дизайну</div>
-                <div class="question-hint">Опишите, каким вы видите сайт (стиль, цвета, настроение)</div>
-                <textarea name="design_wishes" placeholder="Например: Современный минималистичный дизайн, светлые тона, много воздуха..."></textarea>
-            </div>
-
-            <h2>5. Контент</h2>
-
-            <div class="question">
-                <div class="question-title">5.1. Готовность контента</div>
-                <div class="question-hint">Есть ли у вас готовые тексты и изображения?</div>
-                <div class="radio-group">
-                    <label class="radio-item">
-                        <input type="radio" name="content_ready" value="yes">
-                        Да, весь контент готов
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="content_ready" value="partial">
-                        Частично готов
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="content_ready" value="no">
-                        Нет, нужна помощь с контентом
-                    </label>
-                </div>
-            </div>
-
-            <div class="question">
-                <div class="question-title">5.2. Нужна ли помощь с контентом?</div>
-                <div class="checkbox-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="content_help" value="copywriting">
-                        Написание текстов (копирайтинг)
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="content_help" value="photo">
-                        Фотосъемка
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="content_help" value="video">
-                        Видеосъемка
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" name="content_help" value="infographics">
-                        Инфографика
-                    </label>
-                </div>
-            </div>
-
-            <h2>6. Сроки и бюджет</h2>
-
-            <div class="question">
-                <div class="question-title">6.1. Желаемый срок запуска</div>
-                <input type="text" name="deadline" placeholder="Например: до 1 марта 2025">
-            </div>
-
-            <div class="question">
-                <div class="question-title">6.2. Бюджет проекта</div>
-                <div class="radio-group">
-                    <label class="radio-item">
-                        <input type="radio" name="budget" value="50k">
-                        До 50 000 ₽
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="budget" value="100k">
-                        50 000 - 100 000 ₽
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="budget" value="200k">
-                        100 000 - 200 000 ₽
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="budget" value="300k">
-                        200 000 - 300 000 ₽
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="budget" value="500k">
-                        300 000 - 500 000 ₽
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="budget" value="more">
-                        Более 500 000 ₽
-                    </label>
-                    <label class="radio-item">
-                        <input type="radio" name="budget" value="discuss">
-                        Обсуждается
-                    </label>
-                </div>
-            </div>
-
-            <h2>7. Дополнительно</h2>
-
-            <div class="question">
-                <div class="question-title">7.1. Конкуренты</div>
-                <div class="question-hint">Укажите сайты ваших конкурентов</div>
-                <textarea name="competitors" placeholder="Например: https://competitor1.com, https://competitor2.com"></textarea>
-            </div>
-
-            <div class="question">
-                <div class="question-title">7.2. Дополнительные пожелания</div>
-                <div class="question-hint">Любая информация, которая поможет нам лучше понять ваш проект</div>
-                <textarea name="additional" placeholder="Например: Хочу обязательно видеофон на главной, нужна форма с калькулятором..."></textarea>
-            </div>
-
-            <div class="button-group">
-                <button type="button" onclick="window.print()">Распечатать</button>
-                <button type="submit">Отправить бриф</button>
-            </div>
-        </form>
-    </div>
-
-    <script>
-        document.getElementById('briefForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Спасибо! Мы получили ваш бриф и свяжемся с вами в ближайшее время.');
-            // Здесь можно добавить отправку на сервер
-        });
-    </script>
+  <main>
+    <h1>Бриф на AI-систему и сайт</h1>
+    <p class="muted">Подходит для сайта, нейроофиса, AI-агента, контент-завода, автоматизации и поддержки.</p>
+    <section>
+      <h2>Контакты</h2>
+      <ul>
+        <li>Имя и роль: _____________________</li>
+        <li>Телефон: _____________________</li>
+        <li>Telegram: _____________________</li>
+        <li>Удобный способ связи: _____________________</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Направление</h2>
+      <ul>
+        <li>Нейроофис: _____________________</li>
+        <li>AI-агент: _____________________</li>
+        <li>Контент-завод: _____________________</li>
+        <li>Автоматизация: _____________________</li>
+        <li>Сайт: _____________________</li>
+        <li>Бот для Telegram/MAX: _____________________</li>
+        <li>MAX-автоматизация: _____________________</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Задача</h2>
+      <ul>
+        <li>Главная цель: _____________________</li>
+        <li>Кто будет пользоваться: _____________________</li>
+        <li>Что уже есть: _____________________</li>
+        <li>Какие интеграции нужны: _____________________</li>
+        <li>Желаемый срок запуска: _____________________</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Формат старта</h2>
+      <ul>
+        <li>Хочу понять объем: _____________________</li>
+        <li>Нужен быстрый запуск: _____________________</li>
+        <li>Есть готовое ТЗ: _____________________</li>
+        <li>Нужна система под ключ: _____________________</li>
+      </ul>
+    </section>
+  </main>
 </body>
 </html>

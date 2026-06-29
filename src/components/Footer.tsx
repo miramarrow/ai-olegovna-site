@@ -1,52 +1,61 @@
 import { Link } from "react-router-dom";
-import { Bot, Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { MessageCircle, Phone, Send } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { servicesData } from "@/pages/services/servicesData";
 
 const Footer = () => {
   return (
-    <footer className="bg-card border-t border-border py-12 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* Company Info */}
+    <footer className="border-t border-border bg-card px-4 py-12">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-8 grid gap-8 md:grid-cols-4">
           <div>
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <Bot className="h-6 w-6 text-primary" />
+            <Link to="/" className="mb-4 inline-flex items-center">
               <span className="text-xl font-bold">{siteConfig.name}</span>
             </Link>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
               {siteConfig.description}
             </p>
-            <div className="flex gap-4">
-              <a 
-                href={siteConfig.contacts.telegramUrl} 
-                target="_blank" 
+            <div className="flex gap-3">
+              <a
+                href={siteConfig.contacts.telegramUrl}
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="rounded-md border border-border p-2 text-muted-foreground transition-colors hover:text-primary"
                 aria-label="Telegram"
               >
-                <MessageCircle className="w-5 h-5" />
+                <Send className="h-5 w-5" />
+              </a>
+              <a
+                href={siteConfig.contacts.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-md border border-border p-2 text-muted-foreground transition-colors hover:text-primary"
+                aria-label="WhatsApp"
+              >
+                <MessageCircle className="h-5 w-5" />
               </a>
             </div>
           </div>
 
-          {/* Services */}
           <div>
-            <h3 className="font-semibold mb-4">Услуги</h3>
+            <h3 className="mb-4 font-semibold">Услуги</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link to="/services/website-development" className="hover:text-primary transition-colors py-1 inline-block">Разработка сайтов</Link></li>
-              <li><Link to="/services/telegram-bots" className="hover:text-primary transition-colors py-1 inline-block">Telegram-боты</Link></li>
-              <li><Link to="/services/n8n-automation" className="hover:text-primary transition-colors py-1 inline-block">N8N Автоматизация</Link></li>
-              <li><Link to="/services/ai-content" className="hover:text-primary transition-colors py-1 inline-block">AI решения</Link></li>
+              {servicesData.slice(0, 6).map((service) => (
+                <li key={service.slug}>
+                  <Link to={`/services/${service.slug}`} className="inline-block py-1 transition-colors hover:text-primary">
+                    {service.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Company */}
           <div>
-            <h3 className="font-semibold mb-4">Компания</h3>
+            <h3 className="mb-4 font-semibold">Разделы</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               {siteConfig.footerCompanyLinks.map((item) => (
                 <li key={item.href}>
-                  <Link to={item.href} className="hover:text-primary transition-colors py-1 inline-block">
+                  <Link to={item.href} className="inline-block py-1 transition-colors hover:text-primary">
                     {item.name}
                   </Link>
                 </li>
@@ -54,38 +63,31 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
-            <h3 className="font-semibold mb-4">Контакты</h3>
-            <ul className="space-y-3 text-sm text-muted-foreground mb-4">
+            <h3 className="mb-4 font-semibold">Контакты</h3>
+            <ul className="mb-5 space-y-3 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-primary" />
-                <a href={`mailto:${siteConfig.contacts.email}`} className="hover:text-primary transition-colors">
-                  {siteConfig.contacts.email}
+                <Send className="h-4 w-4 text-primary" />
+                <a href={siteConfig.contacts.telegramUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-primary">
+                  {siteConfig.contacts.telegramLabel}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
-                <a href={siteConfig.contacts.phoneHref} className="hover:text-primary transition-colors">
+                <a href={siteConfig.contacts.phoneHref} className="transition-colors hover:text-primary">
                   {siteConfig.contacts.phoneLabel}
                 </a>
               </li>
-              <li className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 text-primary mt-1" />
-                <span>{siteConfig.location}</span>
-              </li>
             </ul>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/privacy" className="text-muted-foreground hover:text-primary transition-colors">Политика конфиденциальности</Link></li>
-              <li><Link to="/terms" className="text-muted-foreground hover:text-primary transition-colors">Пользовательское соглашение</Link></li>
+              <li><Link to="/privacy" className="text-muted-foreground transition-colors hover:text-primary">Политика конфиденциальности</Link></li>
+              <li><Link to="/terms" className="text-muted-foreground transition-colors hover:text-primary">Пользовательское соглашение</Link></li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-border text-center text-sm text-muted-foreground">
+        <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} {siteConfig.name}. Все права защищены.</p>
-          <p className="mt-2">🌍 Работаем с клиентами по всему миру</p>
         </div>
       </div>
     </footer>

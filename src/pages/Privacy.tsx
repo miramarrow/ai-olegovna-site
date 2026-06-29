@@ -33,7 +33,7 @@ const Privacy = () => {
               </p>
               <ul className="list-disc list-inside text-muted-foreground space-y-2 ml-4">
                 <li>имя или обращение;</li>
-                <li>email, телефон, Telegram или другой способ связи;</li>
+                <li>телефон, Telegram или другой способ связи;</li>
                 <li>описание задачи, проекта или вопроса;</li>
                 <li>технические сведения о работе сайта, если они нужны для безопасности и аналитики.</li>
               </ul>
@@ -98,7 +98,6 @@ const Privacy = () => {
                 По вопросам обработки данных можно связаться с проектом {siteConfig.name}:
               </p>
               <ul className="text-muted-foreground space-y-2 mt-3">
-                <li><strong>Email:</strong> {siteConfig.contacts.email}</li>
                 <li><strong>Telegram:</strong> {siteConfig.contacts.telegramLabel}</li>
               </ul>
             </section>

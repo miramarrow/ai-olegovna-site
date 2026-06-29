@@ -16,29 +16,39 @@ interface FAQSectionProps {
 
 const FAQSection = ({ faqs }: FAQSectionProps) => {
   return (
-    <section className="py-16 px-4 bg-card/30">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Часто задаваемые вопросы
-          </h2>
-          <p className="text-muted-foreground">
-            Ответы на популярные вопросы о наших услугах
+    <section className="bg-white px-4 py-20">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-10 grid gap-5 md:grid-cols-[0.74fr_1fr] md:items-end">
+          <div>
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">FAQ</p>
+            <h2 className="text-3xl font-bold md:text-4xl">
+              Часто задаваемые вопросы
+            </h2>
+          </div>
+          <p className="leading-relaxed text-muted-foreground">
+            Короткие ответы о запуске, поддержке и формате работы до заполнения брифа.
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="w-full space-y-4">
+        <Accordion type="single" collapsible className="linear-abstract w-full border-b border-border">
           {faqs.map((faq, index) => (
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="bg-card border border-border rounded-lg px-6"
+              className="border-t border-border px-0"
             >
-              <AccordionTrigger className="text-left hover:text-primary">
-                {faq.question}
+              <AccordionTrigger className="gap-4 py-5 text-left hover:text-primary">
+                <span className="flex flex-1 items-start gap-4">
+                  <span className="mt-0.5 font-mono text-sm text-primary">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span>{faq.question}</span>
+                </span>
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                {faq.answer}
+              <AccordionContent className="pb-5 pl-12 leading-relaxed text-muted-foreground">
+                <div className="border-l border-primary/25 pl-4">
+                  {faq.answer}
+                </div>
               </AccordionContent>
             </AccordionItem>
           ))}

@@ -29,7 +29,7 @@ const Terms = () => {
             <section>
               <h2 className="text-2xl font-bold mb-4">2. Назначение сайта</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Сайт предоставляет информацию об услугах в области разработки, автоматизации, Telegram-решений и
+                Сайт предоставляет информацию об услугах в области разработки, автоматизации, Telegram/MAX-решений и
                 внедрения AI-инструментов. Материалы сайта носят информационный характер и не являются публичной
                 офертой, если прямо не указано иное.
               </p>
@@ -106,7 +106,6 @@ const Terms = () => {
                 По вопросам, связанным с сайтом и настоящим Соглашением, можно связаться с проектом {siteConfig.name}:
               </p>
               <ul className="text-muted-foreground space-y-2 mt-3">
-                <li><strong>Email:</strong> {siteConfig.contacts.email}</li>
                 <li><strong>Telegram:</strong> {siteConfig.contacts.telegramLabel}</li>
               </ul>
             </section>

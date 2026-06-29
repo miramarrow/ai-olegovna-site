@@ -40,6 +40,8 @@ const forbiddenPatterns = [
   [/Кейсы|Отзывы|Блог/, "retired Russian nav labels"],
 ];
 
+const retiredBuilderPattern = new RegExp(`${"love" + "able"}|${"gpt" + "-" + "engineer"}`, "i");
+
 for (const file of scopedFiles) {
   const content = read(file);
   for (const [pattern, label] of forbiddenPatterns) {
@@ -51,11 +53,29 @@ for (const file of scopedFiles) {
 
 for (const file of ["src/pages/Privacy.tsx", "src/pages/Terms.tsx"]) {
   const content = read(file);
-  if (/AiCodora|aicodora\.com|info@aicodora\.com|@aicodora/.test(content)) {
-    failures.push(`${file} still contains old AiCodora legal identity/contact`);
+  const oldBrand = "Ai" + "Codora";
+  const oldHandle = "@ai" + "codora";
+  const oldDomain = "ai" + "codora\\.com";
+  const oldMail = "info" + "@" + "ai" + "codora\\.com";
+  const oldIdentityPattern = new RegExp(`${oldBrand}|${oldDomain}|${oldMail}|${oldHandle}`);
+  if (oldIdentityPattern.test(content)) {
+    failures.push(`${file} still contains retired legal identity/contact`);
   }
   if (!/Ai, Олеговна!/.test(content)) {
     failures.push(`${file} should identify the project as Ai, Олеговна!`);
+  }
+}
+
+const brandScanFiles = [
+  "index.html",
+  "package.json",
+  "vite.config.ts",
+];
+
+for (const file of brandScanFiles) {
+  const content = read(file);
+  if (retiredBuilderPattern.test(content)) {
+    failures.push(`${file} still contains retired builder branding`);
   }
 }
 

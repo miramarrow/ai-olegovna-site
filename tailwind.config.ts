@@ -194,6 +194,19 @@ export default {
             opacity: "0",
           },
         },
+        "code-fall-subtle": {
+          "0%": {
+            transform: "translateY(0)",
+            opacity: "0.18",
+          },
+          "50%": {
+            opacity: "0.1",
+          },
+          "100%": {
+            transform: "translateY(calc(100vh + 100px))",
+            opacity: "0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -211,6 +224,7 @@ export default {
         "slide-left-mobile": "slide-left 15s linear infinite",
         "mobile-menu-item": "mobile-menu-item 0.3s ease-out forwards",
         "code-fall": "code-fall linear infinite",
+        "code-fall-subtle": "code-fall-subtle linear infinite",
       },
     },
   },

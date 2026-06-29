@@ -2,52 +2,52 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
+import LaunchProcessSection from "@/components/LaunchProcessSection";
 import PricingSection from "@/components/PricingSection";
-import InstallmentBanner from "@/components/InstallmentBanner";
 import FAQSection from "@/components/FAQSection";
 import ProjectDiscussForm from "@/components/ProjectDiscussForm";
 import Footer from "@/components/Footer";
 import CodeRain from "@/components/CodeRain";
-import Aurora from "@/components/Aurora";
+import MobileBriefCta from "@/components/MobileBriefCta";
 const Index = () => {
   
   const generalFaqs = [
     {
       question: "Какие технологии вы используете?",
-      answer: "Мы работаем с современными технологиями: React, Node.js, Python, N8N, Telegram API, OpenAI API и другими. Выбираем оптимальный стек под конкретные задачи вашего проекта."
+      answer: "Используем React, Node.js, Python, n8n, OpenAI API, Telegram-интеграции и другие инструменты. Для MAX проектируем сценарии под доступные возможности платформы."
     },
     {
       question: "Сколько времени займет разработка?",
-      answer: "Сроки зависят от сложности проекта. Простой сайт или бот — от 1–2 недель. Комплексная система автоматизации — от 1–3 месяцев. Точные сроки определяем после детального анализа требований."
+      answer: "Срок зависит от объема, готовности материалов, интеграций и срочности. После умного брифа предложу реалистичный формат старта."
     },
     {
       question: "Предоставляете ли вы техническую поддержку?",
-      answer: "Да, мы предоставляем техническую поддержку на всех тарифах. Длительность и условия зависят от выбранного плана — от 1 до 12 месяцев включено в стоимость разработки."
+      answer: "Да. Поддержка может быть разовой, регулярной или встроенной в запуск системы под ключ."
     },
     {
       question: "Можно ли внести изменения в проект после завершения?",
-      answer: "Конечно! Мы всегда открыты для доработок и модификаций. Небольшие правки возможны в рамках гарантийного периода, крупные изменения обсуждаются и оцениваются отдельно."
+      answer: "Да. AI-системы лучше развивать по этапам: сначала запуск, затем улучшение сценариев по реальным данным."
     },
     {
       question: "Как происходит оплата?",
-      answer: "Работаем по официальному договору. Оплата поэтапная: предоплата 30–50%, промежуточные платежи по этапам разработки, окончательный расчет после сдачи проекта. Доступна рассрочка от Т-Банка на 6 и 12 месяцев."
+      answer: "Формат оплаты обсуждается после оценки объема. Для крупных задач удобно делить работу на понятные этапы."
     }
   ];
 
   return (
     <div className="min-h-screen bg-background relative">
-      <Aurora />
-      <CodeRain />
+      <CodeRain intensity="home" />
       <div className="relative z-10">
         <Header />
         <Hero />
         <AboutSection />
         <ServicesSection />
+        <LaunchProcessSection />
         <PricingSection />
-        <InstallmentBanner />
         <FAQSection faqs={generalFaqs} />
         <ProjectDiscussForm />
         <Footer />
+        <MobileBriefCta />
       </div>
     </div>
   );

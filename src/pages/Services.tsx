@@ -1,153 +1,142 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CodeRain from "@/components/CodeRain";
-import PromoBanner from "@/components/PromoBanner";
-import { Card } from "@/components/ui/card";
+import AbstractServiceMark from "@/components/AbstractServiceMark";
+import QuickServiceBriefDialog from "@/components/QuickServiceBriefDialog";
+import ServiceAbstractVisual from "@/components/ServiceAbstractVisual";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import n8nImage from "@/assets/services/n8n-automation.png";
-import websiteImage from "@/assets/services/website-development.png";
-import supportImage from "@/assets/services/technical-support.mp4";
-import telegramBotImage from "@/assets/services/telegram-bots.png";
-import miniappImage from "@/assets/services/telegram-miniapp.mp4";
-import aiContentImage from "@/assets/services/ai-content-new.jpg";
-import aiVideoImage from "@/assets/services/ai-video.mp4";
-import webServicesImage from "@/assets/services/web-services.jpg";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { servicesData, type ServiceData } from "@/pages/services/servicesData";
 
 const Services = () => {
-  const services = [
-    {
-      id: "n8n-automation",
-      title: "N8N Автоматизация",
-      description: "Создание автоматизированных бизнес-процессов без программирования. Интеграция сервисов, обработка данных и автоматизация рутинных задач.",
-      image: n8nImage,
-    },
-    {
-      id: "website-development",
-      title: "Разработка сайтов",
-      description: "Создание современных веб-сайтов: от лендингов до сложных корпоративных порталов. Адаптивный дизайн и оптимизация под поисковики.",
-      image: websiteImage,
-    },
-    {
-      id: "technical-support",
-      title: "Техническая поддержка",
-      description: "Постоянная техническая поддержка ваших проектов. Исправление ошибок, консультации, обновления и мониторинг работоспособности.",
-      image: supportImage,
-    },
-    {
-      id: "telegram-bots",
-      title: "Разработка Telegram ботов",
-      description: "Разработка умных ботов для автоматизации бизнеса в Telegram. От простых информационных до сложных интеграционных решений.",
-      image: telegramBotImage,
-    },
-    {
-      id: "telegram-miniapp",
-      title: "Telegram Mini App",
-      description: "Создание полноценных веб-приложений внутри Telegram. Современный интерфейс и бесшовная интеграция с мессенджером.",
-      image: miniappImage,
-    },
-    {
-      id: "ai-content",
-      title: "AI Контент-генерация",
-      description: "Внедрение AI для автоматической генерации контента. Тексты, изображения, аналитика с использованием нейросетей.",
-      image: aiContentImage,
-    },
-    {
-      id: "ai-video",
-      title: "AI Видео-обработка",
-      description: "Обработка видео с помощью искусственного интеллекта. Субтитры, монтаж, анализ контента и автоматизация производства.",
-      image: aiVideoImage,
-    },
-    {
-      id: "web-services",
-      title: "Веб-сервисы и API",
-      description: "Разработка RESTful API и веб-сервисов для интеграции систем. Масштабируемые решения для бизнеса любого уровня.",
-      image: webServicesImage,
-    },
-  ];
+  const [activeSlug, setActiveSlug] = useState(servicesData[0].slug);
+  const [briefService, setBriefService] = useState<ServiceData | null>(null);
+  const activeService = servicesData.find((service) => service.slug === activeSlug) ?? servicesData[0];
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="relative min-h-screen bg-background">
       <CodeRain />
       <div className="relative z-10">
         <Header />
-        
-        {/* Hero Section */}
-        <section className="pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4">
-          <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
-              Наши услуги
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
-              Полный спектр IT-решений для вашего бизнеса: от автоматизации процессов до разработки сложных веб-приложений
+
+        <section className="bg-white px-4 pb-12 pt-32">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-4 flex items-center gap-4">
+              <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">Каталог услуг</p>
+              <span className="h-px flex-1 bg-primary/20" aria-hidden="true" />
+            </div>
+            <h1 className="mb-5 max-w-4xl text-4xl font-bold md:text-6xl">Услуги</h1>
+            <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+              Направления можно запускать отдельно или собирать в одну AI-систему под бизнес-процессы.
             </p>
           </div>
         </section>
 
-        {/* Services Grid */}
-        <section className="py-12 px-4">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service) => (
-                <Card key={service.id} className="overflow-hidden group hover:shadow-xl transition-all duration-300 flex flex-col h-full">
-                  <div className="relative h-64 overflow-hidden">
-                    {service.image.endsWith('.mp4') ? (
-                      <video
-                        src={service.image}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        webkit-playsinline="true"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <img
-                        src={service.image}
-                        alt={service.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+        <section className="bg-white px-4 py-12">
+          <div className="mx-auto max-w-7xl">
+            <div className="service-panel linear-abstract grid gap-8 overflow-hidden rounded-md border border-border bg-white p-5 md:p-8 lg:grid-cols-[0.85fr_1fr] lg:items-stretch">
+              <div className="flex min-h-[28rem] flex-col">
+                <div className="mb-8 flex items-center justify-between gap-5">
+                  <div className="flex items-center gap-4">
+                    <AbstractServiceMark mark={activeService.mark} className="h-11 w-11" />
+                    <span className="font-mono text-sm text-primary">
+                      {String(servicesData.findIndex((service) => service.slug === activeService.slug) + 1).padStart(2, "0")}
+                    </span>
                   </div>
-                  
-              <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground mb-6 flex-grow">
-                  {service.description}
-                </p>
-                <Button variant="outline" className="w-full group/btn py-5" asChild>
-                  <Link to={`/services/${service.id}`}>
-                    Подробнее
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                  </Link>
-                </Button>
+                  <span className="h-px flex-1 bg-primary/20" aria-hidden="true" />
+                </div>
+
+                <div className="max-w-2xl">
+                  <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">Активное направление</p>
+                  <h2 className="mb-4 text-3xl font-bold md:text-5xl">{activeService.title}</h2>
+                  <p className="text-lg leading-relaxed text-muted-foreground">{activeService.description}</p>
+                </div>
+
+                <div className="mt-auto flex flex-wrap gap-3 pt-8">
+                  <Button className="rounded-md" asChild>
+                    <Link to={`/services/${activeService.slug}`}>Подробнее</Link>
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="rounded-md"
+                    onClick={() => setBriefService(activeService)}
+                  >
+                    Обсудить
+                  </Button>
+                </div>
               </div>
-                </Card>
-              ))}
+
+              <ServiceAbstractVisual mark={activeService.mark} className="min-h-[18rem] lg:min-h-full" />
             </div>
+
+            <Carousel opts={{ align: "start" }} className="mt-8">
+              <CarouselContent className="-ml-4">
+                {servicesData.map((service, index) => {
+                  const isActive = service.slug === activeService.slug;
+
+                  return (
+                    <CarouselItem key={service.slug} className="basis-[82%] pl-4 sm:basis-1/2 lg:basis-1/4">
+                      <button
+                        type="button"
+                        onClick={() => setActiveSlug(service.slug)}
+                        aria-pressed={isActive}
+                        className={`h-full w-full rounded-md border p-3 text-left transition-colors ${
+                          isActive
+                            ? "border-primary bg-primary/5"
+                            : "border-border bg-white hover:border-primary/45"
+                        }`}
+                      >
+                        <div className="mb-4 flex items-center justify-between gap-4">
+                          <span className="font-mono text-sm text-primary">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <AbstractServiceMark mark={service.mark} className="h-8 w-8" />
+                        </div>
+                        <h3 className="mb-2 text-lg font-semibold">{service.shortTitle}</h3>
+                        <p className="text-sm leading-relaxed text-muted-foreground">{service.summary}</p>
+                      </button>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+              <div className="mt-5 flex justify-end gap-3">
+                <CarouselPrevious className="!static !translate-y-0 rounded-md" />
+                <CarouselNext className="!static !translate-y-0 rounded-md" />
+              </div>
+            </Carousel>
+
+            <QuickServiceBriefDialog
+              service={briefService ?? activeService}
+              open={briefService !== null}
+              onOpenChange={(open) => {
+                if (!open) {
+                  setBriefService(null);
+                }
+              }}
+            />
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-20 px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <Card className="p-12 bg-gradient-to-br from-primary/10 to-background border-primary/20">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Не нашли нужную услугу?
-              </h2>
-              <p className="text-muted-foreground text-lg mb-8">
-                Мы разработаем индивидуальное решение специально для ваших задач
+        <section className="bg-white px-4 py-16">
+          <div className="mx-auto grid max-w-7xl gap-6 border-t border-border pt-10 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <h2 className="mb-3 text-3xl font-bold">Не уверены, что выбрать?</h2>
+              <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
+                Умный бриф подстроится под направление и поможет быстро собрать контекст.
               </p>
-              <Button size="lg" asChild>
-                <Link to="/#contact-form">
-                  Обсудить проект
-                </Link>
-              </Button>
-            </Card>
+            </div>
+            <Button size="lg" className="rounded-md" asChild>
+              <a href="/#contact-form">Перейти к брифу</a>
+            </Button>
           </div>
         </section>
 

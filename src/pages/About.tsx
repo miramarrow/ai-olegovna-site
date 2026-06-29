@@ -1,173 +1,302 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import AbstractServiceMark, { type AbstractMarkKey } from "@/components/AbstractServiceMark";
 import CodeRain from "@/components/CodeRain";
-import { Card } from "@/components/ui/card";
-import { Users, Target, Award, Globe } from "lucide-react";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { siteConfig } from "@/config/site";
+
+interface AboutItem {
+  title: string;
+  description: string;
+  mark: AbstractMarkKey;
+}
+
+interface PrincipleTab extends AboutItem {
+  value: string;
+  points: string[];
+}
+
+const projectFocus: AboutItem[] = [
+  {
+    title: "AI-сценарии",
+    description: "Разбираем задачу, роли, источники знаний и границы ответственности до выбора инструментов.",
+    mark: "axis",
+  },
+  {
+    title: "Рабочие продукты",
+    description: "Собираем сайты, агентов, боты, автоматизации и контент-системы вокруг реального процесса.",
+    mark: "fold",
+  },
+  {
+    title: "Управляемость",
+    description: "Фиксируем правила, ограничения, статусы и точки передачи человеку.",
+    mark: "window",
+  },
+  {
+    title: "Запуск",
+    description: "Проверяем сценарии, формы, интеграции и материалы до передачи команде.",
+    mark: "trace",
+  },
+];
+
+const launchSteps: AboutItem[] = [
+  {
+    title: "Диагностика",
+    description: "Понимаем, что должно измениться в работе и где сейчас теряется время.",
+    mark: "mesh",
+  },
+  {
+    title: "Сценарий",
+    description: "Описываем путь пользователя, команды и AI, включая исключения.",
+    mark: "ripple",
+  },
+  {
+    title: "Сборка",
+    description: "Подключаем сайт, бота, CRM, таблицы, документы или базу знаний.",
+    mark: "stack",
+  },
+  {
+    title: "Проверка",
+    description: "Тестируем типовые случаи, уточняем тексты, статусы и уведомления.",
+    mark: "zero",
+  },
+  {
+    title: "Передача",
+    description: "Оставляем инструкции, структуру и понятный следующий шаг.",
+    mark: "axis",
+  },
+];
+
+const principles: PrincipleTab[] = [
+  {
+    value: "meaning",
+    title: "Сначала смысл",
+    description: "Инструмент выбирается после сценария, а не вместо него.",
+    mark: "fold",
+    points: ["цель запуска", "роль AI", "границы ответа"],
+  },
+  {
+    value: "proof",
+    title: "Без лишних обещаний",
+    description: "Цифры и возможности появляются только после диагностики и проверки платформ.",
+    mark: "mesh",
+    points: ["доступы", "сроки", "ограничения"],
+  },
+  {
+    value: "handoff",
+    title: "Понятная передача",
+    description: "Команда должна понимать, где смотреть статус и что менять после запуска.",
+    mark: "ripple",
+    points: ["инструкции", "логика", "точки контроля"],
+  },
+  {
+    value: "scale",
+    title: "Аккуратное расширение",
+    description: "Начинаем с одного сильного маршрута и расширяем систему после первых проверок.",
+    mark: "stack",
+    points: ["первый сценарий", "данные", "следующий модуль"],
+  },
+];
+
+const handoffOutcomes: AboutItem[] = [
+  {
+    title: "Команда понимает систему",
+    description: "Есть структура, правила работы и короткие инструкции для ежедневного использования.",
+    mark: "window",
+  },
+  {
+    title: "Изменения не превращаются в хаос",
+    description: "Новые сценарии, тексты и интеграции можно добавлять по понятному маршруту.",
+    mark: "trace",
+  },
+  {
+    title: "Есть следующий шаг",
+    description: "После запуска понятно, что оставить как есть, что улучшить и что проверить позже.",
+    mark: "zero",
+  },
+];
+
+const BlueprintPanel = () => (
+  <div className="linear-abstract relative min-h-[28rem] overflow-hidden rounded-md border border-border bg-secondary p-6">
+    <div className="absolute inset-x-6 top-12 h-px bg-primary/20" aria-hidden="true" />
+    <div className="absolute inset-y-6 left-12 w-px bg-primary/20" aria-hidden="true" />
+    <div className="absolute bottom-12 left-6 right-6 h-px bg-primary/20" aria-hidden="true" />
+    <div className="absolute bottom-6 top-6 right-12 w-px bg-primary/20" aria-hidden="true" />
+
+    <div className="relative z-10 grid h-full gap-4 sm:grid-cols-2">
+      {projectFocus.map((item, index) => (
+        <div key={item.title} className="flex min-h-36 flex-col justify-between rounded-md border border-border bg-white/80 p-4">
+          <div className="flex items-center justify-between gap-3">
+            <span className="font-mono text-sm text-primary">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <AbstractServiceMark mark={item.mark} className="h-8 w-8" />
+          </div>
+          <h3 className="mt-8 text-lg font-semibold">{item.title}</h3>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const LaunchStepper = () => (
+  <div className="relative">
+    <span className="absolute bottom-8 left-[1.1rem] top-8 w-px bg-primary/25 md:hidden" aria-hidden="true" />
+    <span className="absolute left-8 right-8 top-[1.1rem] hidden h-px bg-primary/25 md:block" aria-hidden="true" />
+    <div className="grid gap-5 md:grid-cols-5">
+      {launchSteps.map((step, index) => (
+        <div key={step.title} className="relative rounded-md border border-border bg-white p-5">
+          <div className="mb-6 flex items-center justify-between gap-3">
+            <span className="flex h-9 w-9 items-center justify-center rounded-md border border-primary/35 bg-white font-mono text-sm text-primary">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <AbstractServiceMark mark={step.mark} className="h-8 w-8" />
+          </div>
+          <h3 className="mb-3 text-lg font-semibold">{step.title}</h3>
+          <p className="text-sm leading-relaxed text-muted-foreground">{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 const About = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="relative flex min-h-screen flex-col bg-background">
       <CodeRain />
       <Header />
-      
-      <main className="flex-grow relative z-10 pt-20">
-        {/* Hero Section */}
-        <section className="py-12 sm:py-16 md:py-20 px-4">
-          <div className="container mx-auto max-w-6xl">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-6 text-foreground">
-              О проекте {siteConfig.name}
+
+      <main className="relative z-10 flex-grow pt-20">
+        <section className="bg-white px-4 py-16 md:py-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-4 flex items-center gap-4">
+              <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">О проекте</p>
+              <span className="h-px flex-1 bg-primary/20" aria-hidden="true" />
+            </div>
+            <h1 className="mb-6 max-w-5xl text-4xl font-bold md:text-6xl">
+              {siteConfig.name} помогает запускать AI- и digital-инструменты без лишнего шума
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-center text-muted-foreground max-w-3xl mx-auto mb-8 sm:mb-12 px-4">
-              Помогаем превращать идеи, рутину и рабочие процессы в понятные AI- и digital-инструменты
+            <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+              Проект собирает сайты, AI-агентов, нейроофисы, боты Telegram/MAX, автоматизации и контент-системы вокруг конкретной рабочей задачи.
             </p>
           </div>
         </section>
 
-        {/* Mission & Vision */}
-        <section className="py-16 px-4 bg-secondary/20">
-          <div className="container mx-auto max-w-6xl">
-            <div className="grid md:grid-cols-2 gap-8 mb-16">
-              <Card className="p-8 hover:shadow-lg transition-shadow">
-                <Target className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-2xl font-bold mb-4">Наша миссия</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Делать передовые технологии искусственного интеллекта доступными для бизнеса любого масштаба. 
-                  Мы верим, что каждая компания заслуживает современных инструментов для роста и автоматизации.
-                </p>
-              </Card>
-              
-              <Card className="p-8 hover:shadow-lg transition-shadow">
-                <Award className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-2xl font-bold mb-4">Наши ценности</h3>
-                <ul className="text-muted-foreground space-y-2">
-                  <li>✓ Качество превыше всего</li>
-                  <li>✓ Индивидуальный подход к каждому клиенту</li>
-                  <li>✓ Прозрачность на всех этапах работы</li>
-                  <li>✓ Постоянное развитие и обучение</li>
-                </ul>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* What We Do */}
-        <section className="py-16 px-4">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl font-bold text-center mb-12">Чем мы занимаемся</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <Card className="p-6 text-center">
-                <div className="text-4xl mb-4">🤖</div>
-                <h3 className="text-xl font-bold mb-3">AI & Автоматизация</h3>
-                <p className="text-muted-foreground">
-                  Интегрируем ИИ в бизнес-процессы, создаем чат-ботов и автоматизируем рутинные задачи
-                </p>
-              </Card>
-              
-              <Card className="p-6 text-center">
-                <div className="text-4xl mb-4">💻</div>
-                <h3 className="text-xl font-bold mb-3">Веб-разработка</h3>
-                <p className="text-muted-foreground">
-                  Создаем современные сайты и веб-приложения с отличным UX и высокой производительностью
-                </p>
-              </Card>
-              
-              <Card className="p-6 text-center">
-                <div className="text-4xl mb-4">📱</div>
-                <h3 className="text-xl font-bold mb-3">Telegram-решения</h3>
-                <p className="text-muted-foreground">
-                  Разрабатываем ботов и Mini Apps для автоматизации продаж и взаимодействия с клиентами
-                </p>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Team Section */}
-        <section className="py-16 px-4 bg-secondary/20">
-          <div className="container mx-auto max-w-6xl">
-            <div className="flex items-center justify-center mb-12">
-              <Users className="w-12 h-12 text-primary mr-4" />
-              <h2 className="text-3xl font-bold">Наша команда</h2>
-            </div>
-            
-            <div className="max-w-3xl mx-auto">
-              <Card className="p-8 mb-8">
-                <h3 className="text-2xl font-bold mb-4">Эксперты в своем деле</h3>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  {siteConfig.name} собирает вокруг задачи нужную экспертизу: разработку, дизайн,
-                  автоматизацию и AI-инструменты. Подход остаётся личным, понятным и практичным.
-                </p>
-                <div className="grid md:grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <h4 className="font-semibold mb-2">Разработка</h4>
-                    <ul className="text-muted-foreground space-y-1">
-                      <li>• Full-stack разработчики</li>
-                      <li>• AI/ML инженеры</li>
-                      <li>• DevOps специалисты</li>
-                    </ul>
+        <section className="bg-white px-4 py-16">
+          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1fr] lg:items-center">
+            <BlueprintPanel />
+            <div>
+              <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">Что делает проект</p>
+              <h2 className="mb-5 text-3xl font-bold md:text-4xl">Собирает AI вокруг понятной задачи</h2>
+              <p className="mb-8 leading-relaxed text-muted-foreground">
+                Не обещаем универсальную платформу для всего. Смотрим на процесс, выбираем сильный маршрут и собираем систему, которую можно объяснить и проверить.
+              </p>
+              <div className="grid gap-3">
+                {projectFocus.map((item, index) => (
+                  <div key={item.title} className="grid gap-3 rounded-md border border-border bg-white p-4 sm:grid-cols-[3rem_1fr]">
+                    <span className="font-mono text-sm text-primary">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h3 className="mb-1 font-semibold">{item.title}</h3>
+                      <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Дизайн & Поддержка</h4>
-                    <ul className="text-muted-foreground space-y-1">
-                      <li>• UX/UI дизайнеры</li>
-                      <li>• Проектные менеджеры</li>
-                      <li>• Техподдержка 24/7</li>
-                    </ul>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-secondary px-4 py-16">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-10 max-w-3xl">
+              <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">Как подходим к запуску</p>
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">От диагностики к передаче</h2>
+              <p className="leading-relaxed text-muted-foreground">
+                Каждый этап оставляет конкретный артефакт: сценарий, рабочую сборку, проверку или инструкцию.
+              </p>
+            </div>
+            <LaunchStepper />
+          </div>
+        </section>
+
+        <section className="bg-white px-4 py-16">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-8 grid gap-4 md:grid-cols-[0.55fr_1fr] md:items-end">
+              <h2 className="text-3xl font-bold md:text-4xl">Принципы работы</h2>
+              <p className="leading-relaxed text-muted-foreground">
+                Важнее не выглядеть технологично, а оставить после запуска систему, которую команда понимает и может развивать.
+              </p>
+            </div>
+
+            <Tabs defaultValue={principles[0].value}>
+              <TabsList className="h-auto flex-wrap justify-start gap-2 bg-transparent p-0">
+                {principles.map((principle) => (
+                  <TabsTrigger key={principle.value} value={principle.value} className="rounded-md border border-border bg-white px-4 py-2 data-[state=active]:border-primary data-[state=active]:bg-primary/5">
+                    {principle.title}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              {principles.map((principle) => (
+                <TabsContent key={principle.value} value={principle.value} className="mt-6 rounded-md border border-border bg-white p-6">
+                  <div className="grid gap-6 lg:grid-cols-[0.42fr_1fr] lg:items-start">
+                    <div>
+                      <AbstractServiceMark mark={principle.mark} className="mb-5 h-11 w-11" />
+                      <h3 className="mb-3 text-2xl font-semibold">{principle.title}</h3>
+                      <p className="leading-relaxed text-muted-foreground">{principle.description}</p>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-3">
+                      {principle.points.map((point, index) => (
+                        <div key={point} className="rounded-md border border-border bg-secondary p-4">
+                          <span className="mb-6 block font-mono text-sm text-primary">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <p className="font-medium">{point}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
+          </div>
+        </section>
+
+        <section className="bg-secondary px-4 py-16">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-10 grid gap-4 md:grid-cols-[0.55fr_1fr] md:items-end">
+              <h2 className="text-3xl font-bold md:text-4xl">После передачи</h2>
+              <p className="leading-relaxed text-muted-foreground">
+                Проект можно оставить команде, развивать вместе или вернуться точечно, когда появятся новые сценарии.
+              </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {handoffOutcomes.map((outcome, index) => (
+                <div key={outcome.title} className="linear-abstract flex min-h-[17rem] flex-col rounded-md border border-border bg-white p-5">
+                  <div className="mb-6 flex items-center justify-between gap-4">
+                    <span className="font-mono text-sm text-primary">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <AbstractServiceMark mark={outcome.mark} className="h-9 w-9" />
+                  </div>
+                  <div className="mt-auto">
+                    <h3 className="mb-3 text-xl font-semibold">{outcome.title}</h3>
+                    <p className="leading-relaxed text-muted-foreground">{outcome.description}</p>
                   </div>
                 </div>
-              </Card>
-
-              <Card className="p-8">
-                <Globe className="w-12 h-12 text-primary mb-4 mx-auto" />
-                <h3 className="text-2xl font-bold mb-4 text-center">Работаем по всему миру</h3>
-                <p className="text-muted-foreground text-center leading-relaxed">
-                  Мы успешно реализовали проекты для клиентов из России, СНГ, Европы и США. 
-                  Удаленный формат работы позволяет нам сотрудничать с компаниями по всему миру, 
-                  обеспечивая высокое качество и оперативность.
-                </p>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us */}
-        <section className="py-16 px-4">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl font-bold text-center mb-12">Почему выбирают нас</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { number: "100+", label: "Реализованных проектов" },
-                { number: "50+", label: "Довольных клиентов" },
-                { number: "24/7", label: "Техническая поддержка" },
-                { number: "5+", label: "Лет опыта в IT" }
-              ].map((stat, index) => (
-                <Card key={index} className="p-6 text-center hover:shadow-lg transition-shadow">
-                  <div className="text-4xl font-bold text-primary mb-2">{stat.number}</div>
-                  <div className="text-muted-foreground">{stat.label}</div>
-                </Card>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-16 px-4 bg-primary/5">
-          <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl font-bold mb-4">Готовы начать проект?</h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Свяжитесь с нами, и мы обсудим, как можем помочь вашему бизнесу
-            </p>
-            <a 
-              href="/#contact-form" 
-              className="inline-block px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
-            >
-              Связаться с нами
-            </a>
+            <div className="mt-10">
+              <Button size="lg" className="rounded-md" asChild>
+                <a href="/#contact-form">Описать задачу</a>
+              </Button>
+            </div>
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </div>
   );
