@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бриф на автоматизацию бизнес-процессов (N8N)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #ea4b71;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #c93d5e;
+            border-bottom: 2px solid #ea4b71;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8fafc;
+            border-left: 4px solid #ea4b71;
+            border-radius: 4px;
+        }
+        .question-title {
+            font-weight: bold;
+            color: #c93d5e;
+            margin-bottom: 8px;
+        }
+        .question-hint {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .button-group {
+            text-align: center;
+            margin-top: 30px;
+        }
+        button {
+            background: #ea4b71;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        button:hover {
+            background: #c93d5e;
+        }
+        .note {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .info-box {
+            background: #e0f2fe;
+            border: 1px solid #0ea5e9;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Бриф на автоматизацию бизнес-процессов</h1>
+        <p class="subtitle">Расскажите о задачах, которые нужно автоматизировать</p>
+
+        <div class="info-box">
+            <strong>🔧 Что такое N8N?</strong><br>
+            N8N - это платформа для автоматизации, которая позволяет соединять различные сервисы и приложения без написания кода. С помощью N8N можно автоматизировать рутинные задачи, интегрировать CRM, создавать уведомления, обрабатывать данные и многое другое.
+        </div>
+
+        <form id="briefForm">
+            <h2>1. Контактная информация</h2>
+            
+            <div class="question">
+                <div class="question-title">1.1. Ваше имя</div>
+                <input type="text" name="contact_name" placeholder="Иван Иванов" required>
+            </div>
+
+            <div class="question">
+                <div class="question-title">1.2. Компания</div>
+                <input type="text" name="company" placeholder="ООО 'Пример'" required>
+            </div>
+
+            <div class="question">
+                <div class="question-title">1.3. Email</div>
+                <input type="email" name="email" placeholder="your@email.com" required>
+            </div>
+
+            <div class="question">
+                <div class="question-title">1.4. Телефон</div>
+                <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required>
+            </div>
+
+            <div class="question">
+                <div class="question-title">1.5. Сфера деятельности</div>
+                <input type="text" name="business_field" placeholder="Например: Интернет-магазин, B2B-продажи, онлайн-школа...">
+            </div>
+
+            <h2>2. Текущая ситуация</h2>
+
+            <div class="question">
+                <div class="question-title">2.1. Какие задачи занимают много времени?</div>
+                <div class="question-hint">Опишите рутинные операции, которые хотите автоматизировать</div>
+                <textarea name="current_problems" placeholder="Например: Ежедневно вручную переношу заявки из почты в CRM, отправляю клиентам чеки, создаю отчеты в Google Sheets..."></textarea>
+            </div>
+
+            <div class="question">
+                <div class="question-title">2.2. Сколько времени тратится на эти задачи?</div>
+                <input type="text" name="time_spent" placeholder="Например: 3-4 часа в день">
+            </div>
+
+            <div class="question">
+                <div class="question-title">2.3. Какие системы/сервисы вы используете?</div>
+                <div class="question-hint">Перечислите все программы и сервисы, с которыми работаете</div>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="crm">
+                        CRM (укажите какую: ____________)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="email">
+                        Email (Gmail, Outlook и др.)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="telegram">
+                        Telegram
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="whatsapp">
+                        WhatsApp Business
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="sheets">
+                        Google Sheets / Excel
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="calendar">
+                        Календари (Google Calendar и др.)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="payment">
+                        Платежные системы (ЮKassa, Stripe и др.)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="website">
+                        Сайт / Лендинг
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="ecommerce">
+                        Интернет-магазин (укажите платформу: ____________)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="1c">
+                        1С
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="database">
+                        База данных (какая: ____________)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="systems" value="other">
+                        Другие: <input type="text" name="systems_other" style="margin-left: 10px; width: 300px;">
+                    </label>
+                </div>
+            </div>
+
+            <h2>3. Что нужно автоматизировать?</h2>
+
+            <div class="question">
+                <div class="question-title">3.1. Популярные сценарии автоматизации</div>
+                <div class="question-hint">Выберите то, что вам актуально</div>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="leads">
+                        Обработка заявок (с сайта/лендинга в CRM)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="notifications">
+                        Уведомления в Telegram о новых заявках/заказах
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="email_automation">
+                        Автоматические email-рассылки
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="reports">
+                        Генерация отчетов (в Google Sheets, PDF)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="data_sync">
+                        Синхронизация данных между системами
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="invoices">
+                        Автоматическое создание счетов/договоров
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="reminders">
+                        Напоминания клиентам (о платежах, встречах)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="social_media">
+                        Автопостинг в соцсети
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="monitoring">
+                        Мониторинг сайта/сервисов
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="data_processing">
+                        Обработка и парсинг данных
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="webhooks">
+                        Настройка webhook-интеграций
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="ai_integration">
+                        Интеграция AI (ChatGPT, Claude)
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="scenarios" value="backup">
+                        Автоматическое резервное копирование
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-title">3.2. Подробное описание процесса</div>
+                <div class="question-hint">Опишите шаг за шагом, как сейчас выполняется задача вручную</div>
+                <textarea name="detailed_process" placeholder="Например:&#10;1. Получаю заявку на email&#10;2. Копирую данные клиента&#10;3. Захожу в CRM и создаю новую сделку&#10;4. Отправляю клиенту письмо с подтверждением&#10;5. Создаю задачу для менеджера&#10;6. Записываю в таблицу для отчета"></textarea>
+            </div>
+
+            <div class="question">
+                <div class="question-title">3.3. Как должен работать процесс после автоматизации?</div>
+                <div class="question-hint">Опишите желаемый результат</div>
+                <textarea name="desired_process" placeholder="Например: Клиент оставляет заявку на сайте → автоматически создается сделка в CRM → мне приходит уведомление в Telegram → клиенту отправляется email с подтверждением → данные сохраняются в Google Sheets"></textarea>
+            </div>
+
+            <h2>4. Интеграции и API</h2>
+
+            <div class="question">
+                <div class="question-title">4.1. Доступы к системам</div>
+                <div class="question-hint">Есть ли у вас API-ключи и доступы к сервисам?</div>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="api_access" value="yes">
+                        Да, все доступы есть
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="api_access" value="partial">
+                        Есть частично, нужна помощь с получением
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="api_access" value="no">
+                        Нет, нужна помощь с настройкой
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-title">4.2. Нужна ли кастомная разработка?</div>
+                <div class="question-hint">Требуются ли специфические функции, которых нет в стандартных интеграциях?</div>
+                <textarea name="custom_development" placeholder="Например: Нужна обработка данных по сложной логике, парсинг сайтов, работа с нестандартными API..."></textarea>
+            </div>
+
+            <h2>5. Объем данных</h2>
+
+            <div class="question">
+                <div class="question-title">5.1. Количество операций</div>
+                <div class="question-hint">Сколько раз в день/неделю/месяц выполняется процесс?</div>
+                <input type="text" name="operations_count" placeholder="Например: 20-30 заявок в день">
+            </div>
+
+            <div class="question">
+                <div class="question-title">5.2. Пиковые нагрузки</div>
+                <div class="question-hint">Бывают ли периоды повышенной активности?</div>
+                <textarea name="peak_loads" placeholder="Например: В выходные количество заявок увеличивается в 3 раза"></textarea>
+            </div>
+
+            <h2>6. Требования и ограничения</h2>
+
+            <div class="question">
+                <div class="question-title">6.1. Критичность автоматизации</div>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="criticality" value="high">
+                        Высокая - процесс должен работать 24/7 без сбоев
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="criticality" value="medium">
+                        Средняя - допустимы редкие сбои
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="criticality" value="low">
+                        Низкая - вспомогательная автоматизация
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-title">6.2. Нужен ли мониторинг и алерты?</div>
+                <div class="question-hint">Хотите ли получать уведомления о работе системы?</div>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="monitoring" value="errors">
+                        Уведомления об ошибках
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="monitoring" value="success">
+                        Подтверждение успешного выполнения
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="monitoring" value="statistics">
+                        Ежедневная статистика
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="monitoring" value="logs">
+                        Доступ к логам
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-title">6.3. Требования к безопасности</div>
+                <div class="question-hint">Есть ли особые требования к защите данных?</div>
+                <textarea name="security" placeholder="Например: Работаем с персональными данными, нужно соблюдение 152-ФЗ..."></textarea>
+            </div>
+
+            <h2>7. Хостинг и поддержка</h2>
+
+            <div class="question">
+                <div class="question-title">7.1. Где будет размещена автоматизация?</div>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="hosting" value="cloud">
+                        На вашем облачном сервере (под ключ)
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="hosting" value="our_server">
+                        На нашем сервере (есть)
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="hosting" value="discuss">
+                        Нужна консультация
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-title">7.2. Нужна ли техническая поддержка?</div>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="support" value="yes">
+                        Да, на постоянной основе
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="support" value="warranty">
+                        Только гарантийная поддержка
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="support" value="training">
+                        Нужно обучение для самостоятельного управления
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="support" value="no">
+                        Не требуется
+                    </label>
+                </div>
+            </div>
+
+            <h2>8. Сроки и бюджет</h2>
+
+            <div class="question">
+                <div class="question-title">8.1. Желаемый срок запуска</div>
+                <input type="text" name="deadline" placeholder="Например: через 2 недели / до конца месяца">
+            </div>
+
+            <div class="question">
+                <div class="question-title">8.2. Приоритет автоматизации</div>
+                <div class="question-hint">Что важнее - скорость или полнота автоматизации?</div>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="priority" value="speed">
+                        Важна скорость - запустим базовую версию, потом доработаем
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="priority" value="quality">
+                        Важна полнота - автоматизируем все процессы сразу
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="priority" value="balance">
+                        Сбалансированный подход
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-title">8.3. Бюджет проекта</div>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="budget" value="30k">
+                        До 30 000 ₽
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="budget" value="60k">
+                        30 000 - 60 000 ₽
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="budget" value="100k">
+                        60 000 - 100 000 ₽
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="budget" value="150k">
+                        100 000 - 150 000 ₽
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="budget" value="more">
+                        Более 150 000 ₽
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="budget" value="discuss">
+                        Хочу получить расчет после обсуждения
+                    </label>
+                </div>
+            </div>
+
+            <h2>9. Дополнительная информация</h2>
+
+            <div class="question">
+                <div class="question-title">9.1. Есть ли у вас опыт работы с автоматизацией?</div>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="experience" value="yes">
+                        Да, использовали Zapier/Integromat/N8N
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="experience" value="partial">
+                        Немного знаком с темой
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="experience" value="no">
+                        Нет, первый опыт
+                    </label>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-title">9.2. Дополнительные комментарии</div>
+                <textarea name="additional" placeholder="Любая информация, которая поможет лучше понять вашу задачу..."></textarea>
+            </div>
+
+            <div class="note">
+                <strong>📊 Что будет дальше?</strong><br>
+                После получения брифа мы:
+                <ul style="margin: 10px 0 0 0;">
+                    <li>Проанализируем ваши процессы</li>
+                    <li>Подготовим схему автоматизации</li>
+                    <li>Рассчитаем стоимость и сроки</li>
+                    <li>Свяжемся для обсуждения деталей</li>
+                </ul>
+            </div>
+
+            <div class="button-group">
+                <button type="button" onclick="window.print()">Распечатать</button>
+                <button type="submit">Отправить бриф</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('briefForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Спасибо! Ваш бриф отправлен. Мы проанализируем информацию и свяжемся с вами в ближайшее время.');
+            // Здесь можно добавить отправку на сервер
+        });
+    </script>
+</body>
+</html>
