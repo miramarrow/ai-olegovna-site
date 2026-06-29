@@ -139,6 +139,9 @@ assertIncludes(mobileCta, "md:hidden", "MobileBriefCta");
 assertIncludes(mobileCta, "fixed bottom-0", "MobileBriefCta");
 assertIncludes(mobileCta, "Заполнить бриф", "MobileBriefCta");
 assertIncludes(mobileCta, "IntersectionObserver", "MobileBriefCta");
+assertIncludes(mobileCta, "document.getElementById(\"about\")", "MobileBriefCta about trigger");
+assertIncludes(mobileCta, "setHasReachedAbout(true)", "MobileBriefCta about trigger");
+assertIncludes(mobileCta, "hasReachedAbout && !isFormVisible", "MobileBriefCta visibility gate");
 
 const processSection = read("src/components/LaunchProcessSection.tsx");
 assertIncludes(processSection, "Как проходит запуск", "LaunchProcessSection");

@@ -45,7 +45,7 @@ const CodeRain = ({ intensity = "subtle" }: CodeRainProps) => {
       const codeChars = intensity === "home" ? homeCodeChars : subtleCodeChars;
       const sizeClasses = intensity === "home" ? homeSizeClasses : subtleSizeClasses;
       const opacityClasses = intensity === "home" ? homeOpacityClasses : subtleOpacityClasses;
-      const animationClass = intensity === "home" ? "animate-code-fall" : "animate-code-fall-subtle";
+      const animationClass = intensity === "home" ? "animate-code-fall-muted md:animate-code-fall" : "animate-code-fall-subtle";
 
       for (let i = 0; i < particleCount; i++) {
         newParticles.push({
