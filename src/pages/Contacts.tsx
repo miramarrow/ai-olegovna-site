@@ -1,17 +1,10 @@
-import { FileText, MessageCircle, Phone, Send } from "lucide-react";
+import { MessageCircle, Phone, Send } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CodeRain from "@/components/CodeRain";
 import ProjectDiscussForm from "@/components/ProjectDiscussForm";
 import { Card } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
-
-const documents = [
-  { name: "Бриф на AI-систему", href: "/documents/brief-website" },
-  { name: "Бриф на бот для Telegram/MAX", href: "/documents/brief-telegram" },
-  { name: "Бриф на автоматизацию", href: "/documents/brief-automation" },
-  { name: "Договор на поддержку", href: "/documents/contract-support" },
-];
 
 const Contacts = () => {
   return (
@@ -58,24 +51,6 @@ const Contacts = () => {
                 {siteConfig.contacts.phoneLabel}
               </a>
             </Card>
-          </div>
-        </section>
-
-        <section className="bg-secondary px-4 py-14">
-          <div className="mx-auto max-w-7xl">
-            <h2 className="mb-8 text-center text-3xl font-bold md:text-4xl">Документы и брифы</h2>
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-              {documents.map((doc) => (
-                <a key={doc.href} href={doc.href} className="block">
-                  <Card className="h-full rounded-lg border border-border bg-card p-6 text-center shadow-sm transition-shadow hover:shadow-md">
-                    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-md bg-primary/10">
-                      <FileText className="h-7 w-7 text-primary" />
-                    </div>
-                    <h3 className="font-semibold">{doc.name}</h3>
-                  </Card>
-                </a>
-              ))}
-            </div>
           </div>
         </section>
 
