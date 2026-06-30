@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MessageCircle, Phone, Send } from "lucide-react";
+import { Instagram, Megaphone, Send } from "lucide-react";
 import BrandMark from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { servicesData } from "@/pages/services/servicesData";
@@ -27,13 +27,22 @@ const Footer = () => {
                 <Send className="h-5 w-5" />
               </a>
               <a
-                href={siteConfig.contacts.whatsappUrl}
+                href={siteConfig.contacts.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-md border border-border p-2 text-muted-foreground transition-colors hover:text-primary"
-                aria-label="WhatsApp"
+                aria-label="Instagram"
               >
-                <MessageCircle className="h-5 w-5" />
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a
+                href={siteConfig.contacts.telegramChannelUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-md border border-border p-2 text-muted-foreground transition-colors hover:text-primary"
+                aria-label="Telegram-канал"
+              >
+                <Megaphone className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -74,9 +83,15 @@ const Footer = () => {
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-primary" />
-                <a href={siteConfig.contacts.phoneHref} className="transition-colors hover:text-primary">
-                  {siteConfig.contacts.phoneLabel}
+                <Instagram className="h-4 w-4 text-primary" />
+                <a href={siteConfig.contacts.instagramUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-primary">
+                  {siteConfig.contacts.instagramLabel}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Megaphone className="h-4 w-4 text-primary" />
+                <a href={siteConfig.contacts.telegramChannelUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-primary">
+                  {siteConfig.contacts.telegramChannelLabel}
                 </a>
               </li>
             </ul>

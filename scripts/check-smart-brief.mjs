@@ -138,7 +138,7 @@ const message = buildBriefMessage({
     name: "Мария",
     preferredContact: "Telegram",
     phone: "+7 999 000-00-00",
-    telegram: "@miramarrow",
+    telegram: "@sborkairu",
   },
   service: "telegram-max-bots",
   startFormat: "Нужен быстрый запуск",

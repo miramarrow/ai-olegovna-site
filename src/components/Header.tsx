@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, FileText, Menu, MessageCircle, Phone, Send, X } from "lucide-react";
+import { ArrowRight, FileText, Instagram, Megaphone, Menu, Send, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -42,14 +42,14 @@ const Header = () => {
       icon: Send,
     },
     {
-      label: "WhatsApp",
-      href: siteConfig.contacts.whatsappUrl,
-      icon: MessageCircle,
+      label: `Instagram ${siteConfig.contacts.instagramLabel}`,
+      href: siteConfig.contacts.instagramUrl,
+      icon: Instagram,
     },
     {
-      label: siteConfig.contacts.phoneLabel,
-      href: siteConfig.contacts.phoneHref,
-      icon: Phone,
+      label: `Telegram-канал ${siteConfig.contacts.telegramChannelLabel}`,
+      href: siteConfig.contacts.telegramChannelUrl,
+      icon: Megaphone,
     },
   ];
 

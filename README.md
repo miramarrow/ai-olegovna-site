@@ -22,7 +22,7 @@ npm run build
 
 ## Заявки: Telegram + Google Sheets
 
-Форма отправляет заявки в `POST /api/telegram-brief`. Endpoint рассчитан на Vercel Functions: он хранит секреты на сервере, отправляет сообщение в Telegram и добавляет строку в Google Sheets через Apps Script Web App.
+Форма отправляет заявки в `POST /api/telegram-brief`. Endpoint рассчитан на Vercel Functions: он хранит секреты на сервере, отправляет сообщение в Telegram и, если настроен Google Sheets, добавляет строку через Apps Script Web App.
 
 Переменные окружения для Vercel:
 
@@ -33,7 +33,15 @@ SHEETS_WEBHOOK_URL=
 SHEETS_WEBHOOK_SECRET=
 ```
 
-Google Sheets:
+`TELEGRAM_BOT_TOKEN` — серверный токен бота для заявок. Не добавляйте его в `VITE_*`, исходники или клиентский бандл.
+
+`TELEGRAM_CHAT_ID` — чат, группа или канал, куда бот отправляет заявки. Если заявки должны попадать в канал, добавьте бота администратором канала и укажите ID или публичный `@username` канала.
+
+Для текущего бота заявок private chat id: `7704294867`.
+
+`SHEETS_WEBHOOK_URL` и `SHEETS_WEBHOOK_SECRET` опциональны. Без них заявка всё равно уйдёт в Telegram, но не будет записана в таблицу.
+
+Google Sheets, если нужен архив заявок:
 
 1. Создайте таблицу для заявок.
 2. Откройте Extensions → Apps Script.
@@ -67,6 +75,6 @@ npm run video:hero
 
 ## Архитектурные заметки
 
-- Бренд, временные контакты и основные ссылки лежат в `src/config/site.ts`.
+- Бренд, публичные контакты и основные ссылки лежат в `src/config/site.ts`.
 - Блог, кейсы и отзывы удалены из v1: нет маршрутов, меню, главных секций и исходных файлов этих зон.
-- Заявки идут через Vercel Function в Telegram и Google Sheets; секреты должны храниться только в окружении Vercel и Apps Script.
+- Заявки идут через Vercel Function в Telegram; Google Sheets можно подключить дополнительно. Секреты должны храниться только в окружении Vercel и Apps Script.

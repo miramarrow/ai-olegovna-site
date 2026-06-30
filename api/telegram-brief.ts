@@ -276,11 +276,6 @@ export default async function handler(req: ApiRequest, res: ServerResponse) {
     return;
   }
 
-  if (!sheetsWebhookUrl || !sheetsWebhookSecret) {
-    sendJson(res, 500, { ok: false, error: "missing_sheets_env" });
-    return;
-  }
-
   const createdAt = new Date().toISOString();
   const leadId = createLeadId(new Date(createdAt));
   const leadRow = buildLeadRow(brief, leadId, createdAt);
@@ -293,11 +288,13 @@ export default async function handler(req: ApiRequest, res: ServerResponse) {
       return;
     }
 
-    const sheetsDelivered = await sendLeadToSheets(sheetsWebhookUrl, sheetsWebhookSecret, leadRow);
+    if (sheetsWebhookUrl && sheetsWebhookSecret) {
+      const sheetsDelivered = await sendLeadToSheets(sheetsWebhookUrl, sheetsWebhookSecret, leadRow);
 
-    if (!sheetsDelivered) {
-      sendJson(res, 500, { ok: false, error: "sheets_delivery_failed" });
-      return;
+      if (!sheetsDelivered) {
+        sendJson(res, 500, { ok: false, error: "sheets_delivery_failed" });
+        return;
+      }
     }
 
     sendJson(res, 200, { ok: true });

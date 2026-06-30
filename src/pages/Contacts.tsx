@@ -1,4 +1,4 @@
-import { MessageCircle, Phone, Send } from "lucide-react";
+import { Instagram, Megaphone, Send } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CodeRain from "@/components/CodeRain";
@@ -17,7 +17,7 @@ const Contacts = () => {
           <div className="mx-auto max-w-7xl text-center">
             <h1 className="mb-5 text-4xl font-bold md:text-6xl">Контакты</h1>
             <p className="mx-auto max-w-3xl text-lg text-muted-foreground md:text-xl">
-              Напишите в Telegram, WhatsApp или заполните умный бриф с ответами по проекту.
+              Напишите в Telegram, загляните в Instagram или подпишитесь на канал. Заявку можно оставить через умный бриф.
             </p>
           </div>
         </section>
@@ -35,20 +35,20 @@ const Contacts = () => {
             </Card>
             <Card className="rounded-lg border border-border bg-card p-6 text-center shadow-sm">
               <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-md bg-primary/10">
-                <MessageCircle className="h-7 w-7 text-primary" />
+                <Instagram className="h-7 w-7 text-primary" />
               </div>
-              <h2 className="mb-2 font-semibold">WhatsApp</h2>
-              <a href={siteConfig.contacts.whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-muted-foreground transition-colors hover:text-primary">
-                {siteConfig.contacts.phoneLabel}
+              <h2 className="mb-2 font-semibold">Instagram</h2>
+              <a href={siteConfig.contacts.instagramUrl} target="_blank" rel="noopener noreferrer" className="text-muted-foreground transition-colors hover:text-primary">
+                {siteConfig.contacts.instagramLabel}
               </a>
             </Card>
             <Card className="rounded-lg border border-border bg-card p-6 text-center shadow-sm">
               <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-md bg-primary/10">
-                <Phone className="h-7 w-7 text-primary" />
+                <Megaphone className="h-7 w-7 text-primary" />
               </div>
-              <h2 className="mb-2 font-semibold">Телефон</h2>
-              <a href={siteConfig.contacts.phoneHref} className="text-muted-foreground transition-colors hover:text-primary">
-                {siteConfig.contacts.phoneLabel}
+              <h2 className="mb-2 font-semibold">Telegram-канал</h2>
+              <a href={siteConfig.contacts.telegramChannelUrl} target="_blank" rel="noopener noreferrer" className="text-muted-foreground transition-colors hover:text-primary">
+                {siteConfig.contacts.telegramChannelLabel}
               </a>
             </Card>
           </div>

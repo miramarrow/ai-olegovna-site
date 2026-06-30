@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Rebuild the site around AI-product services, light visuals, project assessment, and a compact smart brief without backend submission.
+**Goal:** Rebuild the site around AI-product services, light visuals, project assessment, and a compact smart brief with server-side lead delivery.
 
-**Architecture:** Create focused data files for service catalog and brief templates. Update pages and components to consume shared data, remove old pricing/promo components, and keep final delivery through WhatsApp/Telegram links.
+**Architecture:** Create focused data files for service catalog and brief templates. Update pages and components to consume shared data, remove old pricing/promo components, and keep final delivery through the server-side Telegram endpoint.
 
 **Tech Stack:** React 18, TypeScript, Vite, Tailwind, shadcn/ui, lucide-react, Node scripts.
 
@@ -37,8 +37,8 @@
 ### Task 3: Form Delivery
 
 - [ ] Rewrite `src/components/ProjectDiscussForm.tsx` as a compact smart brief using `briefTemplates`.
-- [ ] Make WhatsApp open with encoded full message.
-- [ ] Make Telegram copy the full brief to the clipboard and open `@miramarrow`.
+- [ ] Send the full brief through `POST /api/telegram-brief`.
+- [ ] Keep Telegram delivery secrets server-side in environment variables.
 - [ ] Remove console-based submission and use clear toast statuses.
 
 ### Task 4: Site Positioning

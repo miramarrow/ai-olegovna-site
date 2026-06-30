@@ -153,6 +153,30 @@ if (answers.actions !== payload.answers.actions) {
 }
 
 calls.length = 0;
+delete process.env.SHEETS_WEBHOOK_URL;
+delete process.env.SHEETS_WEBHOOK_SECRET;
+globalThis.fetch = async (url, init) => {
+  calls.push({ url: String(url), init });
+  return {
+    ok: true,
+    json: async () => ({ ok: true }),
+  };
+};
+
+const telegramOnlyResponse = await invokeHandler(payload);
+if (telegramOnlyResponse.statusCode !== 200 || telegramOnlyResponse.body?.ok !== true) {
+  throw new Error(
+    `Expected Telegram-only delivery when Sheets env is missing, got ${telegramOnlyResponse.statusCode} ${JSON.stringify(telegramOnlyResponse.body)}`,
+  );
+}
+
+if (calls.length !== 1 || !calls[0].url.includes("api.telegram.org")) {
+  throw new Error(`Expected only Telegram delivery call without Sheets env, got ${calls.length}`);
+}
+
+process.env.SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/test/exec";
+process.env.SHEETS_WEBHOOK_SECRET = "sheet-secret";
+calls.length = 0;
 globalThis.fetch = async (url, init) => {
   calls.push({ url: String(url), init });
   return {

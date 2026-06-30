@@ -143,6 +143,39 @@ if (!siteConfig.includes("logo-sborkai-wordmark.png")) {
 
 const header = read("src/components/Header.tsx");
 const footer = read("src/components/Footer.tsx");
+const contacts = read("src/pages/Contacts.tsx");
+
+const activeContactExpectations = [
+  [siteConfig, 'telegramLabel: "@sborkairu"', "src/config/site.ts should expose @sborkairu as the direct Telegram contact"],
+  [siteConfig, 'telegramUrl: "https://t.me/sborkairu"', "src/config/site.ts should expose the direct Telegram URL"],
+  [siteConfig, 'instagramLabel: "@ai_olegovnaa"', "src/config/site.ts should expose the Instagram handle"],
+  [siteConfig, 'instagramUrl: "https://www.instagram.com/ai_olegovnaa"', "src/config/site.ts should expose the Instagram URL"],
+  [siteConfig, 'telegramChannelLabel: "@ai_olegovna"', "src/config/site.ts should expose the Telegram channel handle"],
+  [siteConfig, 'telegramChannelUrl: "https://t.me/ai_olegovna"', "src/config/site.ts should expose the Telegram channel URL"],
+  [header, "instagramUrl", "src/components/Header.tsx should include Instagram in contact actions"],
+  [header, "telegramChannelUrl", "src/components/Header.tsx should include the Telegram channel in contact actions"],
+  [footer, "instagramUrl", "src/components/Footer.tsx should include Instagram in contact actions"],
+  [footer, "telegramChannelUrl", "src/components/Footer.tsx should include the Telegram channel in contact actions"],
+  [contacts, "instagramUrl", "src/pages/Contacts.tsx should include Instagram on the contacts page"],
+  [contacts, "telegramChannelUrl", "src/pages/Contacts.tsx should include the Telegram channel on the contacts page"],
+];
+
+for (const [content, expected, label] of activeContactExpectations) {
+  if (!content.includes(expected)) {
+    failures.push(label);
+  }
+}
+
+for (const [content, label] of [
+  [siteConfig, "src/config/site.ts"],
+  [header, "src/components/Header.tsx"],
+  [footer, "src/components/Footer.tsx"],
+  [contacts, "src/pages/Contacts.tsx"],
+]) {
+  if (content.includes("@miramarrow") || content.includes("https://t.me/miramarrow")) {
+    failures.push(`${label} should not expose the retired Telegram contact`);
+  }
+}
 
 if (header.includes('className="hidden text-base font-semibold text-foreground sm:inline">{siteConfig.name}</span>')) {
   failures.push("src/components/Header.tsx should use the wordmark image instead of separate brand text");

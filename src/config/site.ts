@@ -9,11 +9,12 @@ export const siteConfig = {
   description:
     "Разрабатываем AI-системы для бизнеса: нейроофисы, агенты, автоматизации, контент-заводы, сайты и боты для Telegram и MAX.",
   contacts: {
-    telegramLabel: "@miramarrow",
-    telegramUrl: "https://t.me/miramarrow",
-    whatsappUrl: "https://wa.me/79932577740",
-    phoneLabel: "+7 (993) 257-77-40",
-    phoneHref: "tel:+79932577740",
+    telegramLabel: "@sborkairu",
+    telegramUrl: "https://t.me/sborkairu",
+    instagramLabel: "@ai_olegovnaa",
+    instagramUrl: "https://www.instagram.com/ai_olegovnaa",
+    telegramChannelLabel: "@ai_olegovna",
+    telegramChannelUrl: "https://t.me/ai_olegovna",
   },
   navigation: [
     { name: "О проекте", href: "/about" },
