@@ -23,6 +23,7 @@ const listFiles = (dir) =>
 
 const requiredFiles = [
   "src/components/HeroAbstractVisual.tsx",
+  "src/components/HeroCodeVideo.tsx",
   "src/components/AbstractServiceMark.tsx",
   "src/components/ServiceAbstractVisual.tsx",
   "src/components/QuickServiceBriefDialog.tsx",
@@ -48,7 +49,9 @@ for (const rotatingWord of ["Telegram-боты", "сайты", "n8n-автома
   assertIncludes(hero, `"${rotatingWord}"`, "Hero rotating text");
 }
 assertNotIncludes(hero, "\"на базе AI\"", "Hero rotating text");
-assertIncludes(hero, "<HeroAbstractVisual", "Hero");
+assertIncludes(hero, "HeroCodeVideo", "Hero");
+assertIncludes(hero, "<HeroCodeVideo", "Hero");
+assertNotIncludes(hero, "<HeroAbstractVisual", "Hero");
 assertNotIncludes(hero, "const directions", "Hero");
 assertNotIncludes(hero, "BrainCircuit", "Hero");
 assertNotIncludes(hero, "Factory", "Hero");
@@ -162,6 +165,37 @@ assertNotIncludes(processSection, "<video", "LaunchProcessSection");
 const serviceMark = read("src/components/AbstractServiceMark.tsx");
 assertNotIncludes(serviceMark, "<rect", "AbstractServiceMark frame");
 
+const brandMark = read("src/components/BrandMark.tsx");
+assertIncludes(brandMark, "siteConfig.logoUrl", "BrandMark logo source");
+assertIncludes(brandMark, "<img", "BrandMark logo image");
+
+const heroCodeVideo = read("src/components/HeroCodeVideo.tsx");
+assertIncludes(heroCodeVideo, "<video", "HeroCodeVideo");
+assertIncludes(heroCodeVideo, "autoPlay", "HeroCodeVideo autoplay loop");
+assertIncludes(heroCodeVideo, "muted", "HeroCodeVideo autoplay loop");
+assertIncludes(heroCodeVideo, "loop", "HeroCodeVideo autoplay loop");
+assertIncludes(heroCodeVideo, "playsInline", "HeroCodeVideo autoplay loop");
+assertIncludes(heroCodeVideo, "/media/hero-code-generation.mp4", "HeroCodeVideo media source");
+assertIncludes(heroCodeVideo, "<HeroAbstractVisual", "HeroCodeVideo fallback");
+
+for (const path of [
+  "src/remotion/index.ts",
+  "src/remotion/Root.tsx",
+  "src/remotion/HeroCodeGeneration.tsx",
+]) {
+  if (!existsSync(join(process.cwd(), path))) {
+    throw new Error(`Missing ${path}`);
+  }
+}
+
+if (!existsSync(join(process.cwd(), "public/media/hero-code-generation.mp4"))) {
+  throw new Error("Missing public/media/hero-code-generation.mp4");
+}
+
+const packageJson = read("package.json");
+assertIncludes(packageJson, "\"video:hero\"", "package hero video script");
+assertIncludes(packageJson, "\"remotion\"", "package remotion dependency");
+
 const quickDialog = read("src/components/QuickServiceBriefDialog.tsx");
 assertIncludes(quickDialog, "interface QuickServiceBriefDialogProps", "QuickServiceBriefDialog props");
 assertIncludes(quickDialog, "service: ServiceData", "QuickServiceBriefDialog service prop");
@@ -266,8 +300,12 @@ for (const path of listFiles("src").filter((path) => /\.(tsx|ts)$/.test(path))) 
   const content = read(path);
   assertNotIncludes(content, "service.image", path);
   assertNotIncludes(content, "@/assets/services", path);
-  assertNotIncludes(content, "<img", path);
-  assertNotIncludes(content, "<video", path);
+  if (path !== "src/components/BrandMark.tsx") {
+    assertNotIncludes(content, "<img", path);
+  }
+  if (path !== "src/components/HeroCodeVideo.tsx") {
+    assertNotIncludes(content, "<video", path);
+  }
   for (const forbidden of ["🤖", "💻", "📱", "100+", "50+", "24/7", "по всему миру"]) {
     assertNotIncludes(content, forbidden, path);
   }

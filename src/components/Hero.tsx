@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import HeroAbstractVisual from "./HeroAbstractVisual";
+import HeroCodeVideo from "./HeroCodeVideo";
 import RotatingText from "./RotatingText";
 
 const Hero = () => {
@@ -52,7 +52,7 @@ const Hero = () => {
         </div>
 
         <div className="relative z-10">
-          <HeroAbstractVisual />
+          <HeroCodeVideo />
         </div>
       </div>
     </section>

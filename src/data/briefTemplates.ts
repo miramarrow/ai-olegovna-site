@@ -40,6 +40,14 @@ export interface BriefMessageInput {
   startFormat: string;
   answers: Record<string, string>;
   comment?: string;
+  source?: {
+    formType?: string;
+    pageUrl?: string;
+    referrer?: string;
+    utmSource?: string;
+    utmMedium?: string;
+    utmCampaign?: string;
+  };
 }
 
 export const serviceOptions: ServiceOption[] = [

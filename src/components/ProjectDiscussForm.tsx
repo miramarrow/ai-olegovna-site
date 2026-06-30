@@ -21,6 +21,7 @@ import {
   type ContactMethod,
   type ServiceSlug,
 } from "@/data/briefTemplates";
+import { buildBriefSource } from "@/lib/briefSource";
 import { siteConfig } from "@/config/site";
 
 const contactLabels: Record<ContactMethod, string> = {
@@ -125,6 +126,7 @@ const ProjectDiscussForm = () => {
       startFormat: isFreeConsultation ? "Нужна бесплатная консультация" : formData.startFormat,
       answers: isFreeConsultation ? {} : formData.answers,
       comment: formData.comment.trim(),
+      source: buildBriefSource("smart_brief"),
     };
 
     try {

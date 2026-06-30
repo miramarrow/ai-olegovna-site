@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { siteConfig } from "@/config/site";
 import type { ContactMethod } from "@/data/briefTemplates";
 import { useToast } from "@/hooks/use-toast";
+import { buildBriefSource } from "@/lib/briefSource";
 import type { ServiceData } from "@/pages/services/servicesData";
 
 interface QuickServiceBriefDialogProps {
@@ -81,6 +82,7 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
       startFormat: "Нужна бесплатная консультация",
       answers: {},
       comment: formData.comment.trim(),
+      source: buildBriefSource("quick_service_brief"),
     };
 
     try {
