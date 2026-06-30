@@ -54,34 +54,27 @@ Google Sheets, если нужен архив заявок:
 
 ## Хостинг и домен
 
-Целевая схема для `sborkai.ru`: основной frontend отдает российский VPS через Nginx, а заявки обрабатывает Vercel Function. Для браузера endpoint остается тем же: `POST /api/telegram-brief`.
+Бесплатная frontend-публикация для `sborkai.ru` идет через GitHub Pages. Workflow `.github/workflows/static.yml` собирает Vite с `VITE_BASE_PATH: /`, а `public/CNAME` закрепляет домен в Pages-артефакте.
 
-Vercel нужен только для backend-части заявок:
+DNS в Beget для `sborkai.ru`:
+
+```txt
+@    A      185.199.108.153
+@    A      185.199.109.153
+@    A      185.199.110.153
+@    A      185.199.111.153
+www  CNAME  miramarrow.github.io
+```
+
+После обновления DNS нужно включить custom domain `sborkai.ru` в настройках GitHub Pages и дождаться проверки DNS/HTTPS. Распространение DNS и выпуск сертификата могут занять время.
+
+Заявки с формы продолжают идти в браузерный endpoint `POST /api/telegram-brief`. Для полноценной обработки заявок нужен backend-хостинг с Vercel Function или аналогичным serverless endpoint:
 
 1. Импортируйте этот GitHub-репозиторий в Vercel.
 2. Build command: `npm run build`.
 3. Output directory: `dist`.
 4. Добавьте Environment Variables: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `SHEETS_WEBHOOK_URL`, `SHEETS_WEBHOOK_SECRET`.
-5. Не подключайте `sborkai.ru` как custom domain в Vercel для основной публикации. Сохраните Vercel deployment host вида `sborkai-vercel-project.vercel.app`: он понадобится Nginx-прокси.
-
-Для `sborkai.ru`:
-
-1. Купите или подключите домен у аккредитованного `.ru` регистратора.
-2. Создайте российский VPS и скопируйте туда результат `npm run build` из `dist`.
-3. У регистратора настройте DNS: `sborkai.ru` → A-запись на IP VPS, `www.sborkai.ru` → A-запись на тот же IP VPS.
-4. На VPS используйте Nginx как статический сервер и reverse proxy. Шаблон лежит в `docs/deployment/sborkai-nginx.conf`; замените `sborkai-vercel-project.vercel.app` на реальный Vercel deployment host.
-5. В Nginx SPA-маршруты должны падать назад в `index.html`, а заявки должны проксироваться на Vercel:
-
-```nginx
-location = /api/telegram-brief {
-  proxy_pass https://sborkai-vercel-project.vercel.app/api/telegram-brief;
-  proxy_ssl_server_name on;
-}
-```
-
-6. После того как DNS указывает на VPS, выпустите SSL для обоих имен, например через Certbot: `sborkai.ru` и `www.sborkai.ru`.
-7. `www.sborkai.ru` должен редиректить на `https://sborkai.ru`.
-8. GitHub Pages можно оставить техническим fallback на домене репозитория. `public/CNAME` специально отсутствует, потому что custom domain больше не закрепляется за Pages.
+5. Если frontend остается на GitHub Pages, backend endpoint нужно будет проксировать или вынести на отдельный URL.
 
 ## Hero-видео
 

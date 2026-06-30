@@ -35,7 +35,7 @@ jobs:
 
       - name: Build
         env:
-          VITE_BASE_PATH: /ai-olegovna-site/
+          VITE_BASE_PATH: /
         run: npm run build
 
       - name: Setup Pages

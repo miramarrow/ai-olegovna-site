@@ -105,12 +105,14 @@ if (!indexHtml.includes("https://sborkai.ru")) {
 }
 
 const pagesWorkflow = read(".github/workflows/static.yml");
-if (!pagesWorkflow.includes("VITE_BASE_PATH: /ai-olegovna-site/")) {
-  failures.push(".github/workflows/static.yml should build GitHub Pages with VITE_BASE_PATH: /ai-olegovna-site/");
+if (!/VITE_BASE_PATH:\s*\/\s*(?:\n|$)/.test(pagesWorkflow)) {
+  failures.push(".github/workflows/static.yml should build GitHub Pages custom-domain output with VITE_BASE_PATH: /");
 }
 
-if (existsSync(join(root, "public/CNAME"))) {
-  failures.push("public/CNAME should be removed because sborkai.ru is served by the Russian VPS, not GitHub Pages");
+if (!existsSync(join(root, "public/CNAME"))) {
+  failures.push("public/CNAME should exist for the sborkai.ru GitHub Pages artifact");
+} else if (read("public/CNAME").trim() !== "sborkai.ru") {
+  failures.push("public/CNAME should contain sborkai.ru");
 }
 
 const readme = read("README.md");
@@ -125,11 +127,11 @@ if (readme.includes("apex ведет на A record `76.76.21.21`")) {
 }
 
 for (const [snippet, label] of [
-  ["российский VPS", "README.md should describe the Russian VPS as the primary frontend host"],
-  ["Nginx", "README.md should document Nginx static hosting/proxy setup"],
-  ["proxy_pass", "README.md should include the API proxy directive"],
+  ["GitHub Pages", "README.md should describe GitHub Pages as the free frontend host"],
+  ["185.199.108.153", "README.md should document the GitHub Pages apex A records"],
+  ["miramarrow.github.io", "README.md should document the www CNAME target"],
+  ["sborkai.ru", "README.md should document the custom domain"],
   ["/api/telegram-brief", "README.md should preserve the browser API endpoint"],
-  ["www.sborkai.ru", "README.md should document the www redirect"],
 ]) {
   if (!readme.includes(snippet)) {
     failures.push(label);
