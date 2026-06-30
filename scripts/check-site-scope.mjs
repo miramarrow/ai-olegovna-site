@@ -104,32 +104,21 @@ if (!indexHtml.includes("https://sborkai.ru")) {
   failures.push("index.html should include https://sborkai.ru canonical social URL");
 }
 
-const pagesWorkflow = read(".github/workflows/static.yml");
-if (!/VITE_BASE_PATH:\s*\/\s*(?:\n|$)/.test(pagesWorkflow)) {
-  failures.push(".github/workflows/static.yml should build GitHub Pages custom-domain output with VITE_BASE_PATH: /");
-}
-
-if (!existsSync(join(root, "public/CNAME"))) {
-  failures.push("public/CNAME should exist for the sborkai.ru GitHub Pages artifact");
-} else if (read("public/CNAME").trim() !== "sborkai.ru") {
-  failures.push("public/CNAME should contain sborkai.ru");
-}
-
 const readme = read("README.md");
-const deploymentGuidePath = "docs/deployment/sborkai-nginx.conf";
 
-if (readme.includes("Добавьте `sborkai.ru` и `www.sborkai.ru` в Vercel Project")) {
-  failures.push("README.md should not instruct Vercel custom-domain setup for the primary sborkai.ru domain");
+if (existsSync(join(root, ".github/workflows/static.yml"))) {
+  failures.push(".github/workflows/static.yml should not deploy GitHub Pages after the Vercel migration");
 }
 
-if (readme.includes("apex ведет на A record `76.76.21.21`")) {
-  failures.push("README.md should not point sborkai.ru DNS at Vercel's apex A record");
+if (existsSync(join(root, "public/CNAME"))) {
+  failures.push("public/CNAME should not claim sborkai.ru after the Vercel migration");
 }
 
 for (const [snippet, label] of [
-  ["GitHub Pages", "README.md should describe GitHub Pages as the free frontend host"],
-  ["185.199.108.153", "README.md should document the GitHub Pages apex A records"],
-  ["miramarrow.github.io", "README.md should document the www CNAME target"],
+  ["Vercel", "README.md should describe Vercel as the production host"],
+  ["216.198.79.1", "README.md should document the Vercel apex A record"],
+  ["64.29.17.1", "README.md should document the Vercel apex A record"],
+  ["7a5ff663e6ea1eb6.vercel-dns-017.com", "README.md should document the Vercel www CNAME target"],
   ["sborkai.ru", "README.md should document the custom domain"],
   ["/api/telegram-brief", "README.md should preserve the browser API endpoint"],
 ]) {
@@ -138,17 +127,16 @@ for (const [snippet, label] of [
   }
 }
 
-if (!existsSync(join(root, deploymentGuidePath))) {
-  failures.push(`${deploymentGuidePath} should provide the VPS Nginx template`);
+if (!existsSync(join(root, "vercel.json"))) {
+  failures.push("vercel.json should exist for Vercel SPA rewrites");
 } else {
-  const nginxConfig = read(deploymentGuidePath);
+  const vercelConfig = read("vercel.json");
   for (const [snippet, label] of [
-    ["try_files $uri $uri/ /index.html", `${deploymentGuidePath} should support SPA fallback routes`],
-    ["proxy_pass https://", `${deploymentGuidePath} should proxy the API to Vercel over HTTPS`],
-    ["proxy_ssl_server_name on", `${deploymentGuidePath} should enable SNI for the Vercel upstream`],
-    ["return 301 https://sborkai.ru$request_uri", `${deploymentGuidePath} should redirect www to the apex domain`],
+    ["rewrites", "vercel.json should define SPA rewrites"],
+    ["/((?!api/).*)", "vercel.json should keep /api routes out of the SPA fallback"],
+    ["/index.html", "vercel.json should fall back app routes to index.html"],
   ]) {
-    if (!nginxConfig.includes(snippet)) {
+    if (!vercelConfig.includes(snippet)) {
       failures.push(label);
     }
   }
@@ -169,7 +157,7 @@ const app = read("src/App.tsx");
 const indexPage = read("src/pages/Index.tsx");
 
 if (!siteConfig.includes("import.meta.env.BASE_URL")) {
-  failures.push("src/config/site.ts should resolve logoUrl with import.meta.env.BASE_URL for GitHub Pages base paths");
+  failures.push("src/config/site.ts should resolve logoUrl with import.meta.env.BASE_URL");
 }
 
 if (siteConfig.includes('logoUrl: "/logo-sborkai-wordmark.png"')) {

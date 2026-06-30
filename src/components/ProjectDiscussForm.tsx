@@ -22,6 +22,7 @@ import {
   type ServiceSlug,
 } from "@/data/briefTemplates";
 import { buildBriefSource } from "@/lib/briefSource";
+import { submitLeadPayload } from "@/lib/leadDelivery";
 import { siteConfig } from "@/config/site";
 
 const contactLabels: Record<ContactMethod, string> = {
@@ -130,18 +131,7 @@ const ProjectDiscussForm = () => {
     };
 
     try {
-      const response = await fetch("/api/telegram-brief", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("Brief delivery failed");
-      }
-
+      await submitLeadPayload(payload);
       toast({
         title: "Заявка отправлена",
         description: "Я получила бриф и вернусь с ответом.",

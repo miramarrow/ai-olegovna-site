@@ -49,9 +49,10 @@ for (const rotatingWord of ["Telegram-боты", "сайты", "n8n-автома
   assertIncludes(hero, `"${rotatingWord}"`, "Hero rotating text");
 }
 assertNotIncludes(hero, "\"на базе AI\"", "Hero rotating text");
-assertIncludes(hero, "HeroCodeVideo", "Hero");
-assertIncludes(hero, "<HeroCodeVideo", "Hero");
-assertNotIncludes(hero, "<HeroAbstractVisual", "Hero");
+assertIncludes(hero, "HeroAbstractVisual", "Hero");
+assertIncludes(hero, "<HeroAbstractVisual", "Hero");
+assertNotIncludes(hero, "HeroCodeVideo", "Hero");
+assertNotIncludes(hero, "<HeroCodeVideo", "Hero");
 assertNotIncludes(hero, "const directions", "Hero");
 assertNotIncludes(hero, "BrainCircuit", "Hero");
 assertNotIncludes(hero, "Factory", "Hero");
@@ -201,7 +202,7 @@ assertIncludes(quickDialog, "interface QuickServiceBriefDialogProps", "QuickServ
 assertIncludes(quickDialog, "service: ServiceData", "QuickServiceBriefDialog service prop");
 assertIncludes(quickDialog, "open: boolean", "QuickServiceBriefDialog open prop");
 assertIncludes(quickDialog, "onOpenChange: (open: boolean) => void", "QuickServiceBriefDialog open handler");
-assertIncludes(quickDialog, "fetch(\"/api/telegram-brief\"", "QuickServiceBriefDialog submission");
+assertIncludes(quickDialog, "submitLeadPayload(payload)", "QuickServiceBriefDialog submission");
 assertIncludes(quickDialog, "startFormat: \"Нужна бесплатная консультация\"", "QuickServiceBriefDialog start format");
 assertIncludes(quickDialog, "service: service.slug", "QuickServiceBriefDialog selected service payload");
 assertIncludes(quickDialog, "answers: {}", "QuickServiceBriefDialog compact payload");

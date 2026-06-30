@@ -221,13 +221,17 @@ assertIncludes(form, "уточняю детали", "ProjectDiscussForm follow-u
 assertIncludes(form, "предлагаю формат и стоимость", "ProjectDiscussForm follow-up block");
 assertIncludes(form, "Отправляем...", "ProjectDiscussForm submit button");
 assertIncludes(form, "aria-busy={isSubmitting}", "ProjectDiscussForm submit button");
-assertIncludes(form, "fetch(\"/api/telegram-brief\"", "ProjectDiscussForm submission");
+assertIncludes(form, "submitLeadPayload(payload)", "ProjectDiscussForm submission");
 assertNotIncludes(form, "Отправить в WhatsApp", "ProjectDiscussForm");
 assertNotIncludes(form, "Скопировать и открыть Telegram", "ProjectDiscussForm");
 assertNotIncludes(form, "DeliveryChannel", "ProjectDiscussForm");
 assertNotIncludes(form, "copyToClipboard", "ProjectDiscussForm");
 
-assertIncludes(hero, "Бриф занимает несколько минут, ответы сразу уйдут в Telegram", "Hero CTA bridge");
+assertIncludes(hero, "Бриф занимает несколько минут, ответы сразу получит проектный менеджер", "Hero CTA bridge");
+
+const leadDelivery = read("src/lib/leadDelivery.ts");
+assertIncludes(leadDelivery, "const leadApiUrl = \"/api/telegram-brief\"", "leadDelivery same-origin endpoint");
+assertIncludes(leadDelivery, "submitLeadPayload", "leadDelivery submit helper");
 
 const apiPath = join(process.cwd(), "api/telegram-brief.ts");
 if (!existsSync(apiPath)) {
@@ -242,6 +246,7 @@ assertIncludes(api, "answers: {}", "telegram brief API quick consultation payloa
 const envExample = read(".env.example");
 assertIncludes(envExample, "TELEGRAM_BOT_TOKEN=", ".env.example");
 assertIncludes(envExample, "TELEGRAM_CHAT_ID=", ".env.example");
+assertNotIncludes(envExample, "VITE_LEAD_API_URL", ".env.example");
 assertNotIncludes(envExample, "VITE_TELEGRAM_BOT_TOKEN", ".env.example");
 assertNotIncludes(envExample, "VITE_TELEGRAM_CHAT_ID", ".env.example");
 

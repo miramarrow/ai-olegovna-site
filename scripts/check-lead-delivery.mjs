@@ -53,9 +53,10 @@ const payload = {
   },
 };
 
-const invokeHandler = async (body) => new Promise((resolve) => {
+const invokeHandler = async (body, { method = "POST", headers = {} } = {}) => new Promise((resolve) => {
   const req = new EventEmitter();
-  req.method = "POST";
+  req.method = method;
+  req.headers = headers;
   req.body = body;
   const res = {
     statusCode: 200,
@@ -75,6 +76,25 @@ const invokeHandler = async (body) => new Promise((resolve) => {
   handler(req, res);
 });
 
+const preflightResponse = await invokeHandler(undefined, {
+  method: "OPTIONS",
+  headers: {
+    origin: "https://sborkai.ru",
+  },
+});
+
+if (preflightResponse.statusCode !== 204) {
+  throw new Error(`Expected successful CORS preflight, got ${preflightResponse.statusCode}`);
+}
+
+if (preflightResponse.headers["access-control-allow-origin"] !== "https://sborkai.ru") {
+  throw new Error("CORS preflight should allow the sborkai.ru frontend origin");
+}
+
+if (!preflightResponse.headers["access-control-allow-methods"]?.includes("POST")) {
+  throw new Error("CORS preflight should allow POST requests");
+}
+
 const calls = [];
 globalThis.fetch = async (url, init) => {
   calls.push({ url: String(url), init });
@@ -84,10 +104,18 @@ globalThis.fetch = async (url, init) => {
   };
 };
 
-const response = await invokeHandler(payload);
+const response = await invokeHandler(payload, {
+  headers: {
+    origin: "https://sborkai.ru",
+  },
+});
 
 if (response.statusCode !== 200 || response.body?.ok !== true) {
   throw new Error(`Expected successful response, got ${response.statusCode} ${JSON.stringify(response.body)}`);
+}
+
+if (response.headers["access-control-allow-origin"] !== "https://sborkai.ru") {
+  throw new Error("Lead delivery response should include an allow-origin header for sborkai.ru");
 }
 
 if (calls.length !== 2) {

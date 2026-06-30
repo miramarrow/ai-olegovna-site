@@ -22,7 +22,7 @@ npm run build
 
 ## Заявки: Telegram + Google Sheets
 
-Форма отправляет заявки в `POST /api/telegram-brief`. Endpoint рассчитан на Vercel Functions: он хранит секреты на сервере, отправляет сообщение в Telegram и, если настроен Google Sheets, добавляет строку через Apps Script Web App.
+Форма отправляет заявки в `POST /api/telegram-brief` на том же домене. Endpoint рассчитан на Vercel Functions: он хранит секреты на сервере, отправляет сообщение в Telegram и, если настроен Google Sheets, добавляет строку через Apps Script Web App.
 
 Переменные окружения для Vercel:
 
@@ -54,37 +54,28 @@ Google Sheets, если нужен архив заявок:
 
 ## Хостинг и домен
 
-Бесплатная frontend-публикация для `sborkai.ru` идет через GitHub Pages. Workflow `.github/workflows/static.yml` собирает Vite с `VITE_BASE_PATH: /`, а `public/CNAME` закрепляет домен в Pages-артефакте.
+Публикация для `sborkai.ru` идет через Vercel. Vercel собирает Vite-приложение командой `npm run build`, отдает статический `dist` и запускает serverless endpoint `api/telegram-brief.ts` для заявок.
 
 DNS в Beget для `sborkai.ru`:
 
 ```txt
-@    A      185.199.108.153
-@    A      185.199.109.153
-@    A      185.199.110.153
-@    A      185.199.111.153
-www  CNAME  miramarrow.github.io
+@    A      216.198.79.1
+@    A      64.29.17.1
+www  CNAME  7a5ff663e6ea1eb6.vercel-dns-017.com
 ```
 
-После обновления DNS нужно включить custom domain `sborkai.ru` в настройках GitHub Pages и дождаться проверки DNS/HTTPS. Распространение DNS и выпуск сертификата могут занять время.
+Настройка Vercel:
 
-Заявки с формы продолжают идти в браузерный endpoint `POST /api/telegram-brief`. Для полноценной обработки заявок нужен backend-хостинг с Vercel Function или аналогичным serverless endpoint:
-
-1. Импортируйте этот GitHub-репозиторий в Vercel.
+1. Импортируйте этот GitHub-репозиторий в Vercel или подключите его через Vercel CLI.
 2. Build command: `npm run build`.
 3. Output directory: `dist`.
 4. Добавьте Environment Variables: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `SHEETS_WEBHOOK_URL`, `SHEETS_WEBHOOK_SECRET`.
-5. Если frontend остается на GitHub Pages, backend endpoint нужно будет проксировать или вынести на отдельный URL.
+5. В Project Settings → Domains добавьте `sborkai.ru` и `www.sborkai.ru`.
+6. После обновления DNS дождитесь статуса Valid Configuration и выпуска HTTPS-сертификата в Vercel.
 
-## Hero-видео
+## Hero-визуал
 
-Главный экран использует `public/media/hero-code-generation.mp4`. Исходная Remotion-композиция лежит в `src/remotion`.
-
-```sh
-npm run video:hero
-```
-
-Если видео не загрузится у пользователя, компонент `HeroCodeVideo` покажет прежний `HeroAbstractVisual`.
+Главный экран использует рисованный компонент `HeroAbstractVisual` из `src/components/HeroAbstractVisual.tsx`. Видео-рендер Remotion сохранен в репозитории как вспомогательный эксперимент, но не подключен к hero.
 
 ## Архитектурные заметки
 

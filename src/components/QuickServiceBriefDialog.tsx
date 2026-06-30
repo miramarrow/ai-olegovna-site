@@ -16,6 +16,7 @@ import { siteConfig } from "@/config/site";
 import type { ContactMethod } from "@/data/briefTemplates";
 import { useToast } from "@/hooks/use-toast";
 import { buildBriefSource } from "@/lib/briefSource";
+import { submitLeadPayload } from "@/lib/leadDelivery";
 import type { ServiceData } from "@/pages/services/servicesData";
 
 interface QuickServiceBriefDialogProps {
@@ -86,18 +87,7 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
     };
 
     try {
-      const response = await fetch("/api/telegram-brief", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("Quick brief delivery failed");
-      }
-
+      await submitLeadPayload(payload);
       toast({
         title: "Заявка отправлена",
         description: `Я получила запрос по услуге «${service.shortTitle}» и вернусь с ответом.`,

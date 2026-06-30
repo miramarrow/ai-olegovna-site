@@ -6,7 +6,7 @@ import {
   startFormats,
   type BriefMessageInput,
   type ServiceSlug,
-} from "../src/data/briefTemplates";
+} from "../src/data/briefTemplates.js";
 
 type ApiRequest = IncomingMessage & {
   body?: unknown;
@@ -42,6 +42,25 @@ type LeadRow = {
 
 const telegramApiUrl = (token: string) => `https://api.telegram.org/bot${token}/sendMessage`;
 
+const allowedOrigins = [
+  "https://sborkai.ru",
+  "http://sborkai.ru",
+  "https://www.sborkai.ru",
+  "http://www.sborkai.ru",
+];
+
+const isLocalOrigin = (origin: string) => /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+
+const getAllowedOrigin = (req: ApiRequest) => {
+  const origin = req.headers.origin;
+
+  if (typeof origin !== "string") {
+    return "";
+  }
+
+  return allowedOrigins.includes(origin) || isLocalOrigin(origin) ? origin : "";
+};
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
@@ -61,6 +80,18 @@ const sendJson = (res: ServerResponse, statusCode: number, payload: JsonResponse
   res.statusCode = statusCode;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.end(JSON.stringify(payload));
+};
+
+const applyCorsHeaders = (req: ApiRequest, res: ServerResponse) => {
+  const origin = getAllowedOrigin(req);
+
+  if (origin) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+  }
+
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 };
 
 const readBody = async (req: ApiRequest) => {
@@ -246,6 +277,14 @@ const sendLeadToSheets = async (webhookUrl: string, secret: string, row: LeadRow
 };
 
 export default async function handler(req: ApiRequest, res: ServerResponse) {
+  applyCorsHeaders(req, res);
+
+  if (req.method === "OPTIONS") {
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
+
   if (req.method !== "POST") {
     sendJson(res, 400, { ok: false, error: "invalid_request" });
     return;
