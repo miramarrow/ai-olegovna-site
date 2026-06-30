@@ -127,7 +127,17 @@ if (!brandMark.includes("<img") || !brandMark.includes("siteConfig.logoUrl")) {
   failures.push("src/components/BrandMark.tsx should render the configured PNG logo");
 }
 
-if (!read("src/config/site.ts").includes('logoUrl: "/logo-sborkai-wordmark.png"')) {
+const siteConfig = read("src/config/site.ts");
+
+if (!siteConfig.includes("import.meta.env.BASE_URL")) {
+  failures.push("src/config/site.ts should resolve logoUrl with import.meta.env.BASE_URL for GitHub Pages base paths");
+}
+
+if (siteConfig.includes('logoUrl: "/logo-sborkai-wordmark.png"')) {
+  failures.push("src/config/site.ts should not hard-code the logo as a root-relative URL");
+}
+
+if (!siteConfig.includes("logo-sborkai-wordmark.png")) {
   failures.push("src/config/site.ts should expose logoUrl for the active brand logo");
 }
 
