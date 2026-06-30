@@ -13,6 +13,7 @@ import Pricing from "./pages/Pricing";
 import Contacts from "./pages/Contacts";
 import FAQ from "./pages/FAQ";
 import About from "./pages/About";
+import Cases from "./pages/Cases";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import ComingSoon from "./pages/ComingSoon";
@@ -37,6 +38,7 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/:slug" element={<ServiceTemplate />} />
+              <Route path="/cases" element={<Cases />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/faq" element={<FAQ />} />

@@ -8,7 +8,6 @@ const read = (path) => readFileSync(join(root, path), "utf8");
 const failures = [];
 
 const forbiddenFiles = [
-  "src/pages/Cases.tsx",
   "src/pages/Reviews.tsx",
   "src/pages/Blog.tsx",
   "src/pages/BlogPost.tsx",
@@ -34,10 +33,9 @@ const scopedFiles = [
 ];
 
 const forbiddenPatterns = [
-  [/\/cases\b/, "cases route/link"],
   [/\/reviews\b/, "reviews route/link"],
   [/\/blog\b/, "blog route/link"],
-  [/Кейсы|Отзывы|Блог/, "retired Russian nav labels"],
+  [/Отзывы|Блог/, "retired Russian nav labels"],
 ];
 
 const retiredBuilderPattern = new RegExp(`${"love" + "able"}|${"gpt" + "-" + "engineer"}`, "i");
@@ -165,6 +163,8 @@ if (!brandMark.includes("<img") || !brandMark.includes("siteConfig.logoUrl")) {
 }
 
 const siteConfig = read("src/config/site.ts");
+const app = read("src/App.tsx");
+const indexPage = read("src/pages/Index.tsx");
 
 if (!siteConfig.includes("import.meta.env.BASE_URL")) {
   failures.push("src/config/site.ts should resolve logoUrl with import.meta.env.BASE_URL for GitHub Pages base paths");
@@ -176,6 +176,27 @@ if (siteConfig.includes('logoUrl: "/logo-sborkai-wordmark.png"')) {
 
 if (!siteConfig.includes("logo-sborkai-wordmark.png")) {
   failures.push("src/config/site.ts should expose logoUrl for the active brand logo");
+}
+
+if (!existsSync(join(root, "src/pages/Cases.tsx"))) {
+  failures.push("src/pages/Cases.tsx should exist as the cases page");
+}
+
+if (!existsSync(join(root, "src/components/CasesSection.tsx"))) {
+  failures.push("src/components/CasesSection.tsx should exist as the homepage cases section");
+}
+
+if (!app.includes('import Cases from "./pages/Cases"') || !app.includes('path="/cases"')) {
+  failures.push("src/App.tsx should register the /cases route");
+}
+
+if (!indexPage.includes("CasesSection") || !indexPage.includes("<CasesSection />")) {
+  failures.push("src/pages/Index.tsx should render the homepage cases section");
+}
+
+const casesLinkCount = siteConfig.match(/\{ name: "Кейсы", href: "\/cases" \}/g)?.length ?? 0;
+if (casesLinkCount < 2) {
+  failures.push("src/config/site.ts should expose Cases in top navigation and footer links");
 }
 
 const header = read("src/components/Header.tsx");

@@ -19,6 +19,7 @@ export const siteConfig = {
   navigation: [
     { name: "О проекте", href: "/about" },
     { name: "Услуги", href: "/services" },
+    { name: "Кейсы", href: "/cases" },
     { name: "Оценка", href: "/pricing" },
     { name: "FAQ", href: "/faq" },
     { name: "Контакты", href: "/contacts" },
@@ -26,6 +27,7 @@ export const siteConfig = {
   footerCompanyLinks: [
     { name: "О проекте", href: "/about" },
     { name: "Услуги", href: "/services" },
+    { name: "Кейсы", href: "/cases" },
     { name: "Оценка", href: "/pricing" },
     { name: "FAQ", href: "/faq" },
     { name: "Контакты", href: "/contacts" },
