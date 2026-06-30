@@ -111,10 +111,47 @@ if (!pagesWorkflow.includes("VITE_BASE_PATH: /ai-olegovna-site/")) {
   failures.push(".github/workflows/static.yml should build GitHub Pages with VITE_BASE_PATH: /ai-olegovna-site/");
 }
 
-if (!existsSync(join(root, "public/CNAME"))) {
-  failures.push("public/CNAME should exist for sborkai.ru");
-} else if (read("public/CNAME").trim() !== "sborkai.ru") {
-  failures.push("public/CNAME should contain sborkai.ru");
+if (existsSync(join(root, "public/CNAME"))) {
+  failures.push("public/CNAME should be removed because sborkai.ru is served by the Russian VPS, not GitHub Pages");
+}
+
+const readme = read("README.md");
+const deploymentGuidePath = "docs/deployment/sborkai-nginx.conf";
+
+if (readme.includes("Добавьте `sborkai.ru` и `www.sborkai.ru` в Vercel Project")) {
+  failures.push("README.md should not instruct Vercel custom-domain setup for the primary sborkai.ru domain");
+}
+
+if (readme.includes("apex ведет на A record `76.76.21.21`")) {
+  failures.push("README.md should not point sborkai.ru DNS at Vercel's apex A record");
+}
+
+for (const [snippet, label] of [
+  ["российский VPS", "README.md should describe the Russian VPS as the primary frontend host"],
+  ["Nginx", "README.md should document Nginx static hosting/proxy setup"],
+  ["proxy_pass", "README.md should include the API proxy directive"],
+  ["/api/telegram-brief", "README.md should preserve the browser API endpoint"],
+  ["www.sborkai.ru", "README.md should document the www redirect"],
+]) {
+  if (!readme.includes(snippet)) {
+    failures.push(label);
+  }
+}
+
+if (!existsSync(join(root, deploymentGuidePath))) {
+  failures.push(`${deploymentGuidePath} should provide the VPS Nginx template`);
+} else {
+  const nginxConfig = read(deploymentGuidePath);
+  for (const [snippet, label] of [
+    ["try_files $uri $uri/ /index.html", `${deploymentGuidePath} should support SPA fallback routes`],
+    ["proxy_pass https://", `${deploymentGuidePath} should proxy the API to Vercel over HTTPS`],
+    ["proxy_ssl_server_name on", `${deploymentGuidePath} should enable SNI for the Vercel upstream`],
+    ["return 301 https://sborkai.ru$request_uri", `${deploymentGuidePath} should redirect www to the apex domain`],
+  ]) {
+    if (!nginxConfig.includes(snippet)) {
+      failures.push(label);
+    }
+  }
 }
 
 const brandMark = read("src/components/BrandMark.tsx");

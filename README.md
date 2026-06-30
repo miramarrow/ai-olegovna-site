@@ -54,14 +54,34 @@ Google Sheets, если нужен архив заявок:
 
 ## Хостинг и домен
 
-Рекомендуемый запуск: импортировать репозиторий в Vercel, build command `npm run build`, output directory `dist`. Vercel подхватит `api/telegram-brief.ts` как serverless function.
+Целевая схема для `sborkai.ru`: основной frontend отдает российский VPS через Nginx, а заявки обрабатывает Vercel Function. Для браузера endpoint остается тем же: `POST /api/telegram-brief`.
+
+Vercel нужен только для backend-части заявок:
+
+1. Импортируйте этот GitHub-репозиторий в Vercel.
+2. Build command: `npm run build`.
+3. Output directory: `dist`.
+4. Добавьте Environment Variables: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `SHEETS_WEBHOOK_URL`, `SHEETS_WEBHOOK_SECRET`.
+5. Не подключайте `sborkai.ru` как custom domain в Vercel для основной публикации. Сохраните Vercel deployment host вида `sborkai-vercel-project.vercel.app`: он понадобится Nginx-прокси.
 
 Для `sborkai.ru`:
 
 1. Купите или подключите домен у аккредитованного `.ru` регистратора.
-2. Добавьте `sborkai.ru` и `www.sborkai.ru` в Vercel Project → Domains.
-3. У регистратора настройте DNS по подсказкам Vercel. Обычно apex ведет на A record `76.76.21.21`, а `www` — на CNAME, который покажет Vercel.
-4. GitHub Pages можно оставить временным fallback, но основной домен должен вести на Vercel, иначе `/api/telegram-brief` не будет работать.
+2. Создайте российский VPS и скопируйте туда результат `npm run build` из `dist`.
+3. У регистратора настройте DNS: `sborkai.ru` → A-запись на IP VPS, `www.sborkai.ru` → A-запись на тот же IP VPS.
+4. На VPS используйте Nginx как статический сервер и reverse proxy. Шаблон лежит в `docs/deployment/sborkai-nginx.conf`; замените `sborkai-vercel-project.vercel.app` на реальный Vercel deployment host.
+5. В Nginx SPA-маршруты должны падать назад в `index.html`, а заявки должны проксироваться на Vercel:
+
+```nginx
+location = /api/telegram-brief {
+  proxy_pass https://sborkai-vercel-project.vercel.app/api/telegram-brief;
+  proxy_ssl_server_name on;
+}
+```
+
+6. После того как DNS указывает на VPS, выпустите SSL для обоих имен, например через Certbot: `sborkai.ru` и `www.sborkai.ru`.
+7. `www.sborkai.ru` должен редиректить на `https://sborkai.ru`.
+8. GitHub Pages можно оставить техническим fallback на домене репозитория. `public/CNAME` специально отсутствует, потому что custom domain больше не закрепляется за Pages.
 
 ## Hero-видео
 
