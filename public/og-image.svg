@@ -1,9 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#ffffff"/>
   <rect x="64" y="64" width="1072" height="502" rx="24" fill="#eff6ff" stroke="#bfdbfe" stroke-width="2"/>
-  <circle cx="154" cy="154" r="48" fill="#2563eb"/>
-  <text x="154" y="167" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff">AiO</text>
-  <text x="96" y="285" font-family="Arial, sans-serif" font-size="72" font-weight="700" fill="#0f172a">Ai, Олеговна!</text>
-  <text x="96" y="365" font-family="Arial, sans-serif" font-size="38" font-weight="500" fill="#2563eb">Нейроофисы, AI-агенты, контент-заводы и боты</text>
-  <text x="96" y="438" font-family="Arial, sans-serif" font-size="30" fill="#475569">Telegram/MAX, автоматизация, сайты и AI-системы под ключ</text>
+  <g transform="translate(96 116)">
+    <rect width="108" height="108" rx="18" fill="#2563eb"/>
+    <path d="M20 31H88M20 54H88M20 77H88M31 20V88M54 20V88M77 20V88" stroke="#ffffff" stroke-opacity=".2"/>
+    <path d="M25 74L77 29" stroke="#ffffff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/>
+    <path d="M30 36L84 58" stroke="#ffffff" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/>
+    <rect x="25" y="28" width="44" height="44" transform="rotate(-12 47 50)" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="3"/>
+    <rect x="43" y="36" width="42" height="42" transform="rotate(14 64 57)" fill="none" stroke="#ffffff" stroke-opacity=".4" stroke-width="3"/>
+    <circle cx="57" cy="54" r="30" fill="none" stroke="#ffffff" stroke-opacity=".35" stroke-width="3"/>
+    <circle cx="81" cy="34" r="5" fill="#ffffff" fill-opacity=".75"/>
+    <path data-brand-letter="s" d="M45 39H32C28.4 39 25 42.4 25 46S28.4 53 32 53H39C42.6 53 46 56.4 46 60S42.6 68 39 68H25" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path data-brand-letter="b" d="M57 39V70M57 39H70C73.6 39 77 42.4 77 46S73.6 53 70 53H57M57 53H72C75.6 53 79 56.4 79 61.5S75.6 70 72 70H57" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="96" y="310" font-family="Arial, sans-serif" font-size="82" font-weight="700" fill="#0f172a">Sborkai</text>
+  <text x="96" y="390" font-family="Arial, sans-serif" font-size="38" font-weight="500" fill="#2563eb">Нейроофисы, AI-агенты, контент-заводы и боты</text>
+  <text x="96" y="463" font-family="Arial, sans-serif" font-size="30" fill="#475569">Telegram/MAX, автоматизация, сайты и AI-системы под ключ</text>
+  <text x="96" y="515" font-family="Arial, sans-serif" font-size="24" fill="#64748b">sborkai.ru</text>
 </svg>

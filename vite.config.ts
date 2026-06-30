@@ -2,14 +2,11 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
-const githubPagesBase =
-  process.env.GITHUB_REPOSITORY === "miramarrow/ai-olegovna-site"
-    ? "/ai-olegovna-site/"
-    : "/";
+const defaultBase = "/";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
-  base: process.env.VITE_BASE_PATH ?? githubPagesBase,
+  base: process.env.VITE_BASE_PATH ?? defaultBase,
   server: {
     host: "::",
     port: 8080,

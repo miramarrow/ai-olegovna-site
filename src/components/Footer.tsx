@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { MessageCircle, Phone, Send } from "lucide-react";
+import BrandMark from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 import { servicesData } from "@/pages/services/servicesData";
 
@@ -9,8 +10,8 @@ const Footer = () => {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 grid gap-8 md:grid-cols-4">
           <div>
-            <Link to="/" className="mb-4 inline-flex items-center">
-              <span className="text-xl font-bold">{siteConfig.name}</span>
+            <Link to="/" className="mb-4 inline-flex items-center" aria-label={`${siteConfig.name} — на главную`}>
+              <BrandMark className="h-10" />
             </Link>
             <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
               {siteConfig.description}

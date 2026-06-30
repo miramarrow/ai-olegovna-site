@@ -1,6 +1,9 @@
 export const siteConfig = {
-  name: "Ai, Олеговна!",
-  shortName: "AiO",
+  name: "Sborkai",
+  shortName: "SB",
+  domain: "sborkai.ru",
+  url: "https://sborkai.ru",
+  logoUrl: "/logo-sborkai-wordmark.png",
   description:
     "Разрабатываем AI-системы для бизнеса: нейроофисы, агенты, автоматизации, контент-заводы, сайты и боты для Telegram и MAX.",
   contacts: {

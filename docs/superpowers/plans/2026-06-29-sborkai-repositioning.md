@@ -1,4 +1,4 @@
-# Ai, Olegovna Repositioning Implementation Plan
+# Sborkai Repositioning Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -67,4 +67,3 @@
 - [ ] Run `npm run build`.
 - [ ] Run the retired-term search and fix every hit relevant to source/doc content.
 - [ ] Start the dev server and inspect the main pages/form.
-

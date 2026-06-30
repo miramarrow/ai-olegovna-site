@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CodeRain from "@/components/CodeRain";
 import { Card } from "@/components/ui/card";
+import { siteConfig } from "@/config/site";
 
 const sections = [
   {
@@ -37,7 +38,7 @@ const BriefWebsite = () => {
             Бриф на AI-систему и сайт
           </h1>
           <p className="mx-auto mb-8 max-w-2xl text-center text-muted-foreground">
-            Универсальная структура для первичного описания проекта Ai, Олеговна!: сайт, нейроофис, AI-агент, контент-завод или автоматизация.
+            Универсальная структура для первичного описания проекта {siteConfig.name}: сайт, нейроофис, AI-агент, контент-завод или автоматизация.
           </p>
           <Card className="space-y-8 rounded-lg p-8">
             {sections.map((section) => (

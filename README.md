@@ -1,6 +1,6 @@
-# Ai, Олеговна!
+# Sborkai
 
-Личный AI-бренд на базе Vite, React, TypeScript, Tailwind CSS и shadcn/ui.
+AI-продуктовый сайт на базе Vite, React, TypeScript, Tailwind CSS и shadcn/ui.
 
 ## Локальный запуск
 

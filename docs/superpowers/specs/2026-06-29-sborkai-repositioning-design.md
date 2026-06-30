@@ -1,8 +1,8 @@
-# Ai, Olegovna Repositioning Design
+# Sborkai Repositioning Design
 
 ## Goal
 
-Reposition the site as the light, AI-product brand "Ai, Olegovna!" focused on neuro-offices, AI agents, content factories, automations, websites, and bots/automations for Telegram and MAX.
+Reposition the site as the light, AI-product brand "Sborkai" focused on neuro-offices, AI agents, content factories, automations, websites, and bots/automations for Telegram and MAX.
 
 ## Scope
 

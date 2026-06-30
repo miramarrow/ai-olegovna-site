@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import BrandMark from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 
 const Header = () => {
@@ -60,11 +61,8 @@ const Header = () => {
     >
       <div className="rounded-lg border border-primary/15 bg-white/90 px-4 py-3 shadow-sm backdrop-blur-md md:px-5">
         <div className="flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-3" onClick={closeMenus}>
-            <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary text-sm font-bold text-primary-foreground">
-              {siteConfig.shortName}
-            </span>
-            <span className="hidden text-base font-semibold text-foreground sm:inline">{siteConfig.name}</span>
+          <Link to="/" className="flex items-center" aria-label={`${siteConfig.name} — на главную`} onClick={closeMenus}>
+            <BrandMark />
           </Link>
 
           <div className="hidden items-center gap-6 md:flex">
@@ -89,7 +87,7 @@ const Header = () => {
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                  <DialogTitle>Связаться с Ai, Олеговна!</DialogTitle>
+                  <DialogTitle>Связаться с {siteConfig.name}</DialogTitle>
                   <DialogDescription>
                     Можно написать напрямую или открыть умный бриф.
                   </DialogDescription>

@@ -190,7 +190,7 @@ export const buildBriefMessage = ({
   const answerSection = answerLines.length > 0 ? ["", "Ответы брифа:", ...answerLines] : [];
 
   return [
-    "Заявка Ai, Олеговна!",
+    "Заявка Sborkai",
     "",
     "Контакты:",
     `- Имя: ${contacts.name}`,
