@@ -47,7 +47,7 @@ const Hero = () => {
             </Button>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
-            Бриф занимает несколько минут, ответы сразу уйдут в Telegram.
+            Бриф занимает несколько минут, ответы сразу получит проектный менеджер.
           </p>
         </div>
 
