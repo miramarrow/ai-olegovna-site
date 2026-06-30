@@ -106,6 +106,11 @@ if (!indexHtml.includes("https://sborkai.ru")) {
   failures.push("index.html should include https://sborkai.ru canonical social URL");
 }
 
+const pagesWorkflow = read(".github/workflows/static.yml");
+if (!pagesWorkflow.includes("VITE_BASE_PATH: /ai-olegovna-site/")) {
+  failures.push(".github/workflows/static.yml should build GitHub Pages with VITE_BASE_PATH: /ai-olegovna-site/");
+}
+
 if (!existsSync(join(root, "public/CNAME"))) {
   failures.push("public/CNAME should exist for sborkai.ru");
 } else if (read("public/CNAME").trim() !== "sborkai.ru") {
