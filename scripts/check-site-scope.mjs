@@ -104,6 +104,28 @@ if (!indexHtml.includes("https://sborkai.ru")) {
   failures.push("index.html should include https://sborkai.ru canonical social URL");
 }
 
+const defaultSeoTitle = "Sborkai — AI-системы для бизнеса";
+const defaultSeoDescription =
+  "Разрабатываем AI-системы для бизнеса: нейроофисы, агенты, автоматизации, контент-заводы, сайты и боты для Telegram и MAX.";
+const defaultSeoImage = "https://sborkai.ru/logo-sborkai.png";
+
+for (const [snippet, label] of [
+  [`<title>${defaultSeoTitle}</title>`, "index.html should expose the default search/share title"],
+  [`<meta name="description" content="${defaultSeoDescription}">`, "index.html should expose the default search description"],
+  [`<meta property="og:title" content="${defaultSeoTitle}">`, "index.html should expose the default Open Graph title"],
+  [`<meta property="og:description" content="${defaultSeoDescription}">`, "index.html should expose the default Open Graph description"],
+  [`<meta property="og:image" content="${defaultSeoImage}">`, "index.html should expose an absolute Open Graph image URL"],
+  [`<meta name="twitter:title" content="${defaultSeoTitle}">`, "index.html should expose the default Twitter title"],
+  [`<meta name="twitter:description" content="${defaultSeoDescription}">`, "index.html should expose the default Twitter description"],
+  [`<meta name="twitter:image" content="${defaultSeoImage}">`, "index.html should expose an absolute Twitter image URL"],
+  ['<link rel="icon" type="image/png" sizes="1024x1024" href="/logo-sborkai.png">', "index.html should expose the logo PNG favicon"],
+  ['<link rel="apple-touch-icon" href="/logo-sborkai.png">', "index.html should expose the logo touch icon"],
+]) {
+  if (!indexHtml.includes(snippet)) {
+    failures.push(label);
+  }
+}
+
 const canonicalUrls = [
   "https://sborkai.ru/",
   "https://sborkai.ru/about",
@@ -314,16 +336,6 @@ if (header.includes('className="hidden text-base font-semibold text-foreground s
 
 if (footer.includes('className="text-xl font-bold">{siteConfig.name}</span>')) {
   failures.push("src/components/Footer.tsx should use the wordmark image instead of separate brand text");
-}
-
-for (const expected of [
-  '<link rel="icon" type="image/png" href="/logo-sborkai.png">',
-  '<meta property="og:image" content="/logo-sborkai.png">',
-  '<meta name="twitter:image" content="/logo-sborkai.png">',
-]) {
-  if (!indexHtml.includes(expected)) {
-    failures.push(`index.html should include ${expected}`);
-  }
 }
 
 if (failures.length > 0) {
