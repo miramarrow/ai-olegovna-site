@@ -23,7 +23,6 @@ const listFiles = (dir) =>
 
 const requiredFiles = [
   "src/components/HeroAbstractVisual.tsx",
-  "src/components/HeroCodeVideo.tsx",
   "src/components/AbstractServiceMark.tsx",
   "src/components/ServiceAbstractVisual.tsx",
   "src/components/QuickServiceBriefDialog.tsx",
@@ -34,6 +33,25 @@ const requiredFiles = [
 for (const path of requiredFiles) {
   if (!existsSync(join(process.cwd(), path))) {
     throw new Error(`Missing ${path}`);
+  }
+}
+
+const retiredHeroArtifacts = [
+  "src/components/HeroCodeVideo.tsx",
+  "public/media/hero-code-generation.mp4",
+  "src/assets/project-discuss-cube.png",
+  "src/remotion/index.ts",
+  "src/remotion/Root.tsx",
+  "src/remotion/HeroCodeGeneration.tsx",
+  "src/remotion/CodeTypingLight.tsx",
+  "src/remotion/codeTypingTimeline.mjs",
+  "src/remotion/codeTypingTimeline.d.ts",
+  "scripts/check-remotion-code-timeline.mjs",
+];
+
+for (const path of retiredHeroArtifacts) {
+  if (existsSync(join(process.cwd(), path))) {
+    throw new Error(`Remove retired hero/media artifact: ${path}`);
   }
 }
 
@@ -170,32 +188,11 @@ const brandMark = read("src/components/BrandMark.tsx");
 assertIncludes(brandMark, "siteConfig.logoUrl", "BrandMark logo source");
 assertIncludes(brandMark, "<img", "BrandMark logo image");
 
-const heroCodeVideo = read("src/components/HeroCodeVideo.tsx");
-assertIncludes(heroCodeVideo, "<video", "HeroCodeVideo");
-assertIncludes(heroCodeVideo, "autoPlay", "HeroCodeVideo autoplay loop");
-assertIncludes(heroCodeVideo, "muted", "HeroCodeVideo autoplay loop");
-assertIncludes(heroCodeVideo, "loop", "HeroCodeVideo autoplay loop");
-assertIncludes(heroCodeVideo, "playsInline", "HeroCodeVideo autoplay loop");
-assertIncludes(heroCodeVideo, "/media/hero-code-generation.mp4", "HeroCodeVideo media source");
-assertIncludes(heroCodeVideo, "<HeroAbstractVisual", "HeroCodeVideo fallback");
-
-for (const path of [
-  "src/remotion/index.ts",
-  "src/remotion/Root.tsx",
-  "src/remotion/HeroCodeGeneration.tsx",
-]) {
-  if (!existsSync(join(process.cwd(), path))) {
-    throw new Error(`Missing ${path}`);
-  }
-}
-
-if (!existsSync(join(process.cwd(), "public/media/hero-code-generation.mp4"))) {
-  throw new Error("Missing public/media/hero-code-generation.mp4");
-}
-
 const packageJson = read("package.json");
-assertIncludes(packageJson, "\"video:hero\"", "package hero video script");
-assertIncludes(packageJson, "\"remotion\"", "package remotion dependency");
+assertNotIncludes(packageJson, "\"video:hero\"", "package hero video script");
+assertNotIncludes(packageJson, "\"remotion\"", "package remotion dependency");
+assertNotIncludes(packageJson, "\"@remotion/cli\"", "package remotion cli dependency");
+assertNotIncludes(packageJson, "\"check:remotion-timeline\"", "package remotion timeline check");
 
 const quickDialog = read("src/components/QuickServiceBriefDialog.tsx");
 assertIncludes(quickDialog, "interface QuickServiceBriefDialogProps", "QuickServiceBriefDialog props");
@@ -304,9 +301,7 @@ for (const path of listFiles("src").filter((path) => /\.(tsx|ts)$/.test(path))) 
   if (path !== "src/components/BrandMark.tsx") {
     assertNotIncludes(content, "<img", path);
   }
-  if (path !== "src/components/HeroCodeVideo.tsx") {
-    assertNotIncludes(content, "<video", path);
-  }
+  assertNotIncludes(content, "<video", path);
   for (const forbidden of ["🤖", "💻", "📱", "100+", "50+", "24/7", "по всему миру"]) {
     assertNotIncludes(content, forbidden, path);
   }

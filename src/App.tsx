@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense } from "react";
 import { PageTransition } from "@/components/PageTransition";
 import { NavigationTransition } from "@/components/NavigationTransition";
+import Seo from "@/components/Seo";
 import Index from "./pages/Index";
 import ServiceTemplate from "./pages/services/ServiceTemplate";
 import Services from "./pages/Services";
@@ -30,7 +31,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Suspense fallback={null}>
-          
+          <Seo />
           <NavigationTransition />
           <PageTransition>
             <Routes>

@@ -15,7 +15,6 @@ npm run dev
 npm run check:lead-delivery
 npm run check:site-scope
 npm run check:abstract-visuals
-npm run check:remotion-timeline
 npm run lint
 npm run build
 ```
@@ -75,7 +74,7 @@ www  CNAME  7a5ff663e6ea1eb6.vercel-dns-017.com
 
 ## Hero-визуал
 
-Главный экран использует рисованный компонент `HeroAbstractVisual` из `src/components/HeroAbstractVisual.tsx`. Видео-рендер Remotion сохранен в репозитории как вспомогательный эксперимент, но не подключен к hero.
+Главный экран использует рисованный компонент `HeroAbstractVisual` из `src/components/HeroAbstractVisual.tsx`.
 
 ## Архитектурные заметки
 

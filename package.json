@@ -11,13 +11,8 @@
     "check:lead-delivery": "node scripts/check-lead-delivery.mjs",
     "check:abstract-visuals": "node scripts/check-abstract-visual-refresh.mjs",
     "check:site-scope": "node scripts/check-site-scope.mjs",
-    "check:remotion-timeline": "node --test scripts/check-remotion-code-timeline.mjs",
     "check:smart-brief": "node scripts/check-smart-brief.mjs",
-    "preview": "vite preview",
-    "remotion:studio": "remotion studio src/remotion/index.ts",
-    "remotion:still": "remotion still src/remotion/index.ts HeroCodeGeneration out/hero-code-generation-frame90.png --frame=90 --scale=0.25",
-    "remotion:render": "npm run video:hero",
-    "video:hero": "remotion render src/remotion/index.ts HeroCodeGeneration public/media/hero-code-generation.mp4 --codec h264 --pixel-format yuv420p"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -76,7 +71,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
-    "@remotion/cli": "^4.0.484",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.16.5",
     "@types/react": "^18.3.23",
@@ -88,7 +82,6 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
     "postcss": "^8.5.6",
-    "remotion": "^4.0.484",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",

@@ -104,6 +104,85 @@ if (!indexHtml.includes("https://sborkai.ru")) {
   failures.push("index.html should include https://sborkai.ru canonical social URL");
 }
 
+const canonicalUrls = [
+  "https://sborkai.ru/",
+  "https://sborkai.ru/about",
+  "https://sborkai.ru/services",
+  "https://sborkai.ru/services/neuro-office",
+  "https://sborkai.ru/services/ai-agents",
+  "https://sborkai.ru/services/content-factory",
+  "https://sborkai.ru/services/automation",
+  "https://sborkai.ru/services/website-development",
+  "https://sborkai.ru/services/telegram-max-bots",
+  "https://sborkai.ru/services/max-automation",
+  "https://sborkai.ru/services/support",
+  "https://sborkai.ru/cases",
+  "https://sborkai.ru/pricing",
+  "https://sborkai.ru/faq",
+  "https://sborkai.ru/contacts",
+  "https://sborkai.ru/privacy",
+  "https://sborkai.ru/terms",
+];
+
+if (!existsSync(join(root, "public/sitemap.xml"))) {
+  failures.push("public/sitemap.xml should exist for search engine discovery");
+} else {
+  const sitemap = read("public/sitemap.xml");
+  for (const url of canonicalUrls) {
+    if (!sitemap.includes(`<loc>${url}</loc>`)) {
+      failures.push(`public/sitemap.xml should include ${url}`);
+    }
+  }
+}
+
+const robots = read("public/robots.txt");
+if (!robots.includes("Sitemap: https://sborkai.ru/sitemap.xml")) {
+  failures.push("public/robots.txt should include the sborkai sitemap URL");
+}
+
+if (!existsSync(join(root, "src/config/seo.ts"))) {
+  failures.push("src/config/seo.ts should define route SEO metadata");
+} else {
+  const seoConfig = read("src/config/seo.ts");
+  for (const expected of [
+    "getSeoForPath",
+    "structuredData",
+    "Organization",
+    "WebSite",
+    "ProfessionalService",
+    "servicesData",
+  ]) {
+    if (!seoConfig.includes(expected)) {
+      failures.push(`src/config/seo.ts should include ${expected}`);
+    }
+  }
+  for (const url of canonicalUrls) {
+    const pathname = new URL(url).pathname;
+    const routePath = pathname === "/" ? "/" : pathname;
+    if (!seoConfig.includes(`"${routePath}"`)) {
+      failures.push(`src/config/seo.ts should include metadata for ${routePath}`);
+    }
+  }
+}
+
+if (!existsSync(join(root, "src/components/Seo.tsx"))) {
+  failures.push("src/components/Seo.tsx should apply route metadata in the SPA");
+} else {
+  const seoComponent = read("src/components/Seo.tsx");
+  for (const expected of [
+    "document.title",
+    "link[rel=\"canonical\"]",
+    "og:title",
+    "twitter:title",
+    "application/ld+json",
+    "sborkai-jsonld",
+  ]) {
+    if (!seoComponent.includes(expected)) {
+      failures.push(`src/components/Seo.tsx should include ${expected}`);
+    }
+  }
+}
+
 const readme = read("README.md");
 
 if (existsSync(join(root, ".github/workflows/static.yml"))) {
@@ -178,6 +257,10 @@ if (!existsSync(join(root, "src/components/CasesSection.tsx"))) {
 
 if (!app.includes('import Cases from "./pages/Cases"') || !app.includes('path="/cases"')) {
   failures.push("src/App.tsx should register the /cases route");
+}
+
+if (!app.includes('import Seo from "@/components/Seo"') || !app.includes("<Seo />")) {
+  failures.push("src/App.tsx should mount the route SEO component inside the router");
 }
 
 if (!indexPage.includes("CasesSection") || !indexPage.includes("<CasesSection />")) {
