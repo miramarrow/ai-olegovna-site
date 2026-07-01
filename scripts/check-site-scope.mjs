@@ -118,11 +118,24 @@ for (const [snippet, label] of [
   [`<meta name="twitter:title" content="${defaultSeoTitle}">`, "index.html should expose the default Twitter title"],
   [`<meta name="twitter:description" content="${defaultSeoDescription}">`, "index.html should expose the default Twitter description"],
   [`<meta name="twitter:image" content="${defaultSeoImage}">`, "index.html should expose an absolute Twitter image URL"],
-  ['<link rel="icon" type="image/png" sizes="1024x1024" href="/logo-sborkai.png">', "index.html should expose the logo PNG favicon"],
-  ['<link rel="apple-touch-icon" href="/logo-sborkai.png">', "index.html should expose the logo touch icon"],
+  ['<link rel="icon" href="/favicon.ico" sizes="any">', "index.html should expose the ICO favicon"],
+  ['<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">', "index.html should expose the 32px logo favicon"],
+  ['<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">', "index.html should expose the 192px logo favicon"],
+  ['<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">', "index.html should expose the logo touch icon"],
 ]) {
   if (!indexHtml.includes(snippet)) {
     failures.push(label);
+  }
+}
+
+for (const faviconFile of [
+  "public/favicon.ico",
+  "public/favicon-32x32.png",
+  "public/favicon-192x192.png",
+  "public/apple-touch-icon.png",
+]) {
+  if (!existsSync(join(root, faviconFile))) {
+    failures.push(`${faviconFile} should exist and be generated from the Sborkai logo`);
   }
 }
 
@@ -250,6 +263,7 @@ for (const [scriptName, expectedCommand] of [
   ["build:client", "vite build"],
   ["build:server", "esbuild server/production-server.ts"],
   ["build:production", "npm run build:client && npm run build:server"],
+  ["deploy:vps", "node scripts/deploy-vps.mjs"],
   ["start", "node dist/server.mjs"],
 ]) {
   const actual = packageJson.scripts?.[scriptName];

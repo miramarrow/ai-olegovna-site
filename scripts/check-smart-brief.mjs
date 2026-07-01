@@ -43,6 +43,7 @@ const {
 
 const requiredServices = [
   "free-consultation",
+  "custom-idea",
   "neuro-office",
   "ai-agents",
   "content-factory",
@@ -65,9 +66,9 @@ for (const service of requiredServices) {
   }
 
   const questionCount = briefTemplates[service].questions.length;
-  if (service === "free-consultation") {
+  if (service === "free-consultation" || service === "custom-idea") {
     if (questionCount !== 0) {
-      throw new Error(`free-consultation should not require follow-up fields, got ${questionCount} questions`);
+      throw new Error(`${service} should not require long follow-up fields, got ${questionCount} questions`);
     }
   } else if (questionCount < 5 || questionCount > 7) {
     throw new Error(`${service} should have 5-7 questions, got ${questionCount}`);
@@ -76,6 +77,7 @@ for (const service of requiredServices) {
 
 const expectedLabels = [
   "Не знаю, что нужно",
+  "Не нашел нужное, хочу обсудить свою идею",
   "Нейроофис",
   "AI-агент",
   "Контент-завод",
@@ -95,6 +97,7 @@ for (const label of expectedLabels) {
 const requiredStartFormats = [
   "Хочу понять объём",
   "Нужна бесплатная консультация",
+  "Хочу обсудить свою идею",
   "Нужен быстрый запуск",
   "Есть готовое ТЗ",
   "Нужна система под ключ",
@@ -133,6 +136,18 @@ for (const expected of ["не знаете", "бесплатная консул�
   }
 }
 
+const customIdeaText = [
+  serviceOptions.find((service) => service.value === "custom-idea")?.description ?? "",
+  briefTemplates["custom-idea"].title,
+  briefTemplates["custom-idea"].description,
+].join(" ");
+
+for (const expected of ["не нашли", "свою идею", "свободной форме"]) {
+  if (!customIdeaText.toLowerCase().includes(expected)) {
+    throw new Error(`Custom idea brief should mention: ${expected}`);
+  }
+}
+
 const message = buildBriefMessage({
   contacts: {
     name: "Мария",
@@ -162,12 +177,35 @@ const consultationMessage = buildBriefMessage({
   comment: "",
 });
 
+const customIdeaMessage = buildBriefMessage({
+  contacts: {
+    name: "Анна",
+    preferredContact: "Телефон",
+    phone: "+7 (999) 222-33-44",
+    telegram: "",
+  },
+  service: "custom-idea",
+  startFormat: "Хочу обсудить свою идею",
+  answers: {},
+  comment: "Нужно собрать нестандартный клиентский сценарий",
+});
+
 for (const expected of [
   "Не знаю, что нужно",
   "Нужна бесплатная консультация",
 ]) {
   if (!consultationMessage.includes(expected)) {
     throw new Error(`Free consultation message misses: ${expected}`);
+  }
+}
+
+for (const expected of [
+  "Не нашел нужное, хочу обсудить свою идею",
+  "Хочу обсудить свою идею",
+  "Нужно собрать нестандартный клиентский сценарий",
+]) {
+  if (!customIdeaMessage.includes(expected)) {
+    throw new Error(`Custom idea message misses: ${expected}`);
   }
 }
 
@@ -212,9 +250,14 @@ assertNotIncludes(footer, "Bot", "Footer brand");
 
 const form = read("src/components/ProjectDiscussForm.tsx");
 assertIncludes(form, "const isFreeConsultation = formData.service === \"free-consultation\"", "ProjectDiscussForm free consultation state");
-assertIncludes(form, "startFormat: isFreeConsultation ? \"Нужна бесплатная консультация\" : formData.startFormat", "ProjectDiscussForm free consultation payload");
-assertIncludes(form, "answers: isFreeConsultation ? {} : formData.answers", "ProjectDiscussForm free consultation payload");
-assertIncludes(form, "{!isFreeConsultation && (", "ProjectDiscussForm free consultation conditional fields");
+assertIncludes(form, "const isCustomIdea = formData.service === \"custom-idea\"", "ProjectDiscussForm custom idea state");
+assertIncludes(form, "formatRussianPhoneInput", "ProjectDiscussForm phone mask");
+assertIncludes(form, "isCompleteRussianPhone", "ProjectDiscussForm phone validation");
+assertIncludes(form, "Хочу обсудить свою идею", "ProjectDiscussForm custom idea start format");
+assertIncludes(form, "Коротко опишите идею", "ProjectDiscussForm custom idea comment field");
+assertIncludes(form, "const payloadStartFormat = isFreeConsultation ? freeConsultationStartFormat : isCustomIdea ? customIdeaStartFormat : formData.startFormat", "ProjectDiscussForm quick brief payload");
+assertIncludes(form, "answers: isQuickBrief ? {} : formData.answers", "ProjectDiscussForm quick brief payload");
+assertIncludes(form, "{!isQuickBrief && (", "ProjectDiscussForm quick brief conditional fields");
 assertIncludes(form, "После отправки", "ProjectDiscussForm follow-up block");
 assertIncludes(form, "читаю контекст", "ProjectDiscussForm follow-up block");
 assertIncludes(form, "уточняю детали", "ProjectDiscussForm follow-up block");

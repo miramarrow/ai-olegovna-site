@@ -48,11 +48,30 @@ for (const [scriptName, expectedCommand] of [
   ["build:client", "vite build"],
   ["build:server", "esbuild server/production-server.ts"],
   ["build:production", "npm run build:client && npm run build:server"],
+  ["deploy:vps", "node scripts/deploy-vps.mjs"],
   ["start", "node dist/server.mjs"],
 ]) {
   const actual = packageJson.scripts?.[scriptName];
   if (typeof actual !== "string" || !actual.includes(expectedCommand)) {
     failures.push(`package.json should define ${scriptName} with ${expectedCommand}`);
+  }
+}
+
+if (!existsSync(join(root, "scripts/deploy-vps.mjs"))) {
+  failures.push("scripts/deploy-vps.mjs should provide one-command deployment to the Beget VPS");
+} else {
+  const deployScript = read("scripts/deploy-vps.mjs");
+  for (const expected of [
+    "109.172.36.182",
+    "build:production",
+    "rsync",
+    "systemctl restart",
+    "const serviceName = \"sborkai\"",
+    "https://sborkai.ru/healthz",
+  ]) {
+    if (!deployScript.includes(expected)) {
+      failures.push(`scripts/deploy-vps.mjs should include ${expected}`);
+    }
   }
 }
 

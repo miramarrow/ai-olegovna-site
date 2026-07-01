@@ -13,6 +13,7 @@ npm run dev
 
 ```sh
 npm run check:lead-delivery
+npm run check:phone-mask
 npm run check:vps-runtime
 npm run check:site-scope
 npm run check:abstract-visuals
@@ -55,6 +56,14 @@ Google Sheets, если нужен архив заявок:
 ## Хостинг и домен
 
 Production для `sborkai.ru` работает на Beget VPS `109.172.36.182`. Приложение собирается командой `npm run build:production`: Vite кладет фронтенд в `dist`, а `esbuild` собирает `server/production-server.ts` в `dist/server.mjs`. Сервер запускается командой `npm start`, отдает SPA-статику и проксирует заявки через тот же `POST /api/telegram-brief`.
+
+Обновление сайта на VPS:
+
+```sh
+npm run deploy:vps
+```
+
+Команда собирает production-версию, синхронизирует `dist` на сервер, перезапускает `sborkai.service` и проверяет `https://sborkai.ru/healthz`.
 
 DNS в Beget для `sborkai.ru`:
 

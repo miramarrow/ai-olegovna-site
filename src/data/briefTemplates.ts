@@ -1,5 +1,6 @@
 export type ServiceSlug =
   | "free-consultation"
+  | "custom-idea"
   | "neuro-office"
   | "ai-agents"
   | "content-factory"
@@ -52,6 +53,7 @@ export interface BriefMessageInput {
 
 export const serviceOptions: ServiceOption[] = [
   { value: "free-consultation", label: "Не знаю, что нужно", description: "Бесплатная консультация: разберем задачу и подберем формат старта" },
+  { value: "custom-idea", label: "Не нашел нужное, хочу обсудить свою идею", description: "Опишите задачу в свободной форме, если не нашли подходящее направление" },
   { value: "neuro-office", label: "Нейроофис", description: "AI-процессы для отделов, рутины, документов и внутренних команд" },
   { value: "ai-agents", label: "AI-агент", description: "Ассистент с ролью, базой знаний, каналами и передачей человеку" },
   { value: "content-factory", label: "Контент-завод", description: "Регулярное производство текстов, визуалов, видео и идей" },
@@ -65,6 +67,7 @@ export const serviceOptions: ServiceOption[] = [
 export const startFormats = [
   "Хочу понять объём",
   "Нужна бесплатная консультация",
+  "Хочу обсудить свою идею",
   "Нужен быстрый запуск",
   "Есть готовое ТЗ",
   "Нужна система под ключ",
@@ -74,6 +77,11 @@ export const briefTemplates: Record<ServiceSlug, BriefTemplate> = {
   "free-consultation": {
     title: "Мини-бриф на бесплатную консультацию",
     description: "Если не знаете, что именно нужно, выберите этот вариант: консультация бесплатная, разложим задачу и подберем формат старта.",
+    questions: [],
+  },
+  "custom-idea": {
+    title: "Свободная заявка на обсуждение идеи",
+    description: "Если не нашли нужное направление, опишите свою идею в свободной форме: я прочитаю контекст и предложу, как ее лучше собрать.",
     questions: [],
   },
   "website-development": {

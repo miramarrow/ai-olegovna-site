@@ -23,6 +23,7 @@ import {
 } from "@/data/briefTemplates";
 import { buildBriefSource } from "@/lib/briefSource";
 import { submitLeadPayload } from "@/lib/leadDelivery";
+import { formatRussianPhoneInput, isCompleteRussianPhone } from "@/lib/phoneMask";
 import { siteConfig } from "@/config/site";
 
 const contactLabels: Record<ContactMethod, string> = {
@@ -32,13 +33,14 @@ const contactLabels: Record<ContactMethod, string> = {
 };
 
 const freeConsultationStartFormat = "Нужна бесплатная консультация";
+const customIdeaStartFormat = "Хочу обсудить свою идею";
 
 const ProjectDiscussForm = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     contactMethod: "whatsapp" as ContactMethod,
-    phone: "",
+    phone: "+7 ",
     telegram: "",
     service: "neuro-office" as ServiceSlug,
     startFormat: startFormats[0],
@@ -48,22 +50,31 @@ const ProjectDiscussForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isFreeConsultation = formData.service === "free-consultation";
+  const isCustomIdea = formData.service === "custom-idea";
+  const isQuickBrief = isFreeConsultation || isCustomIdea;
   const currentTemplate = briefTemplates[formData.service];
 
   const progress = useMemo(() => {
+    const contactValue = formData.contactMethod === "telegram"
+      ? formData.telegram.trim()
+      : isCompleteRussianPhone(formData.phone)
+        ? formData.phone.trim()
+        : "";
     const baseItems = [
       formData.name.trim(),
-      formData.contactMethod === "telegram" ? formData.telegram.trim() : formData.phone.trim(),
+      contactValue,
       formData.service,
-      ...(isFreeConsultation ? [] : [formData.startFormat]),
+      ...(isQuickBrief ? [] : [formData.startFormat]),
     ];
-    const answerItems = isFreeConsultation
-      ? []
-      : currentTemplate.questions.map((question) => formData.answers[question.id]?.trim());
+    const answerItems = isCustomIdea
+      ? [formData.comment.trim()]
+      : isFreeConsultation
+        ? []
+        : currentTemplate.questions.map((question) => formData.answers[question.id]?.trim());
     const completed = [...baseItems, ...answerItems].filter(Boolean).length;
     const total = baseItems.length + answerItems.length;
     return Math.round((completed / total) * 100);
-  }, [currentTemplate.questions, formData, isFreeConsultation]);
+  }, [currentTemplate.questions, formData, isCustomIdea, isFreeConsultation, isQuickBrief]);
 
   const updateAnswer = (questionId: string, value: string) => {
     setFormData((current) => ({
@@ -84,12 +95,16 @@ const ProjectDiscussForm = () => {
       return "Пожалуйста, укажите ваш Telegram";
     }
 
-    if (formData.contactMethod !== "telegram" && !formData.phone.trim()) {
-      return "Пожалуйста, укажите номер телефона";
+    if (formData.contactMethod !== "telegram" && !isCompleteRussianPhone(formData.phone)) {
+      return "Пожалуйста, укажите номер телефона полностью";
     }
 
     if (isFreeConsultation) {
       return "";
+    }
+
+    if (isCustomIdea) {
+      return formData.comment.trim() ? "" : "Коротко опишите идею";
     }
 
     const emptyQuestion = currentTemplate.questions.find(
@@ -115,17 +130,18 @@ const ProjectDiscussForm = () => {
     }
 
     setIsSubmitting(true);
+    const payloadStartFormat = isFreeConsultation ? freeConsultationStartFormat : isCustomIdea ? customIdeaStartFormat : formData.startFormat;
 
     const payload = {
       contacts: {
         name: formData.name.trim(),
         preferredContact: contactLabels[formData.contactMethod],
-        phone: formData.phone.trim(),
+        phone: formData.contactMethod === "telegram" ? "" : formData.phone.trim(),
         telegram: formData.telegram.trim(),
       },
       service: formData.service,
-      startFormat: isFreeConsultation ? "Нужна бесплатная консультация" : formData.startFormat,
-      answers: isFreeConsultation ? {} : formData.answers,
+      startFormat: payloadStartFormat,
+      answers: isQuickBrief ? {} : formData.answers,
       comment: formData.comment.trim(),
       source: buildBriefSource("smart_brief"),
     };
@@ -198,7 +214,13 @@ const ProjectDiscussForm = () => {
                     <Label className="mb-2 block text-sm">Как удобнее ответить? *</Label>
                     <RadioGroup
                       value={formData.contactMethod}
-                      onValueChange={(value: ContactMethod) => setFormData({ ...formData, contactMethod: value })}
+                      onValueChange={(value: ContactMethod) =>
+                        setFormData((current) => ({
+                          ...current,
+                          contactMethod: value,
+                          phone: value === "telegram" ? current.phone : formatRussianPhoneInput(current.phone),
+                        }))
+                      }
                       className="grid grid-cols-3 gap-2"
                     >
                       {Object.entries(contactLabels).map(([value, label]) => (
@@ -222,8 +244,10 @@ const ProjectDiscussForm = () => {
                       <Input
                         id="brief-phone"
                         type="tel"
+                        inputMode="tel"
                         value={formData.phone}
-                        onChange={(event) => setFormData({ ...formData, phone: event.target.value })}
+                        onChange={(event) => setFormData({ ...formData, phone: formatRussianPhoneInput(event.target.value) })}
+                        onFocus={() => setFormData((current) => ({ ...current, phone: formatRussianPhoneInput(current.phone) }))}
                         placeholder="+7 (993) 257-77-40"
                       />
                     </div>
@@ -255,7 +279,9 @@ const ProjectDiscussForm = () => {
                       service: value,
                       startFormat: value === "free-consultation"
                         ? freeConsultationStartFormat
-                        : current.startFormat === freeConsultationStartFormat
+                        : value === "custom-idea"
+                          ? customIdeaStartFormat
+                          : current.startFormat === freeConsultationStartFormat || current.startFormat === customIdeaStartFormat
                           ? startFormats[0]
                           : current.startFormat,
                       answers: {},
@@ -278,9 +304,11 @@ const ProjectDiscussForm = () => {
                   ))}
                 </RadioGroup>
 
-                {isFreeConsultation ? (
+                {isQuickBrief ? (
                   <div className="border-t border-primary/20 pt-4 text-sm leading-relaxed text-muted-foreground">
-                    Дальше ничего заполнять не нужно: я получу контакт и вернусь с бесплатной консультацией.
+                    {isCustomIdea
+                      ? "Дальше опишите идею в свободной форме: я получу контекст и предложу подходящий формат."
+                      : "Дальше ничего заполнять не нужно: я получу контакт и вернусь с бесплатной консультацией."}
                   </div>
                 ) : (
                   <div>
@@ -306,7 +334,28 @@ const ProjectDiscussForm = () => {
               </AccordionContent>
             </AccordionItem>
 
-            {!isFreeConsultation && (
+            {isCustomIdea && (
+              <AccordionItem value="brief" className="rounded-lg border border-border px-4">
+                <AccordionTrigger className="text-left text-lg font-semibold">
+                  3. Коротко опишите идею
+                </AccordionTrigger>
+                <AccordionContent className="space-y-4 pt-2">
+                  <p className="text-sm text-muted-foreground">{currentTemplate.description}</p>
+                  <div>
+                    <Label htmlFor="brief-comment" className="mb-1.5 block text-sm">Коротко опишите идею *</Label>
+                    <Textarea
+                      id="brief-comment"
+                      value={formData.comment}
+                      onChange={(event) => setFormData({ ...formData, comment: event.target.value })}
+                      placeholder="Что хотите обсудить, какую идею проверить или какой нестандартный сценарий собрать"
+                      className="min-h-[110px]"
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+
+            {!isQuickBrief && (
               <AccordionItem value="brief" className="rounded-lg border border-border px-4">
                 <AccordionTrigger className="text-left text-lg font-semibold">
                   3. {currentTemplate.title}

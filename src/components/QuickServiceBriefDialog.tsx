@@ -17,6 +17,7 @@ import type { ContactMethod } from "@/data/briefTemplates";
 import { useToast } from "@/hooks/use-toast";
 import { buildBriefSource } from "@/lib/briefSource";
 import { submitLeadPayload } from "@/lib/leadDelivery";
+import { formatRussianPhoneInput, isCompleteRussianPhone } from "@/lib/phoneMask";
 import type { ServiceData } from "@/pages/services/servicesData";
 
 interface QuickServiceBriefDialogProps {
@@ -46,8 +47,12 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
       return "Пожалуйста, укажите имя";
     }
 
-    if (!formData.contact.trim()) {
-      return "Пожалуйста, укажите телефон или Telegram";
+    if (formData.contactMethod === "telegram" && !formData.contact.trim()) {
+      return "Пожалуйста, укажите Telegram";
+    }
+
+    if (formData.contactMethod !== "telegram" && !isCompleteRussianPhone(formData.contact)) {
+      return "Пожалуйста, укажите номер телефона полностью";
     }
 
     if (!formData.comment.trim()) {
@@ -142,7 +147,13 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
             <Label className="mb-2 block text-sm">Способ связи *</Label>
             <RadioGroup
               value={formData.contactMethod}
-              onValueChange={(value: ContactMethod) => setFormData({ ...formData, contactMethod: value })}
+              onValueChange={(value: ContactMethod) =>
+                setFormData((current) => ({
+                  ...current,
+                  contactMethod: value,
+                  contact: value === "telegram" ? "" : formatRussianPhoneInput(current.contact),
+                }))
+              }
               className="grid grid-cols-3 gap-2"
             >
               {Object.entries(contactLabels).map(([value, label]) => (
@@ -164,8 +175,25 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
             </Label>
             <Input
               id="quick-brief-contact"
+              type={formData.contactMethod === "telegram" ? "text" : "tel"}
+              inputMode={formData.contactMethod === "telegram" ? "text" : "tel"}
               value={formData.contact}
-              onChange={(event) => setFormData({ ...formData, contact: event.target.value })}
+              onChange={(event) =>
+                setFormData({
+                  ...formData,
+                  contact: formData.contactMethod === "telegram"
+                    ? event.target.value
+                    : formatRussianPhoneInput(event.target.value),
+                })
+              }
+              onFocus={() =>
+                setFormData((current) => ({
+                  ...current,
+                  contact: current.contactMethod === "telegram"
+                    ? current.contact
+                    : formatRussianPhoneInput(current.contact),
+                }))
+              }
               placeholder={formData.contactMethod === "telegram" ? "@username" : "+7 (993) 257-77-40"}
             />
           </div>
