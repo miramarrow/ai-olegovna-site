@@ -55,14 +55,11 @@ const ProjectDiscussForm = () => {
   const currentTemplate = briefTemplates[formData.service];
 
   const progress = useMemo(() => {
-    const contactValue = formData.contactMethod === "telegram"
-      ? formData.telegram.trim()
-      : isCompleteRussianPhone(formData.phone)
-        ? formData.phone.trim()
-        : "";
+    const phoneValue = isCompleteRussianPhone(formData.phone) ? formData.phone.trim() : "";
     const baseItems = [
       formData.name.trim(),
-      contactValue,
+      phoneValue,
+      ...(formData.contactMethod === "telegram" ? [formData.telegram.trim()] : []),
       formData.service,
       ...(isQuickBrief ? [] : [formData.startFormat]),
     ];
@@ -91,12 +88,12 @@ const ProjectDiscussForm = () => {
       return "Пожалуйста, укажите имя";
     }
 
-    if (formData.contactMethod === "telegram" && !formData.telegram.trim()) {
-      return "Пожалуйста, укажите ваш Telegram";
+    if (!isCompleteRussianPhone(formData.phone)) {
+      return "Пожалуйста, укажите номер телефона полностью";
     }
 
-    if (formData.contactMethod !== "telegram" && !isCompleteRussianPhone(formData.phone)) {
-      return "Пожалуйста, укажите номер телефона полностью";
+    if (formData.contactMethod === "telegram" && !formData.telegram.trim()) {
+      return "Пожалуйста, укажите ваш Telegram";
     }
 
     if (isFreeConsultation) {
@@ -136,8 +133,8 @@ const ProjectDiscussForm = () => {
       contacts: {
         name: formData.name.trim(),
         preferredContact: contactLabels[formData.contactMethod],
-        phone: formData.contactMethod === "telegram" ? "" : formData.phone.trim(),
-        telegram: formData.telegram.trim(),
+        phone: formData.phone.trim(),
+        telegram: formData.contactMethod === "telegram" ? formData.telegram.trim() : "",
       },
       service: formData.service,
       startFormat: payloadStartFormat,
@@ -238,20 +235,18 @@ const ProjectDiscussForm = () => {
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
-                  {formData.contactMethod !== "telegram" && (
-                    <div>
-                      <Label htmlFor="brief-phone" className="mb-1.5 block text-sm">Телефон *</Label>
-                      <Input
-                        id="brief-phone"
-                        type="tel"
-                        inputMode="tel"
-                        value={formData.phone}
-                        onChange={(event) => setFormData({ ...formData, phone: formatRussianPhoneInput(event.target.value) })}
-                        onFocus={() => setFormData((current) => ({ ...current, phone: formatRussianPhoneInput(current.phone) }))}
-                        placeholder="+7 (993) 257-77-40"
-                      />
-                    </div>
-                  )}
+                  <div>
+                    <Label htmlFor="brief-phone" className="mb-1.5 block text-sm">Телефон *</Label>
+                    <Input
+                      id="brief-phone"
+                      type="tel"
+                      inputMode="tel"
+                      value={formData.phone}
+                      onChange={(event) => setFormData({ ...formData, phone: formatRussianPhoneInput(event.target.value) })}
+                      onFocus={() => setFormData((current) => ({ ...current, phone: formatRussianPhoneInput(current.phone) }))}
+                      placeholder="+7 (993) 257-77-40"
+                    />
+                  </div>
 
                   {formData.contactMethod === "telegram" && (
                     <div>

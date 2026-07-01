@@ -253,6 +253,9 @@ assertIncludes(form, "const isFreeConsultation = formData.service === \"free-con
 assertIncludes(form, "const isCustomIdea = formData.service === \"custom-idea\"", "ProjectDiscussForm custom idea state");
 assertIncludes(form, "formatRussianPhoneInput", "ProjectDiscussForm phone mask");
 assertIncludes(form, "isCompleteRussianPhone", "ProjectDiscussForm phone validation");
+assertIncludes(form, "Пожалуйста, укажите номер телефона полностью", "ProjectDiscussForm should always require a complete phone");
+assertIncludes(form, "Телефон *", "ProjectDiscussForm should render the phone field as required");
+assertNotIncludes(form, 'formData.contactMethod !== "telegram" && (', "ProjectDiscussForm phone field should not be hidden for Telegram");
 assertIncludes(form, "Хочу обсудить свою идею", "ProjectDiscussForm custom idea start format");
 assertIncludes(form, "Коротко опишите идею", "ProjectDiscussForm custom idea comment field");
 assertIncludes(form, "const payloadStartFormat = isFreeConsultation ? freeConsultationStartFormat : isCustomIdea ? customIdeaStartFormat : formData.startFormat", "ProjectDiscussForm quick brief payload");
@@ -269,6 +272,15 @@ assertNotIncludes(form, "Отправить в WhatsApp", "ProjectDiscussForm");
 assertNotIncludes(form, "Скопировать и открыть Telegram", "ProjectDiscussForm");
 assertNotIncludes(form, "DeliveryChannel", "ProjectDiscussForm");
 assertNotIncludes(form, "copyToClipboard", "ProjectDiscussForm");
+
+const quickDialog = read("src/components/QuickServiceBriefDialog.tsx");
+assertIncludes(quickDialog, 'phone: "+7 "', "QuickServiceBriefDialog should keep a dedicated phone field");
+assertIncludes(quickDialog, 'telegram: ""', "QuickServiceBriefDialog should keep a dedicated Telegram field");
+assertIncludes(quickDialog, "isCompleteRussianPhone(formData.phone)", "QuickServiceBriefDialog should require a complete phone");
+assertIncludes(quickDialog, "Пожалуйста, укажите номер телефона полностью", "QuickServiceBriefDialog phone validation");
+assertIncludes(quickDialog, "Телефон *", "QuickServiceBriefDialog required phone label");
+assertIncludes(quickDialog, "Telegram *", "QuickServiceBriefDialog required Telegram label");
+assertNotIncludes(quickDialog, 'contact: ""', "QuickServiceBriefDialog should not use one ambiguous contact field");
 
 assertIncludes(hero, "Бриф занимает несколько минут, ответы сразу получит проектный менеджер", "Hero CTA bridge");
 

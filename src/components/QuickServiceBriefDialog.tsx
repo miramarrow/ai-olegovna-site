@@ -37,7 +37,8 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
   const [formData, setFormData] = useState({
     name: "",
     contactMethod: "telegram" as ContactMethod,
-    contact: "",
+    phone: "+7 ",
+    telegram: "",
     comment: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,12 +48,12 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
       return "Пожалуйста, укажите имя";
     }
 
-    if (formData.contactMethod === "telegram" && !formData.contact.trim()) {
-      return "Пожалуйста, укажите Telegram";
+    if (!isCompleteRussianPhone(formData.phone)) {
+      return "Пожалуйста, укажите номер телефона полностью";
     }
 
-    if (formData.contactMethod !== "telegram" && !isCompleteRussianPhone(formData.contact)) {
-      return "Пожалуйста, укажите номер телефона полностью";
+    if (formData.contactMethod === "telegram" && !formData.telegram.trim()) {
+      return "Пожалуйста, укажите Telegram";
     }
 
     if (!formData.comment.trim()) {
@@ -81,8 +82,8 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
       contacts: {
         name: formData.name.trim(),
         preferredContact: contactLabels[formData.contactMethod],
-        phone: isTelegram ? "" : formData.contact.trim(),
-        telegram: isTelegram ? formData.contact.trim() : "",
+        phone: formData.phone.trim(),
+        telegram: isTelegram ? formData.telegram.trim() : "",
       },
       service: service.slug,
       startFormat: "Нужна бесплатная консультация",
@@ -100,7 +101,8 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
       setFormData({
         name: "",
         contactMethod: "telegram",
-        contact: "",
+        phone: "+7 ",
+        telegram: "",
         comment: "",
       });
       onOpenChange(false);
@@ -151,7 +153,7 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
                 setFormData((current) => ({
                   ...current,
                   contactMethod: value,
-                  contact: value === "telegram" ? "" : formatRussianPhoneInput(current.contact),
+                  phone: formatRussianPhoneInput(current.phone),
                 }))
               }
               className="grid grid-cols-3 gap-2"
@@ -170,33 +172,43 @@ const QuickServiceBriefDialog = ({ service, open, onOpenChange }: QuickServiceBr
           </div>
 
           <div>
-            <Label htmlFor="quick-brief-contact" className="mb-1.5 block text-sm">
-              Телефон/Telegram *
+            <Label htmlFor="quick-brief-phone" className="mb-1.5 block text-sm">
+              Телефон *
             </Label>
             <Input
-              id="quick-brief-contact"
-              type={formData.contactMethod === "telegram" ? "text" : "tel"}
-              inputMode={formData.contactMethod === "telegram" ? "text" : "tel"}
-              value={formData.contact}
+              id="quick-brief-phone"
+              type="tel"
+              inputMode="tel"
+              value={formData.phone}
               onChange={(event) =>
                 setFormData({
                   ...formData,
-                  contact: formData.contactMethod === "telegram"
-                    ? event.target.value
-                    : formatRussianPhoneInput(event.target.value),
+                  phone: formatRussianPhoneInput(event.target.value),
                 })
               }
               onFocus={() =>
                 setFormData((current) => ({
                   ...current,
-                  contact: current.contactMethod === "telegram"
-                    ? current.contact
-                    : formatRussianPhoneInput(current.contact),
+                  phone: formatRussianPhoneInput(current.phone),
                 }))
               }
-              placeholder={formData.contactMethod === "telegram" ? "@username" : "+7 (993) 257-77-40"}
+              placeholder="+7 (993) 257-77-40"
             />
           </div>
+
+          {formData.contactMethod === "telegram" && (
+            <div>
+              <Label htmlFor="quick-brief-telegram" className="mb-1.5 block text-sm">
+                Telegram *
+              </Label>
+              <Input
+                id="quick-brief-telegram"
+                value={formData.telegram}
+                onChange={(event) => setFormData({ ...formData, telegram: event.target.value })}
+                placeholder="@username"
+              />
+            </div>
+          )}
 
           <div>
             <Label htmlFor="quick-brief-comment" className="mb-1.5 block text-sm">
