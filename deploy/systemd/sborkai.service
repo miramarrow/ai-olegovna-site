@@ -1,0 +1,21 @@
+[Unit]
+Description=Sborkai production website
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/sborkai/app
+EnvironmentFile=-/etc/sborkai/sborkai.env
+ExecStart=/usr/bin/node /srv/sborkai/app/server.mjs
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

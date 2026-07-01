@@ -208,38 +208,53 @@ if (!existsSync(join(root, "src/components/Seo.tsx"))) {
 const readme = read("README.md");
 
 if (existsSync(join(root, ".github/workflows/static.yml"))) {
-  failures.push(".github/workflows/static.yml should not deploy GitHub Pages after the Vercel migration");
+  failures.push(".github/workflows/static.yml should not deploy GitHub Pages after the VPS migration");
 }
 
 if (existsSync(join(root, "public/CNAME"))) {
-  failures.push("public/CNAME should not claim sborkai.ru after the Vercel migration");
+  failures.push("public/CNAME should not claim sborkai.ru after the VPS migration");
 }
 
 for (const [snippet, label] of [
-  ["Vercel", "README.md should describe Vercel as the production host"],
-  ["216.198.79.1", "README.md should document the Vercel apex A record"],
-  ["64.29.17.1", "README.md should document the Vercel apex A record"],
-  ["7a5ff663e6ea1eb6.vercel-dns-017.com", "README.md should document the Vercel www CNAME target"],
+  ["Beget VPS", "README.md should describe Beget VPS as the production host"],
+  ["109.172.36.182", "README.md should document the Beget VPS A record"],
   ["sborkai.ru", "README.md should document the custom domain"],
   ["/api/telegram-brief", "README.md should preserve the browser API endpoint"],
+  ["server/production-server.ts", "README.md should document the standalone Node runtime"],
 ]) {
   if (!readme.includes(snippet)) {
     failures.push(label);
   }
 }
 
-if (!existsSync(join(root, "vercel.json"))) {
-  failures.push("vercel.json should exist for Vercel SPA rewrites");
-} else {
-  const vercelConfig = read("vercel.json");
-  for (const [snippet, label] of [
-    ["rewrites", "vercel.json should define SPA rewrites"],
-    ["/((?!api/).*)", "vercel.json should keep /api routes out of the SPA fallback"],
-    ["/index.html", "vercel.json should fall back app routes to index.html"],
-  ]) {
-    if (!vercelConfig.includes(snippet)) {
-      failures.push(label);
-    }
+if (existsSync(join(root, "vercel.json"))) {
+  failures.push("vercel.json should not remain after the Beget VPS migration");
+}
+
+if (!existsSync(join(root, "server/production-server.ts"))) {
+  failures.push("server/production-server.ts should provide the VPS Node runtime");
+}
+
+for (const file of [
+  "deploy/nginx/sborkai.conf",
+  "deploy/systemd/sborkai.service",
+  "deploy/sborkai.env.example",
+]) {
+  if (!existsSync(join(root, file))) {
+    failures.push(`${file} should document the VPS deployment shape`);
+  }
+}
+
+const packageJson = JSON.parse(read("package.json"));
+for (const [scriptName, expectedCommand] of [
+  ["build:client", "vite build"],
+  ["build:server", "esbuild server/production-server.ts"],
+  ["build:production", "npm run build:client && npm run build:server"],
+  ["start", "node dist/server.mjs"],
+]) {
+  const actual = packageJson.scripts?.[scriptName];
+  if (typeof actual !== "string" || !actual.includes(expectedCommand)) {
+    failures.push(`package.json should define ${scriptName} with ${expectedCommand}`);
   }
 }
 

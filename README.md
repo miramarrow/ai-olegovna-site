@@ -13,6 +13,7 @@ npm run dev
 
 ```sh
 npm run check:lead-delivery
+npm run check:vps-runtime
 npm run check:site-scope
 npm run check:abstract-visuals
 npm run lint
@@ -21,9 +22,9 @@ npm run build
 
 ## Заявки: Telegram + Google Sheets
 
-Форма отправляет заявки в `POST /api/telegram-brief` на том же домене. Endpoint рассчитан на Vercel Functions: он хранит секреты на сервере, отправляет сообщение в Telegram и, если настроен Google Sheets, добавляет строку через Apps Script Web App.
+Форма отправляет заявки в `POST /api/telegram-brief` на том же домене. Endpoint работает в Node runtime на Beget VPS: он хранит секреты на сервере, отправляет сообщение в Telegram и, если настроен Google Sheets, добавляет строку через Apps Script Web App.
 
-Переменные окружения для Vercel:
+Переменные окружения для production-сервиса:
 
 ```sh
 TELEGRAM_BOT_TOKEN=
@@ -45,7 +46,7 @@ Google Sheets, если нужен архив заявок:
 1. Создайте таблицу для заявок.
 2. Откройте Extensions → Apps Script.
 3. Вставьте код из `scripts/google-sheets-leads-webhook.gs`.
-4. В Project Settings → Script Properties добавьте `SHEETS_WEBHOOK_SECRET` с тем же значением, что в Vercel.
+4. В Project Settings → Script Properties добавьте `SHEETS_WEBHOOK_SECRET` с тем же значением, что в окружении VPS.
 5. Deploy → New deployment → Web app: execute as owner, access for anyone with the link.
 6. Скопируйте Web app URL в `SHEETS_WEBHOOK_URL`.
 
@@ -53,24 +54,22 @@ Google Sheets, если нужен архив заявок:
 
 ## Хостинг и домен
 
-Публикация для `sborkai.ru` идет через Vercel. Vercel собирает Vite-приложение командой `npm run build`, отдает статический `dist` и запускает serverless endpoint `api/telegram-brief.ts` для заявок.
+Production для `sborkai.ru` работает на Beget VPS `109.172.36.182`. Приложение собирается командой `npm run build:production`: Vite кладет фронтенд в `dist`, а `esbuild` собирает `server/production-server.ts` в `dist/server.mjs`. Сервер запускается командой `npm start`, отдает SPA-статику и проксирует заявки через тот же `POST /api/telegram-brief`.
 
 DNS в Beget для `sborkai.ru`:
 
 ```txt
-@    A      216.198.79.1
-@    A      64.29.17.1
-www  CNAME  7a5ff663e6ea1eb6.vercel-dns-017.com
+@    A      109.172.36.182
+www  A      109.172.36.182
 ```
 
-Настройка Vercel:
+Production-схема на VPS:
 
-1. Импортируйте этот GitHub-репозиторий в Vercel или подключите его через Vercel CLI.
-2. Build command: `npm run build`.
-3. Output directory: `dist`.
-4. Добавьте Environment Variables: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `SHEETS_WEBHOOK_URL`, `SHEETS_WEBHOOK_SECRET`.
-5. В Project Settings → Domains добавьте `sborkai.ru` и `www.sborkai.ru`.
-6. После обновления DNS дождитесь статуса Valid Configuration и выпуска HTTPS-сертификата в Vercel.
+1. Nginx принимает HTTP/HTTPS на `sborkai.ru` и `www.sborkai.ru`.
+2. Nginx проксирует запросы в Node-сервис на `127.0.0.1:3000`.
+3. Node-сервис запускает `dist/server.mjs` под systemd.
+4. Шаблоны конфигурации лежат в `deploy/nginx/sborkai.conf`, `deploy/systemd/sborkai.service` и `deploy/sborkai.env.example`.
+5. Секреты лежат только в окружении VPS, не в клиентском коде и не в git.
 
 ## Hero-визуал
 
@@ -80,4 +79,4 @@ www  CNAME  7a5ff663e6ea1eb6.vercel-dns-017.com
 
 - Бренд, публичные контакты и основные ссылки лежат в `src/config/site.ts`.
 - Блог, кейсы и отзывы удалены из v1: нет маршрутов, меню, главных секций и исходных файлов этих зон.
-- Заявки идут через Vercel Function в Telegram; Google Sheets можно подключить дополнительно. Секреты должны храниться только в окружении Vercel и Apps Script.
+- Заявки идут через Node-сервис на Beget VPS в Telegram; Google Sheets можно подключить дополнительно. Секреты должны храниться только в окружении VPS и Apps Script.
