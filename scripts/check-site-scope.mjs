@@ -118,10 +118,10 @@ for (const [snippet, label] of [
   [`<meta name="twitter:title" content="${defaultSeoTitle}">`, "index.html should expose the default Twitter title"],
   [`<meta name="twitter:description" content="${defaultSeoDescription}">`, "index.html should expose the default Twitter description"],
   [`<meta name="twitter:image" content="${defaultSeoImage}">`, "index.html should expose an absolute Twitter image URL"],
-  ['<link rel="icon" href="/favicon.ico" sizes="any">', "index.html should expose the ICO favicon"],
-  ['<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">', "index.html should expose the 32px logo favicon"],
-  ['<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">', "index.html should expose the 192px logo favicon"],
-  ['<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">', "index.html should expose the logo touch icon"],
+  ['<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20260701-2">', "index.html should expose the cache-busted 32px logo favicon"],
+  ['<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=20260701-2">', "index.html should expose the cache-busted 192px logo favicon"],
+  ['<link rel="shortcut icon" href="/favicon.ico?v=20260701-2" sizes="any">', "index.html should expose the cache-busted ICO favicon"],
+  ['<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20260701-2">', "index.html should expose the cache-busted logo touch icon"],
 ]) {
   if (!indexHtml.includes(snippet)) {
     failures.push(label);
