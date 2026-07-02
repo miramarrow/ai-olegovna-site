@@ -1,9 +1,12 @@
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
 
 const read = (path) => readFileSync(join(root, path), "utf8");
+const readBinary = (path) => readFileSync(join(root, path));
+const sha256 = (path) => createHash("sha256").update(readBinary(path)).digest("hex");
 
 const failures = [];
 
@@ -118,10 +121,10 @@ for (const [snippet, label] of [
   [`<meta name="twitter:title" content="${defaultSeoTitle}">`, "index.html should expose the default Twitter title"],
   [`<meta name="twitter:description" content="${defaultSeoDescription}">`, "index.html should expose the default Twitter description"],
   [`<meta name="twitter:image" content="${defaultSeoImage}">`, "index.html should expose an absolute Twitter image URL"],
-  ['<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20260701-2">', "index.html should expose the cache-busted 32px logo favicon"],
-  ['<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=20260701-2">', "index.html should expose the cache-busted 192px logo favicon"],
-  ['<link rel="shortcut icon" href="/favicon.ico?v=20260701-2" sizes="any">', "index.html should expose the cache-busted ICO favicon"],
-  ['<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20260701-2">', "index.html should expose the cache-busted logo touch icon"],
+  ['<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20260702-1">', "index.html should expose the cache-busted 32px logo favicon"],
+  ['<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=20260702-1">', "index.html should expose the cache-busted 192px logo favicon"],
+  ['<link rel="shortcut icon" href="/favicon.ico?v=20260702-1" sizes="any">', "index.html should expose the cache-busted ICO favicon"],
+  ['<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20260702-1">', "index.html should expose the cache-busted logo touch icon"],
 ]) {
   if (!indexHtml.includes(snippet)) {
     failures.push(label);
@@ -136,6 +139,19 @@ for (const faviconFile of [
 ]) {
   if (!existsSync(join(root, faviconFile))) {
     failures.push(`${faviconFile} should exist and be generated from the Sborkai logo`);
+  }
+}
+
+const wordmarkFaviconHashes = {
+  "public/favicon.ico": "4312369d9845e90d32236d9d9002be237dfe6c3f1d71534aad450063ac300036",
+  "public/favicon-32x32.png": "10ed60b8f4dc2704aefb7b70f31c6b1477690de9df0e9564383872514257af5f",
+  "public/favicon-192x192.png": "8186df9bf6ac8f0f344cef3e99e5c419ad5a88a61b3c88e2f05370bd3bd7df81",
+  "public/apple-touch-icon.png": "31a32bad22dc5d2b6a7c69984754aa61eba751cf18222f7a0265105b339a97d0",
+};
+
+for (const [faviconFile, expectedHash] of Object.entries(wordmarkFaviconHashes)) {
+  if (existsSync(join(root, faviconFile)) && sha256(faviconFile) !== expectedHash) {
+    failures.push(`${faviconFile} should be generated from public/logo-sborkai-wordmark.png`);
   }
 }
 
