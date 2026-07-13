@@ -21,9 +21,8 @@ if (readme.includes("Vercel")) {
 for (const expected of [
   "Beget VPS",
   "109.172.36.182",
-  "POST /api/telegram-brief",
-  "TELEGRAM_BOT_TOKEN",
-  "TELEGRAM_CHAT_ID",
+  "без форм",
+  "GET /healthz",
 ]) {
   if (!readme.includes(expected)) {
     failures.push(`README.md should document ${expected}`);
@@ -72,6 +71,18 @@ if (!existsSync(join(root, "scripts/deploy-vps.mjs"))) {
     if (!deployScript.includes(expected)) {
       failures.push(`scripts/deploy-vps.mjs should include ${expected}`);
     }
+  }
+}
+
+for (const retiredRuntimeFeature of [
+  "POST /api/telegram-brief",
+  "TELEGRAM_BOT_TOKEN",
+  "TELEGRAM_CHAT_ID",
+  "SBORKAI_LEADS_DIR",
+  "/var/lib/sborkai/leads",
+]) {
+  if (readme.includes(retiredRuntimeFeature)) {
+    failures.push(`README.md should not describe retired runtime feature ${retiredRuntimeFeature}`);
   }
 }
 

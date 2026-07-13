@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CodeRain from "@/components/CodeRain";
 import AbstractServiceMark from "@/components/AbstractServiceMark";
-import QuickServiceBriefDialog from "@/components/QuickServiceBriefDialog";
 import ServiceAbstractVisual from "@/components/ServiceAbstractVisual";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +25,6 @@ const getServiceSummary = (service: ServiceData) => {
 
 const Services = () => {
   const [activeSlug, setActiveSlug] = useState(servicesData[0].slug);
-  const [briefService, setBriefService] = useState<ServiceData | null>(null);
   const activeService = servicesData.find((service) => service.slug === activeSlug) ?? servicesData[0];
 
   return (
@@ -72,14 +70,6 @@ const Services = () => {
                   <Button className="rounded-md" asChild>
                     <Link to={`/services/${activeService.slug}`}>Подробнее</Link>
                   </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="rounded-md"
-                    onClick={() => setBriefService(activeService)}
-                  >
-                    Обсудить
-                  </Button>
                 </div>
               </div>
 
@@ -121,29 +111,19 @@ const Services = () => {
                 <CarouselNext className="!static !translate-y-0 rounded-md" />
               </div>
             </Carousel>
-
-            <QuickServiceBriefDialog
-              service={briefService ?? activeService}
-              open={briefService !== null}
-              onOpenChange={(open) => {
-                if (!open) {
-                  setBriefService(null);
-                }
-              }}
-            />
           </div>
         </section>
 
         <section className="bg-white px-4 py-16">
           <div className="mx-auto grid max-w-7xl gap-6 border-t border-border pt-10 md:grid-cols-[1fr_auto] md:items-center">
             <div>
-              <h2 className="mb-3 text-3xl font-bold">Не уверены, что выбрать?</h2>
+              <h2 className="mb-3 text-3xl font-bold">Как сравнить направления</h2>
               <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                Заполните умный бриф — подберу направление и формат под вашу задачу.
+                Состав и стоимость проекта зависят от сценариев, интеграций, требований к AI-логике и этапности запуска.
               </p>
             </div>
             <Button size="lg" className="rounded-md" asChild>
-              <a href="/#contact-form">Перейти к брифу</a>
+              <Link to="/pricing">Как формируется оценка</Link>
             </Button>
           </div>
         </section>

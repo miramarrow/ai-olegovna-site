@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import HeroAbstractVisual from "./HeroAbstractVisual";
 import RotatingText from "./RotatingText";
@@ -37,17 +38,17 @@ const Hero = () => {
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button size="lg" className="h-12 rounded-md px-6" asChild>
-              <a href="/#contact-form">
-                Заполнить умный бриф
+              <Link to="/services">
+                Смотреть направления
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </a>
+              </Link>
             </Button>
             <Button variant="outline" size="lg" className="h-12 rounded-md px-6" asChild>
-              <a href="#services">Смотреть услуги</a>
+              <Link to="/pricing">Как формируется оценка</Link>
             </Button>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
-            Бриф занимает несколько минут, ответы сразу получит проектный менеджер.
+            На сайте собраны направления, типовые сценарии, этапы запуска и подход к оценке.
           </p>
         </div>
 

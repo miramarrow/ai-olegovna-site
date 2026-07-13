@@ -1,4 +1,5 @@
 import { ArrowRight, Rocket } from "lucide-react";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CodeRain from "@/components/CodeRain";
@@ -19,13 +20,13 @@ const ComingSoon = () => {
               </div>
               <h1 className="mb-5 text-4xl font-bold md:text-5xl">Раздел готовится</h1>
               <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                Если нужна AI-система, сайт, бот для Telegram/MAX или автоматизация, лучше сразу перейти к умному брифу.
+                Пока раздел готовится, можно изучить каталог направлений и типовые сценарии запуска.
               </p>
               <Button size="lg" className="rounded-md" asChild>
-                <a href="/#contact-form">
-                  Заполнить бриф
+                <Link to="/services">
+                  Смотреть услуги
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
+                </Link>
               </Button>
             </Card>
           </div>

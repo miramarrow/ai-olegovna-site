@@ -1,21 +1,12 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, FileText, Instagram, Megaphone, Menu, Send, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import BrandMark from "@/components/BrandMark";
 import { siteConfig } from "@/config/site";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [contactOpen, setContactOpen] = useState(false);
 
   useEffect(() => {
     let previousScrollY = window.scrollY;
@@ -32,26 +23,7 @@ const Header = () => {
 
   const closeMenus = () => {
     setIsOpen(false);
-    setContactOpen(false);
   };
-
-  const contactItems = [
-    {
-      label: `Telegram ${siteConfig.contacts.telegramLabel}`,
-      href: siteConfig.contacts.telegramUrl,
-      icon: Send,
-    },
-    {
-      label: `Instagram ${siteConfig.contacts.instagramLabel}`,
-      href: siteConfig.contacts.instagramUrl,
-      icon: Instagram,
-    },
-    {
-      label: `Telegram-канал ${siteConfig.contacts.telegramChannelLabel}`,
-      href: siteConfig.contacts.telegramChannelUrl,
-      icon: Megaphone,
-    },
-  ];
 
   return (
     <nav
@@ -77,51 +49,6 @@ const Header = () => {
             ))}
           </div>
 
-          <div className="hidden md:block">
-            <Dialog open={contactOpen} onOpenChange={setContactOpen}>
-              <DialogTrigger asChild>
-                <button className="flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
-                  Связаться
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Связаться с {siteConfig.name}</DialogTitle>
-                  <DialogDescription>
-                    Можно написать напрямую или открыть умный бриф.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="flex flex-col gap-3 py-4">
-                  {contactItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <a
-                        key={item.href}
-                        href={item.href}
-                        target={item.href.startsWith("http") ? "_blank" : undefined}
-                        rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                        className="flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-accent"
-                        onClick={closeMenus}
-                      >
-                        <Icon className="h-5 w-5 text-primary" />
-                        <span className="font-medium">{item.label}</span>
-                      </a>
-                    );
-                  })}
-                  <a
-                    href="/#contact-form"
-                    className="flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-accent"
-                    onClick={closeMenus}
-                  >
-                    <FileText className="h-5 w-5 text-primary" />
-                    <span className="font-medium">Заполнить умный бриф</span>
-                  </a>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-
           <button
             type="button"
             className="rounded-md border border-border p-2 text-foreground md:hidden"
@@ -145,14 +72,6 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
-              <a
-                href="/#contact-form"
-                className="mt-2 flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-3 text-sm font-medium text-primary-foreground"
-                onClick={closeMenus}
-              >
-                Умный бриф
-                <ArrowRight className="h-4 w-4" />
-              </a>
             </div>
           </div>
         )}

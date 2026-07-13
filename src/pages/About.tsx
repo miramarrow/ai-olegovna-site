@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Link } from "react-router-dom";
 
 interface AboutItem {
   title: string;
@@ -289,7 +290,7 @@ const About = () => {
             </div>
             <div className="mt-10">
               <Button size="lg" className="rounded-md" asChild>
-                <a href="/#contact-form">Описать задачу</a>
+                <Link to="/services">Смотреть направления</Link>
               </Button>
             </div>
           </div>

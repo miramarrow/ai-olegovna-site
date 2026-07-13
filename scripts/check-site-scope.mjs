@@ -46,7 +46,6 @@ const retiredBrandPattern = new RegExp(
   [
     "Ai, " + "Оле" + "говна!",
     "Ai" + "O",
-    "Оле" + "говна",
     "ai-" + "ole" + "govna",
     "Заявка " + "Ai",
   ].join("|")
@@ -76,6 +75,28 @@ for (const file of ["src/pages/Privacy.tsx", "src/pages/Terms.tsx"]) {
   }
 }
 
+const contactFormLinkFiles = [
+  "src/pages/About.tsx",
+  "src/pages/Cases.tsx",
+  "src/pages/ComingSoon.tsx",
+  "src/pages/Services.tsx",
+  "src/components/Hero.tsx",
+  "src/components/ServicesSection.tsx",
+  "src/components/MobileBriefCta.tsx",
+  "src/components/PricingSection.tsx",
+  "src/components/Header.tsx",
+  "src/components/CasesSection.tsx",
+  "src/components/LaunchProcessSection.tsx",
+];
+
+for (const file of contactFormLinkFiles) {
+  if (!existsSync(join(root, file))) continue;
+  const content = read(file);
+  if (content.includes('href="/#contact-form"') || content.includes('to="/#contact-form"')) {
+    failures.push(`${file} should not send brief CTAs to the homepage contact-form anchor`);
+  }
+}
+
 const brandScanFiles = [
   "index.html",
   "package.json",
@@ -86,8 +107,6 @@ const brandScanFiles = [
   "src/components/BrandMark.tsx",
   "src/components/Header.tsx",
   "src/components/Footer.tsx",
-  "src/data/briefTemplates.ts",
-  "src/pages/BriefWebsite.tsx",
   "src/pages/Privacy.tsx",
   "src/pages/Terms.tsx",
 ];
@@ -170,7 +189,6 @@ const canonicalUrls = [
   "https://sborkai.ru/cases",
   "https://sborkai.ru/pricing",
   "https://sborkai.ru/faq",
-  "https://sborkai.ru/contacts",
   "https://sborkai.ru/privacy",
   "https://sborkai.ru/terms",
 ];
@@ -189,6 +207,11 @@ if (!existsSync(join(root, "public/sitemap.xml"))) {
 const robots = read("public/robots.txt");
 if (!robots.includes("Sitemap: https://sborkai.ru/sitemap.xml")) {
   failures.push("public/robots.txt should include the sborkai sitemap URL");
+}
+
+const navigationTransition = read("src/components/NavigationTransition.tsx");
+if (!navigationTransition.includes("location.hash") || !navigationTransition.includes("scrollIntoView")) {
+  failures.push("src/components/NavigationTransition.tsx should scroll to hash anchors such as /contacts#contact-form");
 }
 
 if (!existsSync(join(root, "src/config/seo.ts"))) {
@@ -248,7 +271,7 @@ for (const [snippet, label] of [
   ["Beget VPS", "README.md should describe Beget VPS as the production host"],
   ["109.172.36.182", "README.md should document the Beget VPS A record"],
   ["sborkai.ru", "README.md should document the custom domain"],
-  ["/api/telegram-brief", "README.md should preserve the browser API endpoint"],
+  ["без форм", "README.md should document the informational site mode"],
   ["server/production-server.ts", "README.md should document the standalone Node runtime"],
 ]) {
   if (!readme.includes(snippet)) {
@@ -319,7 +342,7 @@ if (!existsSync(join(root, "src/pages/Cases.tsx"))) {
 }
 
 if (!existsSync(join(root, "src/components/CasesSection.tsx"))) {
-  failures.push("src/components/CasesSection.tsx should exist as the homepage cases section");
+  failures.push("src/components/CasesSection.tsx should remain available for the cases page/archive");
 }
 
 if (!app.includes('import Cases from "./pages/Cases"') || !app.includes('path="/cases"')) {
@@ -330,8 +353,8 @@ if (!app.includes('import Seo from "@/components/Seo"') || !app.includes("<Seo /
   failures.push("src/App.tsx should mount the route SEO component inside the router");
 }
 
-if (!indexPage.includes("CasesSection") || !indexPage.includes("<CasesSection />")) {
-  failures.push("src/pages/Index.tsx should render the homepage cases section");
+if (indexPage.includes("CasesSection") || indexPage.includes("<CasesSection />")) {
+  failures.push("src/pages/Index.tsx should not render the homepage cases section");
 }
 
 const casesLinkCount = siteConfig.match(/\{ name: "Кейсы", href: "\/cases" \}/g)?.length ?? 0;
@@ -341,24 +364,19 @@ if (casesLinkCount < 2) {
 
 const header = read("src/components/Header.tsx");
 const footer = read("src/components/Footer.tsx");
-const contacts = read("src/pages/Contacts.tsx");
+const appRoutes = read("src/App.tsx");
+const seoConfig = read("src/config/seo.ts");
 
-const activeContactExpectations = [
-  [siteConfig, 'telegramLabel: "@sborkairu"', "src/config/site.ts should expose @sborkairu as the direct Telegram contact"],
-  [siteConfig, 'telegramUrl: "https://t.me/sborkairu"', "src/config/site.ts should expose the direct Telegram URL"],
-  [siteConfig, 'instagramLabel: "@ai_olegovnaa"', "src/config/site.ts should expose the Instagram handle"],
-  [siteConfig, 'instagramUrl: "https://www.instagram.com/ai_olegovnaa"', "src/config/site.ts should expose the Instagram URL"],
-  [siteConfig, 'telegramChannelLabel: "@ai_olegovna"', "src/config/site.ts should expose the Telegram channel handle"],
-  [siteConfig, 'telegramChannelUrl: "https://t.me/ai_olegovna"', "src/config/site.ts should expose the Telegram channel URL"],
-  [header, "instagramUrl", "src/components/Header.tsx should include Instagram in contact actions"],
-  [header, "telegramChannelUrl", "src/components/Header.tsx should include the Telegram channel in contact actions"],
-  [footer, "instagramUrl", "src/components/Footer.tsx should include Instagram in contact actions"],
-  [footer, "telegramChannelUrl", "src/components/Footer.tsx should include the Telegram channel in contact actions"],
-  [contacts, "instagramUrl", "src/pages/Contacts.tsx should include Instagram on the contacts page"],
-  [contacts, "telegramChannelUrl", "src/pages/Contacts.tsx should include the Telegram channel on the contacts page"],
+const informationalSiteExpectations = [
+  [siteConfig, "operator:", "src/config/site.ts should expose legal operator details"],
+  [siteConfig, "ИНН 771817673175", "src/config/site.ts should expose the operator INN"],
+  [siteConfig, "ОГРНИП 319508100025132", "src/config/site.ts should expose the operator OGRNIP"],
+  [read("src/pages/Privacy.tsx"), "не использует формы", "src/pages/Privacy.tsx should describe the absence of forms"],
+  [read("src/pages/Privacy.tsx"), "не использует системы веб-аналитики", "src/pages/Privacy.tsx should describe the absence of analytics"],
+  [read("src/pages/Privacy.tsx"), "не устанавливает необязательные cookie", "src/pages/Privacy.tsx should describe the absence of optional cookies"],
 ];
 
-for (const [content, expected, label] of activeContactExpectations) {
+for (const [content, expected, label] of informationalSiteExpectations) {
   if (!content.includes(expected)) {
     failures.push(label);
   }
@@ -368,10 +386,60 @@ for (const [content, label] of [
   [siteConfig, "src/config/site.ts"],
   [header, "src/components/Header.tsx"],
   [footer, "src/components/Footer.tsx"],
-  [contacts, "src/pages/Contacts.tsx"],
+  [seoConfig, "src/config/seo.ts"],
 ]) {
-  if (content.includes("@miramarrow") || content.includes("https://t.me/miramarrow")) {
-    failures.push(`${label} should not expose the retired Telegram contact`);
+  if (
+    content.includes("@miramarrow") ||
+    content.includes("https://t.me/miramarrow") ||
+    content.includes("@ai_olegovnaa") ||
+    content.includes("instagram.com/ai_olegovnaa") ||
+    content.includes("@ai_olegovna") ||
+    content.includes("https://t.me/ai_olegovna")
+  ) {
+    failures.push(`${label} should not expose retired Telegram/Instagram public links`);
+  }
+}
+
+for (const [file, snippets] of [
+  ["src/pages/Privacy.tsx", ["operator.legalName", "Технические журналы", "необязательные cookie"]],
+  ["src/pages/Terms.tsx", ["operator.legalName", "информационных целях", "не являются публичной офертой"]],
+]) {
+  if (!existsSync(join(root, file))) {
+    failures.push(`${file} should exist`);
+    continue;
+  }
+
+  const content = read(file);
+  for (const snippet of snippets) {
+    if (!content.includes(snippet)) {
+      failures.push(`${file} should include ${snippet}`);
+    }
+  }
+}
+
+for (const retiredPath of [
+  "src/pages/Contacts.tsx",
+  "src/pages/PersonalDataConsent.tsx",
+  "src/components/CookieConsentBanner.tsx",
+  "src/components/ProjectDiscussForm.tsx",
+  "src/components/QuickServiceBriefDialog.tsx",
+]) {
+  if (existsSync(join(root, retiredPath))) {
+    failures.push(`${retiredPath} should be removed in informational mode`);
+  }
+}
+
+for (const [content, label] of [
+  [siteConfig, "src/config/site.ts"],
+  [header, "src/components/Header.tsx"],
+  [footer, "src/components/Footer.tsx"],
+  [seoConfig, "src/config/seo.ts"],
+  [appRoutes, "src/App.tsx"],
+]) {
+  for (const forbidden of ["siteConfig.contacts", 'path="/contacts"', 'path="/personal-data-consent"']) {
+    if (content.includes(forbidden)) {
+      failures.push(`${label} should not include ${forbidden} in informational mode`);
+    }
   }
 }
 

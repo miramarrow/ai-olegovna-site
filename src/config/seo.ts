@@ -24,7 +24,6 @@ export const canonicalPaths = [
   "/cases",
   "/pricing",
   "/faq",
-  "/contacts",
   "/privacy",
   "/terms",
 ] as const;
@@ -76,14 +75,9 @@ const staticRouteMetadata: SeoMetadata[] = [
     "Ответы на частые вопросы про AI-системы, оценку проекта, Telegram и MAX, запуск и поддержку после релиза.",
   ),
   buildEntry(
-    "/contacts",
-    "Контакты — Sborkai",
-    "Связаться со Sborkai в Telegram, Instagram или через умный бриф для обсуждения AI-системы, сайта, бота или автоматизации.",
-  ),
-  buildEntry(
     "/privacy",
-    "Политика конфиденциальности — Sborkai",
-    "Политика обработки данных для заявок и коммуникации с проектом Sborkai.",
+    "Информация о данных на сайте — Sborkai",
+    "Информация об отсутствии форм, веб-аналитики и необязательных cookie на сайте Sborkai.",
   ),
   buildEntry(
     "/terms",
@@ -110,13 +104,16 @@ export const structuredData = {
       "@type": "Organization",
       "@id": `${siteConfig.url}/#organization`,
       name: siteConfig.name,
+      legalName: siteConfig.operator.legalName,
       url: siteConfig.url,
       logo: defaultImageUrl,
-      sameAs: [
-        siteConfig.contacts.telegramUrl,
-        siteConfig.contacts.instagramUrl,
-        siteConfig.contacts.telegramChannelUrl,
-      ],
+      taxID: siteConfig.operator.inn,
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "RU",
+        addressRegion: "Московская область",
+        addressLocality: "Химки",
+      },
     },
     {
       "@type": "WebSite",
@@ -132,6 +129,7 @@ export const structuredData = {
       "@type": "ProfessionalService",
       "@id": `${siteConfig.url}/#professional-service`,
       name: siteConfig.name,
+      legalName: siteConfig.operator.legalName,
       url: siteConfig.url,
       image: defaultImageUrl,
       description: siteConfig.description,
@@ -150,11 +148,6 @@ export const structuredData = {
       ],
       availableLanguage: "ru",
       serviceType: servicesData.map((service) => service.title),
-      sameAs: [
-        siteConfig.contacts.telegramUrl,
-        siteConfig.contacts.instagramUrl,
-        siteConfig.contacts.telegramChannelUrl,
-      ],
     },
   ],
 };

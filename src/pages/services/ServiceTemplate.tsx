@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
 import CodeRain from "@/components/CodeRain";
 import AbstractServiceMark from "@/components/AbstractServiceMark";
-import QuickServiceBriefDialog from "@/components/QuickServiceBriefDialog";
 import ServiceAbstractVisual from "@/components/ServiceAbstractVisual";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +19,6 @@ import { servicesData } from "./servicesData";
 
 const ServiceTemplate = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [isBriefOpen, setIsBriefOpen] = useState(false);
   const service = servicesData.find(s => s.slug === slug);
 
   useEffect(() => {
@@ -67,11 +65,11 @@ const ServiceTemplate = () => {
                 {service.description}
               </p>
               <div className="flex flex-col gap-3 sm:flex-row">
-                <Button size="lg" className="rounded-md" onClick={() => setIsBriefOpen(true)}>
-                  Обсудить
-                </Button>
                 <Button variant="outline" size="lg" className="rounded-md" asChild>
                   <a href="#features">Что входит</a>
+                </Button>
+                <Button variant="outline" size="lg" className="rounded-md" asChild>
+                  <Link to="/pricing">Как формируется оценка</Link>
                 </Button>
               </div>
             </div>
@@ -156,12 +154,6 @@ const ServiceTemplate = () => {
 
       {/* FAQ Section */}
       <FAQSection faqs={service.faqs} subtitle={service.sectionCopy?.faqIntro} />
-
-      <QuickServiceBriefDialog
-        service={service}
-        open={isBriefOpen}
-        onOpenChange={setIsBriefOpen}
-      />
 
       <Footer />
     </div>

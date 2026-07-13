@@ -15,7 +15,7 @@ interface FAQSectionProps {
   subtitle?: string;
 }
 
-const FAQSection = ({ faqs, subtitle = "Короткие ответы о запуске, поддержке и формате работы до заполнения брифа." }: FAQSectionProps) => {
+const FAQSection = ({ faqs, subtitle = "Короткие ответы о запуске, поддержке и формате работы." }: FAQSectionProps) => {
   return (
     <section className="bg-white px-4 py-20">
       <div className="mx-auto max-w-7xl">

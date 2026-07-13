@@ -25,9 +25,7 @@ const requiredFiles = [
   "src/components/HeroAbstractVisual.tsx",
   "src/components/AbstractServiceMark.tsx",
   "src/components/ServiceAbstractVisual.tsx",
-  "src/components/QuickServiceBriefDialog.tsx",
   "src/components/LaunchProcessSection.tsx",
-  "src/components/MobileBriefCta.tsx",
 ];
 
 for (const path of requiredFiles) {
@@ -96,13 +94,12 @@ if (serviceMarkCount !== 8) {
 const servicesSection = read("src/components/ServicesSection.tsx");
 assertIncludes(servicesSection, "ServiceAbstractVisual", "ServicesSection");
 assertIncludes(servicesSection, "AbstractServiceMark", "ServicesSection");
-assertIncludes(servicesSection, "QuickServiceBriefDialog", "ServicesSection quick dialog");
 assertIncludes(servicesSection, "Carousel", "ServicesSection carousel");
 assertIncludes(servicesSection, "CarouselContent", "ServicesSection carousel");
 assertIncludes(servicesSection, "CarouselItem", "ServicesSection carousel");
 assertIncludes(servicesSection, "basis-full md:basis-1/2 lg:basis-1/3", "ServicesSection responsive slides");
 assertIncludes(servicesSection, "padStart(2, \"0\")", "ServicesSection numbering");
-assertIncludes(servicesSection, "Обсудить", "ServicesSection discuss CTA");
+assertNotIncludes(servicesSection, "QuickServiceBriefDialog", "ServicesSection");
 assertIncludes(servicesSection, "lg:grid-cols-[1fr_auto]", "ServicesSection intro CTA alignment");
 assertNotIncludes(servicesSection, "featuredMark", "ServicesSection intro visual");
 assertNotIncludes(servicesSection, "Card", "ServicesSection");
@@ -116,13 +113,12 @@ assertIncludes(servicesPage, "activeService", "Services page active panel");
 assertIncludes(servicesPage, "setActiveSlug", "Services page active panel");
 assertIncludes(servicesPage, "AbstractServiceMark", "Services page");
 assertIncludes(servicesPage, "ServiceAbstractVisual", "Services page active visual");
-assertIncludes(servicesPage, "QuickServiceBriefDialog", "Services page quick dialog");
 assertIncludes(servicesPage, "Carousel", "Services page carousel");
 assertIncludes(servicesPage, "CarouselContent", "Services page carousel");
 assertIncludes(servicesPage, "CarouselItem", "Services page carousel");
 assertIncludes(servicesPage, "padStart(2, \"0\")", "Services page numbering");
 assertIncludes(servicesPage, "Подробнее", "Services page CTA");
-assertIncludes(servicesPage, "Обсудить", "Services page discuss CTA");
+assertNotIncludes(servicesPage, "QuickServiceBriefDialog", "Services page");
 assertNotIncludes(servicesPage, "min-h-[20rem] border border-border", "Services page active visual frame");
 assertNotIncludes(servicesPage, "Card", "Services page");
 assertNotIncludes(servicesPage, "service.icon", "Services page");
@@ -132,7 +128,6 @@ assertNotIncludes(servicesPage, "<video", "Services page");
 
 const serviceTemplate = read("src/pages/services/ServiceTemplate.tsx");
 assertIncludes(serviceTemplate, "ServiceAbstractVisual", "ServiceTemplate");
-assertIncludes(serviceTemplate, "QuickServiceBriefDialog", "ServiceTemplate quick dialog");
 assertIncludes(serviceTemplate, "feature-grid", "ServiceTemplate features");
 assertIncludes(serviceTemplate, "case-slider", "ServiceTemplate examples");
 assertIncludes(serviceTemplate, "Carousel", "ServiceTemplate examples");
@@ -142,7 +137,7 @@ assertIncludes(serviceTemplate, "Ключевые возможности", "Serv
 assertIncludes(serviceTemplate, "Примеры использования", "ServiceTemplate examples");
 assertIncludes(serviceTemplate, "padStart(2, \"0\")", "ServiceTemplate numbering");
 assertIncludes(serviceTemplate, "Результат", "ServiceTemplate example result");
-assertIncludes(serviceTemplate, "Обсудить", "ServiceTemplate hero discuss CTA");
+assertNotIncludes(serviceTemplate, "QuickServiceBriefDialog", "ServiceTemplate");
 assertNotIncludes(serviceTemplate, "Заполнить бриф", "ServiceTemplate hero CTA");
 assertNotIncludes(serviceTemplate, "h-72 border border-border", "ServiceTemplate hero visual frame");
 assertNotIncludes(serviceTemplate, "service.image", "ServiceTemplate");
@@ -153,21 +148,11 @@ assertNotIncludes(serviceTemplate, "CheckCircle2", "ServiceTemplate");
 
 const index = read("src/pages/Index.tsx");
 assertIncludes(index, "<LaunchProcessSection", "Index page");
-assertIncludes(index, "<MobileBriefCta", "Index page");
+assertNotIncludes(index, "<MobileBriefCta", "Index page");
 assertIncludes(index, "<CodeRain intensity=\"home\" />", "Index page CodeRain intensity");
-
-const mobileCta = read("src/components/MobileBriefCta.tsx");
-assertIncludes(mobileCta, "md:hidden", "MobileBriefCta");
-assertIncludes(mobileCta, "fixed bottom-0", "MobileBriefCta");
-assertIncludes(mobileCta, "Заполнить бриф", "MobileBriefCta");
-assertIncludes(mobileCta, "IntersectionObserver", "MobileBriefCta");
-assertIncludes(mobileCta, "document.getElementById(\"about\")", "MobileBriefCta about trigger");
-assertIncludes(mobileCta, "setHasReachedAbout(true)", "MobileBriefCta about trigger");
-assertIncludes(mobileCta, "hasReachedAbout && !isFormVisible", "MobileBriefCta visibility gate");
 
 const processSection = read("src/components/LaunchProcessSection.tsx");
 assertIncludes(processSection, "Как проходит запуск", "LaunchProcessSection");
-assertIncludes(processSection, "Описать задачу", "LaunchProcessSection CTA");
 assertIncludes(processSection, "timelineSteps", "LaunchProcessSection timeline");
 assertIncludes(processSection, "aria-hidden=\"true\"", "LaunchProcessSection timeline connector");
 for (const step of ["Диагностика", "Сценарий", "Сборка", "Проверка", "Передача"]) {
@@ -193,19 +178,6 @@ assertNotIncludes(packageJson, "\"video:hero\"", "package hero video script");
 assertNotIncludes(packageJson, "\"remotion\"", "package remotion dependency");
 assertNotIncludes(packageJson, "\"@remotion/cli\"", "package remotion cli dependency");
 assertNotIncludes(packageJson, "\"check:remotion-timeline\"", "package remotion timeline check");
-
-const quickDialog = read("src/components/QuickServiceBriefDialog.tsx");
-assertIncludes(quickDialog, "interface QuickServiceBriefDialogProps", "QuickServiceBriefDialog props");
-assertIncludes(quickDialog, "service: ServiceData", "QuickServiceBriefDialog service prop");
-assertIncludes(quickDialog, "open: boolean", "QuickServiceBriefDialog open prop");
-assertIncludes(quickDialog, "onOpenChange: (open: boolean) => void", "QuickServiceBriefDialog open handler");
-assertIncludes(quickDialog, "submitLeadPayload(payload)", "QuickServiceBriefDialog submission");
-assertIncludes(quickDialog, "startFormat: \"Нужна бесплатная консультация\"", "QuickServiceBriefDialog start format");
-assertIncludes(quickDialog, "service: service.slug", "QuickServiceBriefDialog selected service payload");
-assertIncludes(quickDialog, "answers: {}", "QuickServiceBriefDialog compact payload");
-assertIncludes(quickDialog, "toast({", "QuickServiceBriefDialog toast feedback");
-assertIncludes(quickDialog, "siteConfig.contacts.telegramLabel", "QuickServiceBriefDialog telegram fallback");
-assertIncludes(quickDialog, "Коротко о задаче", "QuickServiceBriefDialog task field");
 
 const aboutSection = read("src/components/AboutSection.tsx");
 assertIncludes(aboutSection, "principleMatrix", "AboutSection matrix");
@@ -265,9 +237,6 @@ for (const path of [
   "src/pages/Services.tsx",
   "src/pages/Pricing.tsx",
   "src/pages/FAQ.tsx",
-  "src/pages/Contacts.tsx",
-  "src/pages/BriefTelegram.tsx",
-  "src/pages/BriefWebsite.tsx",
   "src/pages/ContractDevelopment.tsx",
   "src/pages/ContractSupport.tsx",
   "src/pages/Privacy.tsx",

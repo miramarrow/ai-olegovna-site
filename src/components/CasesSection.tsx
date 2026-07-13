@@ -49,12 +49,6 @@ const CasesSection = () => {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
-          <a
-            href="/#contact-form"
-            className="inline-flex border-b border-primary/40 pb-1 text-sm font-medium text-primary transition-colors hover:border-primary hover:text-primary/80"
-          >
-            Обсудить задачу
-          </a>
         </div>
       </div>
     </section>

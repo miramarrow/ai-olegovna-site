@@ -8,13 +8,17 @@ export const siteConfig = {
   logoUrl: withBasePath("logo-sborkai-wordmark.png"),
   description:
     "Разрабатываем AI-системы для бизнеса: нейроофисы, агенты, автоматизации, контент-заводы, сайты и боты для Telegram и MAX.",
-  contacts: {
-    telegramLabel: "@sborkairu",
-    telegramUrl: "https://t.me/sborkairu",
-    instagramLabel: "@ai_olegovnaa",
-    instagramUrl: "https://www.instagram.com/ai_olegovnaa",
-    telegramChannelLabel: "@ai_olegovna",
-    telegramChannelUrl: "https://t.me/ai_olegovna",
+  operator: {
+    displayName: "ИП Демина Валерия Олеговна",
+    legalName: "ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ ДЕМИНА ВАЛЕРИЯ ОЛЕГОВНА",
+    inn: "ИНН 771817673175",
+    ogrnip: "ОГРНИП 319508100025132",
+    registrationAuthority: "Межрайонная инспекция ФНС № 23 по Московской области",
+    publicAddress: "Россия, Московская область, г. Химки",
+    businessHours: "Пн-Пт 10:00-19:00 по московскому времени",
+  },
+  legal: {
+    updatedAt: "13.07.2026",
   },
   navigation: [
     { name: "О проекте", href: "/about" },
@@ -22,7 +26,6 @@ export const siteConfig = {
     { name: "Кейсы", href: "/cases" },
     { name: "Оценка", href: "/pricing" },
     { name: "FAQ", href: "/faq" },
-    { name: "Контакты", href: "/contacts" },
   ],
   footerCompanyLinks: [
     { name: "О проекте", href: "/about" },
@@ -30,6 +33,5 @@ export const siteConfig = {
     { name: "Кейсы", href: "/cases" },
     { name: "Оценка", href: "/pricing" },
     { name: "FAQ", href: "/faq" },
-    { name: "Контакты", href: "/contacts" },
   ],
 };

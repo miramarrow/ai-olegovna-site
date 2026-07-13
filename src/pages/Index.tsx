@@ -2,14 +2,11 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
-import CasesSection from "@/components/CasesSection";
 import LaunchProcessSection from "@/components/LaunchProcessSection";
 import PricingSection from "@/components/PricingSection";
 import FAQSection from "@/components/FAQSection";
-import ProjectDiscussForm from "@/components/ProjectDiscussForm";
 import Footer from "@/components/Footer";
 import CodeRain from "@/components/CodeRain";
-import MobileBriefCta from "@/components/MobileBriefCta";
 const Index = () => {
   
   const generalFaqs = [
@@ -19,7 +16,7 @@ const Index = () => {
     },
     {
       question: "Сколько времени займет разработка?",
-      answer: "Срок зависит от объема, готовности материалов, интеграций и срочности. После умного брифа предложу реалистичный формат старта."
+      answer: "Срок зависит от объема, готовности материалов, интеграций и срочности. Для каждого направления на сайте указаны типовые возможности и сценарии запуска."
     },
     {
       question: "Предоставляете ли вы техническую поддержку?",
@@ -43,13 +40,10 @@ const Index = () => {
         <Hero />
         <AboutSection />
         <ServicesSection />
-        <CasesSection />
         <LaunchProcessSection />
         <PricingSection />
         <FAQSection faqs={generalFaqs} />
-        <ProjectDiscussForm />
         <Footer />
-        <MobileBriefCta />
       </div>
     </div>
   );

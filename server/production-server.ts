@@ -2,7 +2,6 @@ import { createReadStream, existsSync, statSync } from "node:fs";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { extname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import telegramBriefHandler from "../api/telegram-brief";
 
 const host = process.env.HOST ?? "127.0.0.1";
 const port = Number.parseInt(process.env.PORT ?? "3000", 10);
@@ -102,11 +101,6 @@ const handleRequest = async (req: IncomingMessage, res: ServerResponse) => {
 
   if (url.pathname === "/healthz") {
     sendPlain(res, 200, "ok\n");
-    return;
-  }
-
-  if (url.pathname === "/api/telegram-brief") {
-    await telegramBriefHandler(req, res);
     return;
   }
 

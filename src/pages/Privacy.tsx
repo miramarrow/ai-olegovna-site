@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 
 const Privacy = () => {
+  const operator = siteConfig.operator;
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <CodeRain />
@@ -13,97 +15,70 @@ const Privacy = () => {
       <main className="flex-grow relative z-10 pt-20">
         <div className="container mx-auto max-w-4xl px-4 py-16">
           <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 text-foreground">
-            Политика конфиденциальности
+            Информация о данных на сайте
           </h1>
 
           <Card className="p-8 space-y-8">
             <section>
-              <h2 className="text-2xl font-bold mb-4">1. Общие положения</h2>
+              <h2 className="text-2xl font-bold mb-4">1. Владелец сайта</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Настоящая Политика конфиденциальности описывает, как проект <strong>{siteConfig.name}</strong>{" "}
-                обрабатывает данные посетителей сайта. Используя сайт, вы подтверждаете, что ознакомились с
-                настоящей Политикой.
+                Информационный сайт <strong>{siteConfig.name}</strong> ({siteConfig.domain}) принадлежит {operator.legalName}.
               </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">2. Какие данные могут обрабатываться</h2>
-              <p className="text-muted-foreground mb-3">
-                Сайт может получать данные, которые вы добровольно передаете при обращении:
-              </p>
-              <ul className="list-disc list-inside text-muted-foreground space-y-2 ml-4">
-                <li>имя или обращение;</li>
-                <li>телефон, Telegram или другой способ связи;</li>
-                <li>описание задачи, проекта или вопроса;</li>
-                <li>технические сведения о работе сайта, если они нужны для безопасности и аналитики.</li>
+              <ul className="mt-4 space-y-2 text-muted-foreground">
+                <li><strong>{operator.inn}</strong></li>
+                <li><strong>{operator.ogrnip}</strong></li>
+                <li><strong>Регистрация:</strong> {operator.registrationAuthority}</li>
+                <li><strong>Местонахождение:</strong> {operator.publicAddress}</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-4">3. Зачем используются данные</h2>
-              <ul className="list-disc list-inside text-muted-foreground space-y-2 ml-4">
-                <li>чтобы ответить на заявку или сообщение;</li>
-                <li>чтобы подготовить консультацию, оценку или предложение по проекту;</li>
-                <li>чтобы улучшать содержание и удобство сайта;</li>
-                <li>чтобы выполнять требования закона, если они применимы.</li>
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">4. Передача данных</h2>
+              <h2 className="text-2xl font-bold mb-4">2. Информационный режим</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Данные не продаются третьим лицам. Передача возможна только если это нужно для обработки обращения,
-                работы сервисов связи, исполнения договора, защиты прав проекта или выполнения требований закона.
+                Сайт не использует формы, личные кабинеты, комментарии, подписки и другие инструменты,
+                через которые посетитель мог бы передать владельцу сайта имя, телефон, адрес электронной
+                почты или иные персональные данные.
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-4">5. Хранение и защита</h2>
+              <h2 className="text-2xl font-bold mb-4">3. Технические журналы</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Данные хранятся столько, сколько необходимо для ответа на обращение, обсуждения проекта и выполнения
-                связанных обязательств. Для защиты используются разумные организационные и технические меры.
+                Для доставки страниц, диагностики сбоев и защиты инфраструктуры сервер и хостинг-провайдер
+                могут автоматически фиксировать технические сведения: IP-адрес, тип браузера, дату и время
+                запроса, запрошенный URL и код ответа. Эти сведения не используются для обратной связи,
+                рекламы или составления пользовательских профилей.
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-4">6. Права пользователя</h2>
-              <p className="text-muted-foreground mb-3">Вы можете запросить:</p>
-              <ul className="list-disc list-inside text-muted-foreground space-y-2 ml-4">
-                <li>уточнение ваших данных;</li>
-                <li>ограничение обработки;</li>
-                <li>удаление данных, если нет законных оснований продолжать хранение;</li>
-                <li>информацию о том, какие данные были переданы через сайт.</li>
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">7. Cookie и внешние сервисы</h2>
+              <h2 className="text-2xl font-bold mb-4">4. Аналитика и cookie</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Сайт может использовать технические cookie и внешние сервисы связи, например Telegram или WhatsApp.
-                При переходе во внешние сервисы действуют их собственные правила обработки данных.
+                Сайт не использует системы веб-аналитики и не устанавливает необязательные cookie.
+                Браузер или инфраструктурные сервисы могут применять только технические механизмы,
+                необходимые для безопасной передачи и отображения страниц.
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-4">8. Изменения Политики</h2>
+              <h2 className="text-2xl font-bold mb-4">5. Внешние сервисы</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Политика может обновляться при изменении сайта, способов связи или требований закона. Актуальная
-                редакция публикуется на этой странице.
+                На сайте нет отправки данных в мессенджеры, CRM, таблицы или рекламные системы. Обработка
+                технических сведений хостинг-провайдером возможна в объёме, необходимом для работы и защиты
+                сайта.
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-4">9. Контакты</h2>
+              <h2 className="text-2xl font-bold mb-4">6. Изменения</h2>
               <p className="text-muted-foreground leading-relaxed">
-                По вопросам обработки данных можно связаться с проектом {siteConfig.name}:
+                Если на сайте появятся формы, аналитика, подписки или другие способы получения данных,
+                эта страница будет обновлена до запуска таких функций.
               </p>
-              <ul className="text-muted-foreground space-y-2 mt-3">
-                <li><strong>Telegram:</strong> {siteConfig.contacts.telegramLabel}</li>
-              </ul>
             </section>
 
             <div className="pt-6 border-t text-sm text-muted-foreground">
-              <p><strong>Дата последнего обновления:</strong> {new Date().toLocaleDateString("ru-RU")}</p>
+              <p><strong>Дата последнего обновления:</strong> {siteConfig.legal.updatedAt}</p>
             </div>
           </Card>
         </div>

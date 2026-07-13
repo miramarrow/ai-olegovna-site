@@ -13,12 +13,10 @@
     "deploy:vps": "node scripts/deploy-vps.mjs",
     "start": "node dist/server.mjs",
     "lint": "eslint .",
-    "check:lead-delivery": "node scripts/check-lead-delivery.mjs",
-    "check:phone-mask": "node scripts/check-phone-mask.mjs",
+    "check:informational-site": "node scripts/check-informational-site.mjs",
     "check:vps-runtime": "node scripts/check-vps-runtime.mjs",
     "check:abstract-visuals": "node scripts/check-abstract-visual-refresh.mjs",
     "check:site-scope": "node scripts/check-site-scope.mjs",
-    "check:smart-brief": "node scripts/check-smart-brief.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -89,14 +89,11 @@ const Cases = () => {
                   </div>
 
                   <div className="mt-6 flex flex-wrap gap-3">
-                    <Button className="rounded-md" asChild>
-                      <a href="/#contact-form">
-                        Обсудить похожую задачу
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </a>
-                    </Button>
                     <Button variant="outline" className="rounded-md" asChild>
-                      <Link to="/services">Смотреть услуги</Link>
+                      <Link to="/services">
+                        Смотреть услуги
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
                     </Button>
                   </div>
                 </div>

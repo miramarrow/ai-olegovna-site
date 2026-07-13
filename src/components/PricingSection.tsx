@@ -1,6 +1,8 @@
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { startFormats } from "@/data/briefTemplates";
+const projectFormats = [
+  "Пилот одного сценария",
+  "Поэтапный запуск",
+  "Система под ключ",
+];
 
 const assessmentFactors = [
   "Цель и ожидаемый результат.",
@@ -21,7 +23,7 @@ const PricingSection = () => {
             <h2 className="text-3xl font-bold md:text-5xl">Сначала понимаем объём, потом считаем</h2>
           </div>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Цена зависит от задачи, не от категории услуги. Сначала бриф — потом цифры.
+            Цена зависит от задачи, количества сценариев, интеграций и требований к запуску.
           </p>
         </div>
 
@@ -52,7 +54,7 @@ const PricingSection = () => {
               <span className="h-px w-16 bg-primary/30" aria-hidden="true" />
             </div>
             <div className="border-b border-border">
-              {startFormats.map((format, index) => (
+              {projectFormats.map((format, index) => (
                 <div key={format} className="flex items-center gap-4 border-t border-border py-4">
                   <span className="font-mono text-sm text-primary">
                     {String(index + 1).padStart(2, "0")}
@@ -63,18 +65,9 @@ const PricingSection = () => {
               ))}
             </div>
             <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-              Выберите формат в брифе — предложу следующий шаг под вашу задачу.
+              Каждый формат можно разбить на самостоятельные этапы с отдельным результатом.
             </p>
           </div>
-        </div>
-
-        <div className="mt-10">
-          <Button size="lg" className="rounded-md" asChild>
-            <a href="/#contact-form">
-              Получить оценку через бриф
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-          </Button>
         </div>
       </div>
     </section>

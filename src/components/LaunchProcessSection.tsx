@@ -1,6 +1,3 @@
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
 const timelineSteps = [
   {
     title: "Диагностика",
@@ -60,15 +57,6 @@ const LaunchProcessSection = () => {
               </article>
             ))}
           </div>
-        </div>
-
-        <div className="mt-8 flex justify-start">
-          <Button size="lg" className="rounded-md" asChild>
-            <a href="/#contact-form">
-              Описать задачу
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-          </Button>
         </div>
       </div>
     </section>

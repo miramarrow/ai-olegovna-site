@@ -22,7 +22,6 @@ const Pricing = () => {
         </section>
 
         <PricingSection />
-
         <Footer />
       </div>
     </div>
